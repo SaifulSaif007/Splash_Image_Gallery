@@ -1,0 +1,19 @@
+[versions]
+
+ktx = "1.10.1"
+lifecycle = "2.6.1"
+activity-compose = "1.7.2"
+compose-bom = "2022.10.00"
+kotlin-bom = "1.8.0"
+
+[libraries]
+
+androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
+androidx-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-bom" }
+
+[bundles]
+
+[plugins]
