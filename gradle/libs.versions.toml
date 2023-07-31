@@ -12,6 +12,7 @@ espresso = "3.5.1"
 compose-test-boom = "2023.06.01"
 material = "1.9.0"
 hilt = "2.44"
+retrofit = "2.9.0"
 
 [libraries]
 
@@ -29,6 +30,9 @@ dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref 
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
 espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
@@ -38,6 +42,7 @@ compose-test-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 
 [bundles]
+retrofit = ["retrofit", "moshi"]
 
 [plugins]
 com-android-app = { id = "com.android.application", version.ref = "agp" }
