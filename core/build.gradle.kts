@@ -42,6 +42,8 @@ dependencies {
     implementation(libs.dagger.hilt)
     kapt(libs.hilt.compiler)
 
+    implementation(libs.bundles.retrofit)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
