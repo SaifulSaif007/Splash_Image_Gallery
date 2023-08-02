@@ -32,6 +32,7 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 hilt-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+moshi-converter = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
 moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
 moshi-adapter = {group = "com.squareup.moshi", name = "moshi-adapters", version.ref = "moshi"}
 
@@ -45,7 +46,7 @@ compose-test-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 
 [bundles]
-retrofit = ["retrofit", "moshi"]
+retrofit = ["retrofit", "moshi", "moshi-adapter", "moshi-converter"]
 
 [plugins]
 com-android-app = { id = "com.android.application", version.ref = "agp" }
