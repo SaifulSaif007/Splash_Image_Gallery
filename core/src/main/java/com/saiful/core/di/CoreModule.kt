@@ -1,5 +1,7 @@
-package com.saiful.core.di.qualifiers
+package com.saiful.core.di
 
+import com.saiful.core.di.qualifiers.BaseUrl
+import com.saiful.core.di.qualifiers.GenericErrorMessage
 import dagger.Provides
 
 object CoreModule {
