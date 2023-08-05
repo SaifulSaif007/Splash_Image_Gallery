@@ -60,6 +60,7 @@ object CoreNetworkModule {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(okHttpClient)
             .build()
     }
 }
