@@ -2,7 +2,8 @@
 plugins {
     alias(libs.plugins.com.android.app)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-
+    alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.org.jetbrains.kotlin.kapt)
 }
 
 android {
@@ -29,6 +30,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -61,6 +63,10 @@ dependencies {
     implementation (libs.compose.ui.graphics)
     implementation (libs.compose.ui.tooling)
     implementation (libs.compose.material3)
+
+    implementation(libs.dagger.hilt)
+    kapt(libs.hilt.compiler)
+    implementation(libs.timber)
 
     testImplementation (libs.junit)
     androidTestImplementation (libs.junit.ext)
