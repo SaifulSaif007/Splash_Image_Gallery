@@ -1,4 +1,4 @@
-package com.saiful.splashgallery.logger
+package com.saiful.core.components.logger
 
 import timber.log.Timber
 

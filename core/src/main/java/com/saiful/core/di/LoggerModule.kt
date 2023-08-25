@@ -1,5 +1,7 @@
-package com.saiful.splashgallery.logger
+package com.saiful.core.di
 
+import com.saiful.core.components.ComponentInitializer
+import com.saiful.core.components.logger.TimberInitializer
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,5 +14,5 @@ abstract class LoggerModule {
 
     @Binds
     @IntoSet
-    abstract fun bindTimber(timber: TimberInitializer): Initializer
+    abstract fun bindTimber(timber: TimberInitializer): ComponentInitializer
 }
