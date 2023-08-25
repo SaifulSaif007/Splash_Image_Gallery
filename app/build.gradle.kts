@@ -52,6 +52,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
 
     implementation(libs.androidx.ktx)
     implementation (platform(libs.kotlin.bom))
@@ -66,7 +67,6 @@ dependencies {
 
     implementation(libs.dagger.hilt)
     kapt(libs.hilt.compiler)
-    implementation(libs.timber)
 
     testImplementation (libs.junit)
     androidTestImplementation (libs.junit.ext)

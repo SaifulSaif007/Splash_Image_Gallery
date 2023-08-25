@@ -50,6 +50,7 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(libs.bundles.retrofit)
+    implementation(libs.timber)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)

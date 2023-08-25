@@ -1,7 +1,7 @@
-package com.saiful.splashgallery.logger
+package com.saiful.core.components
 
 import android.app.Application
 
-interface Initializer {
+interface ComponentInitializer {
     fun init(application: Application)
 }
