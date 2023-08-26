@@ -1,6 +1,8 @@
 package com.saiful.core.components.logger
 
-import androidx.activity.ComponentActivity
+const val TAG = "TAG"
+fun log(tag: String = TAG, msg: String) = LoggerImpl().logDebug(tag, msg)
 
-fun ComponentActivity.log(msg: String) =
-    LoggerImpl().logWithTag(tag = this.javaClass.simpleName, msg = msg)
+fun logInfo(tag: String = TAG, msg: String) = LoggerImpl().logInformation(tag, msg)
+
+fun logWarning(tag: String = TAG, msg: String) = LoggerImpl().logWarning(tag, msg)
