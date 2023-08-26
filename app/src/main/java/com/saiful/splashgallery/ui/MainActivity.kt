@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Greeting("Android")
-                    this.log("Hello there")
+                    log(msg = "Hello there")
 
                 }
             }
