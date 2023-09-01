@@ -17,6 +17,7 @@ retrofit = "2.9.0"
 moshi = "1.14.0"
 timber = "4.7.1"
 kotlin-jvm = "1.8.0"
+splash-screen = "1.0.0"
 
 [libraries]
 
@@ -40,6 +41,7 @@ moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "mo
 moshi-adapter = { group = "com.squareup.moshi", name = "moshi-adapters", version.ref = "moshi" }
 
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+android-splash-screen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash-screen" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
