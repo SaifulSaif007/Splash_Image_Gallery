@@ -16,6 +16,7 @@ hilt-pluging = "2.47"
 retrofit = "2.9.0"
 moshi = "1.14.0"
 timber = "4.7.1"
+kotlin-jvm = "1.8.0"
 
 [libraries]
 
@@ -57,3 +58,4 @@ com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-bom" }
 org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-bom" }
 hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt-pluging" }
+org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm" }
