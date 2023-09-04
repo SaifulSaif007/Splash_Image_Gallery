@@ -38,7 +38,7 @@ android {
         targetCompatibility =  JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     buildFeatures {
         compose = true
@@ -67,6 +67,8 @@ dependencies {
 
     implementation(libs.dagger.hilt)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.android.splash.screen)
 
     testImplementation (libs.junit)
     androidTestImplementation (libs.junit.ext)
