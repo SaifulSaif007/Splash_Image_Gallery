@@ -34,8 +34,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility =  JavaVersion.VERSION_17
-        targetCompatibility =  JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
@@ -53,28 +53,28 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":presentation"))
 
     implementation(libs.androidx.ktx)
-    implementation (platform(libs.kotlin.bom))
-    implementation (libs.androidx.lifecycle)
-    implementation (libs.androidx.activity.compose)
+    implementation(platform(libs.kotlin.bom))
+    implementation(libs.androidx.lifecycle)
+    implementation(libs.androidx.activity.compose)
 
-    implementation (platform(libs.androidx.compose.bom))
-    implementation (libs.compose.ui)
-    implementation (libs.compose.ui.graphics)
-    implementation (libs.compose.ui.tooling)
-    implementation (libs.compose.material3)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.bundles.compose)
+
+    implementation(libs.compose.navigation)
 
     implementation(libs.dagger.hilt)
     kapt(libs.hilt.compiler)
 
     implementation(libs.android.splash.screen)
 
-    testImplementation (libs.junit)
-    androidTestImplementation (libs.junit.ext)
-    androidTestImplementation (libs.espresso)
-    androidTestImplementation (platform(libs.compose.test.boom))
-    androidTestImplementation (libs.compose.ui.test)
-    debugImplementation (libs.compose.test.ui.tooling)
-    debugImplementation (libs.compose.ui.test.manifest)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.junit.ext)
+    androidTestImplementation(libs.espresso)
+    androidTestImplementation(platform(libs.compose.test.boom))
+    androidTestImplementation(libs.compose.ui.test)
+    debugImplementation(libs.compose.test.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
 }

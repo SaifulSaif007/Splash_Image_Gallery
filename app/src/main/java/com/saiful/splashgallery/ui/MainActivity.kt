@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.saiful.presentation.HomeNavRoute
+import com.saiful.presentation.homeNavGraph
 import com.saiful.splashgallery.ui.theme.SplashGalleryTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,12 +20,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SplashGalleryTheme {
-                Surface(
+                NavHost(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    navController = rememberNavController(),
+                    startDestination = HomeNavRoute.Root.route
                 ) {
-                    //Home NavGraph here
-
+                    homeNavGraph()
                 }
             }
         }
