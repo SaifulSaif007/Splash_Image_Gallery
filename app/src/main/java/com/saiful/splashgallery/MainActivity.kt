@@ -1,4 +1,4 @@
-package com.saiful.splashgallery.ui
+package com.saiful.splashgallery
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.saiful.presentation.HomeNavRoute
 import com.saiful.presentation.homeNavGraph
-import com.saiful.splashgallery.ui.theme.SplashGalleryTheme
+import com.saiful.presentation.theme.SplashGalleryTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

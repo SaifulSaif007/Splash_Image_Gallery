@@ -2,7 +2,7 @@ package com.saiful.core.components.logger
 
 import timber.log.Timber
 
-class LoggerImpl : Logger {
+internal class LoggerImpl : Logger {
     override fun logInformation(tag: String, msg: String) {
         Timber.tag(tag).i(msg)
     }

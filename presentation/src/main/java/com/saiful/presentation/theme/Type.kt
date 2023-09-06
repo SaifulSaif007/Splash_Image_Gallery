@@ -1,4 +1,4 @@
-package com.saiful.splashgallery.ui.theme
+package com.saiful.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
