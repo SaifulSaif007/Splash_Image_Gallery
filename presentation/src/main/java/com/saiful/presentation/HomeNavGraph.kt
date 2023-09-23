@@ -1,8 +1,9 @@
 package com.saiful.presentation
 
-import androidx.navigation.NavGraphBuilder
+import androidx.navigation.*
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
+import com.saiful.core.domain.DomainException
+import kotlinx.coroutines.CoroutineScope
 
 private const val HOME = "home"
 
@@ -11,7 +12,11 @@ sealed class HomeNavRoute(val route: String) {
     object Home : HomeNavRoute("${HOME}/home")
 }
 
-fun NavGraphBuilder.homeNavGraph() {
+fun NavGraphBuilder.homeNavGraph(
+    navController: NavController,
+    coroutineScope: CoroutineScope,
+    onError: (DomainException) -> Unit
+) {
 
     navigation(
         route = HomeNavRoute.Root.route,

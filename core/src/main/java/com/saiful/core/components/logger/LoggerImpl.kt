@@ -14,4 +14,8 @@ internal class LoggerImpl : Logger {
     override fun logWarning(tag: String, msg: String) {
         Timber.tag(tag).w(msg)
     }
+
+    override fun logError(tag: String, msg: String) {
+        Timber.tag(tag).e(msg)
+    }
 }
