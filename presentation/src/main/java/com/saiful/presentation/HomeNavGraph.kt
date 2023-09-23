@@ -25,7 +25,7 @@ fun NavGraphBuilder.homeNavGraph(
         composable(
             route = HomeNavRoute.Home.route
         ) {
-            HomeScreen()
+            HomeScreen(onError = onError)
         }
     }
 }

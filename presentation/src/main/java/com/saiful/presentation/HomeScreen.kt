@@ -12,13 +12,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.saiful.core.domain.DomainException
 import com.saiful.presentation.collections.CollectionsScreen
 import com.saiful.presentation.photos.PhotosScreen
+import com.saiful.presentation.theme.primaryText
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onError: (DomainException) -> Unit) {
 
     val pagerState = rememberPagerState()
     val tabs = LocalContext.current.resources.getStringArray(R.array.dashboardTabTitle)
@@ -37,6 +39,7 @@ fun HomeScreen() {
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.primaryText
                         )
                     },
                     selected = pagerState.currentPage == index,
@@ -65,5 +68,5 @@ fun HomeScreen() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(onError = {})
 }
