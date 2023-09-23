@@ -38,6 +38,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.0"
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -51,6 +57,10 @@ dependencies {
     implementation(libs.compose.navigation)
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.junit.ext)
+    testImplementation(libs.robolectric)
+
+    testImplementation(libs.compose.ui.test)
+    debugImplementation(libs.compose.ui.test.manifest)
+
     androidTestImplementation(libs.espresso)
 }
