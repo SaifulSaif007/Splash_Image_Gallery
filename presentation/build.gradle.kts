@@ -44,6 +44,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(libs.androidx.ktx)
+    implementation(libs.coil.image.loader)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)

@@ -19,6 +19,7 @@ timber = "4.7.1"
 kotlin-jvm = "1.8.0"
 splash-screen = "1.0.1"
 naviagtion = "2.5.3"
+coil = "2.4.0"
 
 [libraries]
 
@@ -46,6 +47,7 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 android-splash-screen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash-screen" }
 
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "naviagtion" }
+coil-image-loader = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
