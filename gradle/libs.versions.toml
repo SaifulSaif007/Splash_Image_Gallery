@@ -17,15 +17,17 @@ retrofit = "2.9.0"
 moshi = "1.14.0"
 timber = "4.7.1"
 kotlin-jvm = "1.8.0"
-splash-screen = "1.0.0"
+splash-screen = "1.0.1"
+naviagtion = "2.5.3"
 
 [libraries]
 
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
+kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-bom" }
 androidx-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
-kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-bom" }
+
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
@@ -43,6 +45,8 @@ moshi-adapter = { group = "com.squareup.moshi", name = "moshi-adapters", version
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 android-splash-screen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash-screen" }
 
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "naviagtion" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
 espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
@@ -53,6 +57,7 @@ compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-mani
 
 [bundles]
 retrofit = ["retrofit", "moshi", "moshi-adapter", "moshi-converter"]
+compose = ["compose-material3", "compose-test-ui-tooling", "compose-ui-graphics", "compose-ui"]
 
 [plugins]
 com-android-app = { id = "com.android.application", version.ref = "agp" }
