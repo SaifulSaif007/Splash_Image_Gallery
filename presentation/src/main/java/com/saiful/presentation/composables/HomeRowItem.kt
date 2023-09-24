@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.saiful.presentation.R
+import com.saiful.presentation.model.HomeItem
 import com.saiful.presentation.theme.primaryText
 import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
@@ -27,8 +28,9 @@ import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 
 
 @Composable
-fun HomeRowItem(
-    modifier: Modifier
+internal fun HomeRowItem(
+    modifier: Modifier,
+    homeItem: HomeItem
 ) {
     Column(
         modifier.padding(8.dp)
@@ -38,7 +40,7 @@ fun HomeRowItem(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://example.com/image.jpg")
+                    .data(homeItem.profileImage)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ic_launcher_background),
@@ -55,20 +57,22 @@ fun HomeRowItem(
             Column {
 
                 Text(
-                    text = "NEOM",
+                    text = homeItem.profileName,
                     style = MaterialTheme.typography.primaryText,
                     modifier = Modifier
                         .fillMaxWidth()
                         .testTag(PROFILE_NAME)
                 )
 
-                Text(
-                    text = "Sponsored",
-                    style = MaterialTheme.typography.primaryText,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag(SPONSOR_LABEL)
-                )
+                if (homeItem.sponsored) {
+                    Text(
+                        text = "Sponsored",
+                        style = MaterialTheme.typography.primaryText,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .testTag(SPONSOR_LABEL)
+                    )
+                }
             }
         }
 
@@ -77,7 +81,7 @@ fun HomeRowItem(
         Row {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://example.com/image.jpg")
+                    .data(homeItem.mainImage)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ic_launcher_background),
@@ -95,6 +99,14 @@ fun HomeRowItem(
 
 @Preview
 @Composable
-fun HomeRowItemPreview() {
-    HomeRowItem(modifier = Modifier.background(MaterialTheme.colorScheme.background))
+private fun HomeRowItemPreview() {
+    HomeRowItem(
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
+        homeItem = HomeItem(
+            profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
+            profileName = "NEOM",
+            sponsored = true,
+            mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
+        )
+    )
 }

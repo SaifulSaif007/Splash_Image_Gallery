@@ -1,11 +1,14 @@
 package com.saiful.presentation.composables
 
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.saiful.presentation.utils.TestTags
+import com.saiful.presentation.model.HomeItem
+import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
+import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
+import com.saiful.presentation.utils.TestTags.PROFILE_NAME
+import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,15 +21,61 @@ class HomeRowItemKtTest {
 
     @get:Rule
     val rule = createComposeRule()
+    private lateinit var homeItem: HomeItem
 
     @Test
-    fun `basicTest`() {
+    fun `verify home item works properly when sponsored is true`() {
         with(rule) {
             setContent {
-                HomeRowItem(modifier = Modifier)
+                homeItem = HomeItem(
+                    profileImage = "",
+                    profileName = "NEOM",
+                    sponsored = true,
+                    mainImage = ""
+                )
+
+                HomeRowItem(modifier = Modifier, homeItem = homeItem)
             }
 
-            onNodeWithTag(TestTags.PROFILE_NAME).assertIsDisplayed()
+            onNodeWithTag(PROFILE_NAME).apply {
+                assertIsDisplayed()
+                assertTextEquals(homeItem.profileName)
+            }
+
+            onNodeWithTag(SPONSOR_LABEL).assertIsDisplayed()
+
+            onNodeWithTag(PROFILE_IMAGE).assertIsDisplayed()
+
+            onNodeWithTag(MAIN_IMAGE).assertIsDisplayed()
+
+        }
+    }
+
+    @Test
+    fun `verify home item works properly when sponsored is false`() {
+        with(rule) {
+            setContent {
+                homeItem = HomeItem(
+                    profileImage = "",
+                    profileName = "NEOM",
+                    sponsored = false,
+                    mainImage = ""
+                )
+
+                HomeRowItem(modifier = Modifier, homeItem = homeItem)
+            }
+
+            onNodeWithTag(PROFILE_NAME).apply {
+                assertIsDisplayed()
+                assertTextEquals(homeItem.profileName)
+            }
+
+            onNodeWithTag(SPONSOR_LABEL).assertDoesNotExist()
+
+            onNodeWithTag(PROFILE_IMAGE).assertIsDisplayed()
+
+            onNodeWithTag(MAIN_IMAGE).assertIsDisplayed()
+
         }
     }
 }
