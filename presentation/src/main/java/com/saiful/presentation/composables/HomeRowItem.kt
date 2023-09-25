@@ -26,7 +26,6 @@ import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_NAME
 import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 
-
 @Composable
 internal fun HomeRowItem(
     modifier: Modifier,
