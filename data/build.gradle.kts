@@ -35,7 +35,11 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
+
     implementation(libs.androidx.ktx)
+    implementation(libs.bundles.retrofit)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
