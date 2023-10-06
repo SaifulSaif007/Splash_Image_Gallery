@@ -1,6 +1,7 @@
 [versions]
 
 agp = "8.1.0"
+kotlinx-coroutines = "1.7.3"
 ktx = "1.10.1"
 lifecycle = "2.6.1"
 activity-compose = "1.7.2"
@@ -21,6 +22,8 @@ kotlin-jvm = "1.8.0"
 splash-screen = "1.0.1"
 naviagtion = "2.5.3"
 coil = "2.4.0"
+appcompat = "1.6.1"
+com-google-android-material-material = "1.9.0"
 
 [libraries]
 
@@ -39,6 +42,7 @@ dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref 
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 
+kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 moshi-converter = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
 moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
@@ -58,6 +62,8 @@ compose-test-boom = { group = "androidx.compose", name = "compose-bom", version.
 compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 compose-test-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "com-google-android-material-material" }
 
 [bundles]
 retrofit = ["retrofit", "moshi", "moshi-adapter", "moshi-converter"]
