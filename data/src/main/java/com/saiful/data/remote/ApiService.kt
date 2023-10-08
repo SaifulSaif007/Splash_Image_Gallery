@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 internal interface ApiService {
     @POST("photos")
-    suspend fun Photos(
+    suspend fun photos(
         @Query("page") page: Int,
         @Query("per_page") pageSize: Int,
         @Query("order_by") orderBy: String = "latest"

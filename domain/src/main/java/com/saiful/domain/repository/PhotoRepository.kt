@@ -4,5 +4,5 @@ import com.saiful.core.domain.Result
 import com.saiful.domain.model.HomeItem
 
 interface PhotoRepository {
-    suspend fun photosList(): Result<HomeItem>
+    suspend fun photosList(): Result<List<HomeItem>>
 }
