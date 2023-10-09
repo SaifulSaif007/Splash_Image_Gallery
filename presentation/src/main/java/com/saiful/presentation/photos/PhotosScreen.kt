@@ -6,11 +6,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.saiful.presentation.composables.HomeRowItem
 import com.saiful.presentation.model.HomeItem
 
 @Composable
-fun PhotosScreen() {
+fun PhotosScreen(
+    viewModel: PhotosViewModel = hiltViewModel()
+) {
+
     LazyColumn {
         items(10) {
             HomeRowItem(

@@ -14,7 +14,9 @@ import com.saiful.core.domain.DomainException
 import com.saiful.presentation.HomeNavRoute
 import com.saiful.presentation.homeNavGraph
 import com.saiful.presentation.theme.SplashGalleryTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
