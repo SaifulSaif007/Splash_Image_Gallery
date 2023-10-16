@@ -51,6 +51,8 @@ android {
 dependencies {
 
     implementation(project(":core"))
+    implementation(project(":domain"))
+
     implementation(libs.androidx.ktx)
     implementation(libs.coil.image.loader)
 

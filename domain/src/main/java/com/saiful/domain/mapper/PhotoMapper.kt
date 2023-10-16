@@ -1,9 +1,9 @@
-package com.saiful.data.mapper
+package com.saiful.domain.mapper
 
-import com.saiful.data.model.home.PhotosResponse
+import com.saiful.data.model.home.Photo
 import com.saiful.domain.model.HomeItem
 
-internal fun PhotosResponse.toHomeItem(): List<HomeItem> =
+internal fun List<Photo>.toHomeItem(): List<HomeItem> =
     this.map {
         HomeItem(
             profileImage = it.user.profileImage.small,

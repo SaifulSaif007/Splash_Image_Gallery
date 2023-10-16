@@ -1,8 +1,14 @@
 package com.saiful.data.model.home
 
-internal data class Social(
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+data class Social(
+    @Json(name = "instagram_username")
     val instagramUsername: String?,
-    val paypalEmail: String?,
+    @Json(name = "portfolio_url")
     val portfolioUrl: String?,
+    @Json(name = "twitter_username")
     val twitterUsername: String?
 )
