@@ -44,8 +44,6 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(libs.androidx.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
