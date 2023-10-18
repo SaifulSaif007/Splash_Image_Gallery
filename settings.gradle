@@ -16,5 +16,6 @@ rootProject.name = "Splash Gallery"
 include ':app'
 include ':core'
 include ':data'
-include ':presentation'
 include ':domain'
+include ':presentation'
+include ':base_unit_test'
