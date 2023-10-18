@@ -19,6 +19,7 @@ timber = "4.7.1"
 kotlin-jvm = "1.8.0"
 splash-screen = "1.0.1"
 naviagtion = "2.5.3"
+coroutine-test = "1.7.1"
 
 [libraries]
 
@@ -54,6 +55,8 @@ compose-test-boom = { group = "androidx.compose", name = "compose-bom", version.
 compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 compose-test-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+
+coroutine-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine-test" }
 
 [bundles]
 retrofit = ["retrofit", "moshi", "moshi-adapter", "moshi-converter"]
