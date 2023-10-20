@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 
 @Module
 @InstallIn(ActivityRetainedComponent::class)
-object ApiServiceModule {
+internal object ApiServiceModule {
 
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService {

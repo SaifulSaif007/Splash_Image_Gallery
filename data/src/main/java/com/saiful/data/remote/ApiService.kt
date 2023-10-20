@@ -4,7 +4,7 @@ import com.saiful.data.model.home.Photo
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ApiService {
+internal interface ApiService {
 
     @GET("photos")
     suspend fun photos(

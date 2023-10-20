@@ -21,7 +21,8 @@ class PhotosViewModel @Inject constructor(
 
     private fun loadData() {
         viewModelScope.launch(Dispatchers.Main) {
-            val res = getPhotosUseCase(Unit)
+            val res = getPhotosUseCase(Pair(first = 1, second = 10))
+            logDebug(msg = res.toString())
         }
     }
 
