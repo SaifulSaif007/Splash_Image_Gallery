@@ -45,6 +45,8 @@ dependencies {
     implementation(libs.dagger.hilt)
     kapt(libs.hilt.compiler)
 
+    testImplementation(project(":base_unit_test"))
+    testImplementation(libs.bundles.mockito)
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)

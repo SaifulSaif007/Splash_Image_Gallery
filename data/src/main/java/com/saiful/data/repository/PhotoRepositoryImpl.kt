@@ -1,6 +1,5 @@
 package com.saiful.data.repository
 
-import com.saiful.core.components.logger.logError
 import com.saiful.core.domain.Result
 import com.saiful.core.utils.ErrorMapper
 import com.saiful.data.model.home.Photo
@@ -21,7 +20,6 @@ internal class PhotoRepositoryImpl @Inject constructor(
                 )
             )
         } catch (ex: Exception) {
-            logError(msg = ex.localizedMessage ?: toString())
             Result.Error(error = errorMapper.toDomainException(ex))
         }
     }
