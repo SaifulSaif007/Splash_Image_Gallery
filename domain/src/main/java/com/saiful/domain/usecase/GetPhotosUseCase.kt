@@ -14,8 +14,7 @@ class GetPhotosUseCase @Inject constructor(
     override suspend fun execute(params: Pair<Int, Int>): Result<List<HomeItem>> {
         return when (val response = photoRepository.photosList(
             HomeParams(
-                page = params.first,
-                pageSize = params.second
+                page = params.first, pageSize = params.second
             )
         )) {
             is Result.Success -> Result.Success(response.data.toHomeItem())
