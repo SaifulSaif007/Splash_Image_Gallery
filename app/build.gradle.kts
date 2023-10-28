@@ -58,7 +58,7 @@ dependencies {
 
     implementation(libs.androidx.ktx)
     implementation(platform(libs.kotlin.bom))
-    implementation(libs.androidx.lifecycle)
+    implementation(libs.bundles.lifecycle)
     implementation(libs.androidx.activity.compose)
 
     implementation(platform(libs.androidx.compose.bom))

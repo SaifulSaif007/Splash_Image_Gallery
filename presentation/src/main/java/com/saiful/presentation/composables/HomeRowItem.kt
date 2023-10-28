@@ -18,8 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.saiful.domain.model.HomeItem
 import com.saiful.presentation.R
-import com.saiful.presentation.model.HomeItem
 import com.saiful.presentation.theme.primaryText
 import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
