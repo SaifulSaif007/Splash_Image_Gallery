@@ -23,3 +23,10 @@ val Typography.primaryText: TextStyle
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp
     )
+
+val Typography.titleText: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp
+    )

@@ -21,6 +21,7 @@ import coil.request.ImageRequest
 import com.saiful.domain.model.HomeItem
 import com.saiful.presentation.R
 import com.saiful.presentation.theme.primaryText
+import com.saiful.presentation.theme.titleText
 import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_NAME
@@ -44,11 +45,11 @@ internal fun HomeRowItem(
                     .build(),
                 placeholder = painterResource(id = R.drawable.ic_launcher_background),
                 contentDescription = "icon",
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(height = 45.dp, width = 45.dp)
                     .clip(CircleShape)
-                    .testTag(PROFILE_IMAGE)
+                    .testTag(PROFILE_IMAGE),
+                contentScale = ContentScale.Crop
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -57,7 +58,7 @@ internal fun HomeRowItem(
 
                 Text(
                     text = homeItem.profileName,
-                    style = MaterialTheme.typography.primaryText,
+                    style = MaterialTheme.typography.titleText,
                     modifier = Modifier
                         .fillMaxWidth()
                         .testTag(PROFILE_NAME)
@@ -85,10 +86,10 @@ internal fun HomeRowItem(
                     .build(),
                 placeholder = painterResource(id = R.drawable.ic_launcher_background),
                 contentDescription = "icon",
-                contentScale = ContentScale.FillWidth,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(12.dp))
                     .testTag(MAIN_IMAGE)
             )
         }
