@@ -26,6 +26,8 @@ coroutine-test = "1.7.1"
 coil = "2.4.0"
 mockito = "5.2.0"
 mockito-kotlin = "1.5.0"
+pagination = "3.2.1"
+paging-compose = "1.0.0-alpha20"
 
 [libraries]
 
@@ -62,6 +64,8 @@ android-splash-screen = { group = "androidx.core", name = "core-splashscreen", v
 
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "naviagtion" }
 coil-image-loader = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagination" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose"}
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }

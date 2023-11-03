@@ -3,7 +3,6 @@ package com.saiful.presentation.photos
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -11,6 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.HomeItem
 import com.saiful.presentation.composables.HomeRowItem
 
@@ -20,22 +21,23 @@ internal fun PhotosScreen(
 ) {
 
     val uiState by viewModel.viewState.collectAsStateWithLifecycle()
+    val photos = viewModel.photoState.collectAsLazyPagingItems()
 
-    PhotoScreenContent(photos = uiState.photos)
+    PhotoScreenContent(photos = photos)
 }
 
 @Composable
-private fun PhotoScreenContent(photos: List<HomeItem>) {
+private fun PhotoScreenContent(photos: LazyPagingItems<HomeItem>) {
 
     LazyColumn {
-        items(photos) { item ->
+        items(photos.itemCount) { index ->
             HomeRowItem(
                 modifier = Modifier,
                 homeItem = HomeItem(
-                    profileImage = item.profileImage,
-                    profileName = item.profileName,
-                    sponsored = item.sponsored,
-                    mainImage = item.mainImage,
+                    profileImage = photos[index]!!.profileImage,
+                    profileName = photos[index]!!.profileName,
+                    sponsored = photos[index]!!.sponsored,
+                    mainImage = photos[index]!!.mainImage,
                 )
             )
 
@@ -47,20 +49,4 @@ private fun PhotoScreenContent(photos: List<HomeItem>) {
 @Preview
 @Composable
 private fun PhotoScreenPreview() {
-    PhotoScreenContent(
-        listOf(
-            HomeItem(
-                profileImage = "",
-                profileName = "NEOM",
-                sponsored = true,
-                mainImage = ""
-            ),
-            HomeItem(
-                profileImage = "",
-                profileName = "NEOM",
-                sponsored = false,
-                mainImage = ""
-            )
-        )
-    )
 }

@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.compose.navigation)
     implementation(libs.viewModel.lifecycle.compose)
     implementation(libs.bundles.lifecycle)
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
 
     implementation(libs.dagger.hilt)
     kapt(libs.hilt.compiler)

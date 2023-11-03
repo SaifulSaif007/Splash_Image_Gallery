@@ -41,6 +41,7 @@ dependencies {
 
     implementation(libs.androidx.ktx)
     implementation(libs.bundles.retrofit)
+    implementation(libs.paging.runtime)
 
     implementation(libs.dagger.hilt)
     kapt(libs.hilt.compiler)

@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.dagger.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.ktx)
+    implementation(libs.paging.runtime)
 
     testImplementation(project(":base_unit_test"))
     testImplementation(libs.bundles.mockito)

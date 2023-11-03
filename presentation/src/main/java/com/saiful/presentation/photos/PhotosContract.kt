@@ -9,7 +9,7 @@ internal class PhotosContract {
 
     data class State(
         val loading: Boolean = false,
-        val photos: List<HomeItem> = emptyList()
+        val photos: List<HomeItem> = emptyList(),
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
