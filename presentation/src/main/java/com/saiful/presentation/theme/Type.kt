@@ -30,3 +30,11 @@ val Typography.titleText: TextStyle
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
     )
+
+
+val Typography.errorText: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    )

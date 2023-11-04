@@ -8,17 +8,17 @@ data class Photo(
     @Json(name = "id")
     val id: String,
     @Json(name = "alt_description")
-    val altDescription: String,
+    val altDescription: String?,
     @Json(name = "blur_hash")
-    val blurHash: String,
+    val blurHash: String?,
     @Json(name = "color")
-    val color: String,
+    val color: String?,
     @Json(name = "height")
     val height: Int,
     @Json(name = "width")
     val width: Int,
     @Json(name = "created_at")
-    val createdAt: String,
+    val createdAt: String?,
     @Json(name = "current_user_collections")
     val currentUserCollections: List<Any>,
     @Json(name = "description")
@@ -28,7 +28,7 @@ data class Photo(
     @Json(name = "likes")
     val likes: Int,
     @Json(name = "links")
-    val links: ContentLink,
+    val links: ContentLink?,
     @Json(name = "promoted_at")
     val promotedAt: String?,
     @Json(name = "slug")
