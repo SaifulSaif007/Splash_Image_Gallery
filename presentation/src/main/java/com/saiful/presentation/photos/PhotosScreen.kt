@@ -2,11 +2,8 @@ package com.saiful.presentation.photos
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -17,9 +14,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.HomeItem
-import com.saiful.presentation.composables.ErrorView
-import com.saiful.presentation.composables.HomeRowItem
-import com.saiful.presentation.theme.AppColor
+import com.saiful.presentation.composables.*
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -60,7 +55,10 @@ private fun PhotoScreenContent(photos: LazyPagingItems<HomeItem>) {
                 )
             }
 
-            is LoadState.Loading -> this@LazyColumn.item { LoadingView() }
+            is LoadState.Loading -> this@LazyColumn.item {
+                LoadingView(modifier = Modifier.fillParentMaxSize())
+            }
+
             is LoadState.NotLoading -> {}
         }
 
@@ -73,27 +71,13 @@ private fun PhotoScreenContent(photos: LazyPagingItems<HomeItem>) {
                 )
             }
 
-            is LoadState.Loading -> this@LazyColumn.item { LoadingView() }
+            is LoadState.Loading -> this@LazyColumn.item {
+                LoadingView(modifier = Modifier.fillMaxSize())
+            }
+
             is LoadState.NotLoading -> {}
         }
 
-    }
-}
-
-@Composable
-private fun LoadingView() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(8.dp),
-            text = "Refresh Loading"
-        )
-
-        CircularProgressIndicator(color = AppColor.PrimaryDark)
     }
 }
 
