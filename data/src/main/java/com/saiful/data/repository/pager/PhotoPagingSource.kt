@@ -26,7 +26,7 @@ internal class PhotoPagingSource(
             LoadResult.Page(
                 data = response,
                 prevKey = if (pageCount == START_PAGE_INDEX) null else pageCount - 1,
-                nextKey = if (response.isEmpty()) null else pageCount + 1
+                nextKey = if (response.size < PAGE_SIZE) null else pageCount + 1
             )
 
         } catch (ex: Exception) {

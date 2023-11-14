@@ -65,7 +65,8 @@ android-splash-screen = { group = "androidx.core", name = "core-splashscreen", v
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "naviagtion" }
 coil-image-loader = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagination" }
-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose"}
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
+paging-test = { group = "androidx.paging", name = "paging-testing", version.ref = "pagination" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }

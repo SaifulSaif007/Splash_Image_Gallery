@@ -3,12 +3,10 @@ package com.saiful.presentation.photos
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -21,10 +19,7 @@ import kotlinx.coroutines.flow.flowOf
 internal fun PhotosScreen(
     viewModel: PhotosViewModel = hiltViewModel()
 ) {
-
-    val uiState by viewModel.viewState.collectAsStateWithLifecycle()
     val photos = viewModel.photoState.collectAsLazyPagingItems()
-
     PhotoScreenContent(photos = photos)
 }
 

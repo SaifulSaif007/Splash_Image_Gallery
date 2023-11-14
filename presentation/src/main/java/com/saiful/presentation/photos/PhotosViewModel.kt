@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class PhotosViewModel @Inject constructor(
     private val getPhotosUseCase: GetPhotosUseCase
-) : BaseViewModel<PhotosContract.Event, PhotosContract.State, PhotosContract.Effect>() {
+) : BaseViewModel<PhotosContract.Event, PhotosContract.Effect>() {
 
     private val _photoState: MutableStateFlow<PagingData<HomeItem>> =
         MutableStateFlow(value = PagingData.empty())
@@ -39,7 +39,6 @@ internal class PhotosViewModel @Inject constructor(
         }
     }
 
-    override fun setInitialState(): PhotosContract.State = PhotosContract.State(loading = true)
 
     override fun handleEvents(event: ViewEvent) {
         //todo ->

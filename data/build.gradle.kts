@@ -47,8 +47,8 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     testImplementation(project(":base_unit_test"))
+    testImplementation(libs.paging.test)
     testImplementation(libs.bundles.mockito)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.junit.ext)
-    androidTestImplementation(libs.espresso)
+    testImplementation(libs.coroutine.test)
 }

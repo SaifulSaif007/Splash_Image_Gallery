@@ -1,12 +1,14 @@
 package com.saiful.data.repository
 
+import androidx.paging.LoadState
+import androidx.paging.testing.ErrorRecovery
+import androidx.paging.testing.asSnapshot
 import com.nhaarman.mockito_kotlin.*
-import com.saiful.core.domain.Result
 import com.saiful.data.model.home.*
 import com.saiful.data.model.param.HomeParams
 import com.saiful.data.remote.ApiService
 import com.saiful.test.unit.BaseRepositoryTest
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class PhotoRepositoryImplTest : BaseRepositoryTest() {
@@ -19,7 +21,7 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
 
     override fun setup() {
         photoRepository = PhotoRepositoryImpl(
-            errorMapper = errorMapper, apiService = apiService
+            apiService = apiService
         )
 
         homeParams = HomeParams(page = 1, pageSize = 10)
@@ -71,7 +73,9 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
                         small = "url", medium = "url", large = "url"
                     ),
                     social = Social(
-                        instagramUsername = "username", portfolioUrl = "username", twitterUsername = null
+                        instagramUsername = "username",
+                        portfolioUrl = "username",
+                        twitterUsername = null
                     ),
                     totalCollections = 0,
                     totalLikes = 0,
@@ -82,6 +86,7 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
                 description = "description"
             )
         )
+
     }
 
     override fun tearDown() {
@@ -90,33 +95,45 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
 
     @Test
     fun `verify home photos fetch is successful`() {
-        runBlocking {
+        runTest {
             whenever(
                 apiService.photos(
                     page = homeParams.page, pageSize = homeParams.pageSize
                 )
             ).thenReturn(response)
 
-            val result = photoRepository.photosList(homeParams)
+            val res = photoRepository.photosList().asSnapshot()
+            assert(res == response)
 
-            assert(result is Result.Success)
-            assert((result as Result.Success).data == response)
-
+            verify(apiService, times(1)).photos(
+                page = homeParams.page,
+                pageSize = homeParams.pageSize
+            )
         }
     }
 
     @Test
     fun `verify home photos fetch is not successful`() {
-        runBlocking {
+        runTest {
             whenever(
                 apiService.photos(
                     page = homeParams.page, pageSize = homeParams.pageSize
                 )
-            ).thenThrow(RuntimeException("Exception"))
+            ).thenThrow(RuntimeException("Something went wrong"))
 
-            val result = photoRepository.photosList(homeParams)
+            val photos = photoRepository.photosList().asSnapshot(
+                onError = { loadState ->
+                    assert( loadState.refresh is LoadState.Error)
+                    ErrorRecovery.RETURN_CURRENT_SNAPSHOT
+                }
+            )
 
-            assert(result is Result.Error)
+            assert(photos.isEmpty())
+
+            verify(apiService, times(1)).photos(
+                page = homeParams.page,
+                pageSize = homeParams.pageSize
+            )
         }
 
     }
