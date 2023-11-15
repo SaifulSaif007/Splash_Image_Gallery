@@ -24,7 +24,7 @@ class HomeRowItemKtTest {
     private lateinit var homeItem: HomeItem
 
     @Test
-    fun `verify home item works properly when sponsored is true`() {
+    fun `verify HomeRowItem works properly when sponsored is true`() {
         with(rule) {
             setContent {
                 homeItem = HomeItem(
@@ -52,7 +52,7 @@ class HomeRowItemKtTest {
     }
 
     @Test
-    fun `verify home item works properly when sponsored is false`() {
+    fun `verify HomeRowItem works properly when sponsored is false`() {
         with(rule) {
             setContent {
                 homeItem = HomeItem(
