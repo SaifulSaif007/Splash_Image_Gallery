@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.org.jetbrains.kotlin.kapt)
 }
 
 android {
@@ -35,8 +37,18 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
+
     implementation(libs.androidx.ktx)
+    implementation(libs.bundles.retrofit)
+    implementation(libs.paging.runtime)
+
+    implementation(libs.dagger.hilt)
+    kapt(libs.hilt.compiler)
+
+    testImplementation(project(":base_unit_test"))
+    testImplementation(libs.paging.test)
+    testImplementation(libs.bundles.mockito)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.junit.ext)
-    androidTestImplementation(libs.espresso)
+    testImplementation(libs.coroutine.test)
 }

@@ -49,6 +49,7 @@ android {
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
+
 }
 
 dependencies {
@@ -57,7 +58,7 @@ dependencies {
 
     implementation(libs.androidx.ktx)
     implementation(platform(libs.kotlin.bom))
-    implementation(libs.androidx.lifecycle)
+    implementation(libs.bundles.lifecycle)
     implementation(libs.androidx.activity.compose)
 
     implementation(platform(libs.androidx.compose.bom))
@@ -70,11 +71,12 @@ dependencies {
 
     implementation(libs.android.splash.screen)
 
-    testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
     androidTestImplementation(platform(libs.compose.test.boom))
-    androidTestImplementation(libs.compose.ui.test)
     debugImplementation(libs.compose.test.ui.tooling)
-    debugImplementation(libs.compose.ui.test.manifest)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.compose.ui.test)
+    
 }

@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.androidx.ktx)
     implementation(platform(libs.kotlin.bom))
 
+    implementation(libs.hilt.navigation.compose)
     implementation(libs.dagger.hilt)
     kapt(libs.hilt.compiler)
 

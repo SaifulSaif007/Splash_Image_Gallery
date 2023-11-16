@@ -1,8 +1,10 @@
 [versions]
 
 agp = "8.1.0"
+hilt-navigation-compose = "1.0.0"
+kotlinx-coroutines = "1.7.3"
 ktx = "1.10.1"
-lifecycle = "2.6.1"
+lifecycle = "2.6.2"
 activity-compose = "1.7.2"
 compose-bom = "2023.06.01"
 kotlin-bom = "1.8.0"
@@ -15,19 +17,31 @@ hilt = "2.44"
 hilt-pluging = "2.47"
 retrofit = "2.9.0"
 moshi = "1.14.0"
+robolectric = "4.7"
 timber = "4.7.1"
 kotlin-jvm = "1.8.0"
 splash-screen = "1.0.1"
 naviagtion = "2.5.3"
 coroutine-test = "1.7.1"
+coil = "2.4.0"
+mockito = "5.2.0"
+mockito-kotlin = "1.5.0"
+pagination = "3.2.1"
+paging-compose = "1.0.0-alpha20"
 
 [libraries]
 
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
 kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-bom" }
-androidx-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+viewModel-lifecycle-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+viewModel-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+
 
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -38,15 +52,21 @@ dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref 
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 
+kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 moshi-converter = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
 moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
 moshi-adapter = { group = "com.squareup.moshi", name = "moshi-adapters", version.ref = "moshi" }
 
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 android-splash-screen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash-screen" }
 
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "naviagtion" }
+coil-image-loader = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagination" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
+paging-test = { group = "androidx.paging", name = "paging-testing", version.ref = "pagination" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
@@ -57,10 +77,14 @@ compose-test-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 
 coroutine-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine-test" }
+mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockito-kotlin = { group = "com.nhaarman", name = "mockito-kotlin-kt1.1", version.ref = "mockito-kotlin" }
 
 [bundles]
 retrofit = ["retrofit", "moshi", "moshi-adapter", "moshi-converter"]
 compose = ["compose-material3", "compose-test-ui-tooling", "compose-ui-graphics", "compose-ui"]
+mockito = ["mockito", "mockito-kotlin"]
+lifecycle = ["androidx-lifecycle-runtime", "viewModel-lifecycle-compose", "viewModel-lifecycle-ktx"]
 
 [plugins]
 com-android-app = { id = "com.android.application", version.ref = "agp" }

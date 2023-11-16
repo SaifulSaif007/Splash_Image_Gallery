@@ -1,3 +1,7 @@
 package com.saiful.test.unit
 
-abstract class BaseRepositoryTest : BaseTest()
+import com.saiful.core.utils.ErrorMapper
+
+abstract class BaseRepositoryTest : BaseTest() {
+    val errorMapper = ErrorMapper()
+}
