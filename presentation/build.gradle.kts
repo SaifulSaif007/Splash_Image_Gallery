@@ -68,9 +68,12 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
+    testImplementation(project(":base_unit_test"))
+    testImplementation(libs.bundles.mockito)
+    testImplementation(libs.coroutine.test)
+    testImplementation(libs.paging.test)
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
-
     testImplementation(libs.compose.ui.test)
     debugImplementation(libs.compose.ui.test.manifest)
 

@@ -3,7 +3,6 @@ package com.saiful.presentation.photos
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.saiful.core.components.logger.logDebug
 import com.saiful.core.ui.BaseViewModel
 import com.saiful.core.ui.ViewEvent
 import com.saiful.domain.model.HomeItem
@@ -24,7 +23,6 @@ internal class PhotosViewModel @Inject constructor(
     val photoState: StateFlow<PagingData<HomeItem>> get() = _photoState
 
     init {
-        logDebug(msg = "logging")
         loadData()
     }
 
