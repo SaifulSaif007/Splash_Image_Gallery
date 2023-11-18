@@ -25,15 +25,15 @@ class PhotoRowItemKtTest {
 
     @Test
     fun `verify PhotoRowItem works properly when sponsored is true`() {
+        homeItem = HomeItem(
+            profileImage = "",
+            profileName = "NEOM",
+            sponsored = true,
+            mainImage = ""
+        )
+
         with(rule) {
             setContent {
-                homeItem = HomeItem(
-                    profileImage = "",
-                    profileName = "NEOM",
-                    sponsored = true,
-                    mainImage = ""
-                )
-
                 PhotoRowItem(modifier = Modifier, homeItem = homeItem)
             }
 
@@ -53,15 +53,15 @@ class PhotoRowItemKtTest {
 
     @Test
     fun `verify PhotoRowItem works properly when sponsored is false`() {
+        homeItem = HomeItem(
+            profileImage = "",
+            profileName = "NEOM",
+            sponsored = false,
+            mainImage = ""
+        )
+
         with(rule) {
             setContent {
-                homeItem = HomeItem(
-                    profileImage = "",
-                    profileName = "NEOM",
-                    sponsored = false,
-                    mainImage = ""
-                )
-
                 PhotoRowItem(modifier = Modifier, homeItem = homeItem)
             }
 
