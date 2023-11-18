@@ -1,6 +1,5 @@
 package com.saiful.presentation.composables
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,8 +27,8 @@ import com.saiful.presentation.utils.TestTags.PROFILE_NAME
 import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 
 @Composable
-internal fun HomeRowItem(
-    modifier: Modifier,
+internal fun PhotoRowItem(
+    modifier: Modifier = Modifier,
     homeItem: HomeItem
 ) {
     Column(
@@ -85,7 +84,7 @@ internal fun HomeRowItem(
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "icon",
+                contentDescription = "main image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -99,9 +98,8 @@ internal fun HomeRowItem(
 
 @Preview
 @Composable
-private fun HomeRowItemPreview() {
-    HomeRowItem(
-        modifier = Modifier.background(MaterialTheme.colorScheme.background),
+private fun PhotoRowItemPreview() {
+    PhotoRowItem(
         homeItem = HomeItem(
             profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
             profileName = "NEOM",

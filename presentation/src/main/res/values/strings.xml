@@ -4,4 +4,6 @@
         <item>PHOTOS</item>
         <item>COLLECTIONS</item>
     </string-array>
+
+    <string name="total_photos"> %1$d photos </string>
 </resources>

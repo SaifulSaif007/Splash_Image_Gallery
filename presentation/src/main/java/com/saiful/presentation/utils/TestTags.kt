@@ -10,4 +10,7 @@ object TestTags {
     const val ERROR_ACTION_BUTTON = "error_action_button"
 
     const val CIRCULAR_INDICATOR = "circular_indicator"
+
+    const val COLLECTION_TITLE = "collection_title"
+    const val COLLECTION_TOTAL_PHOTOS = "collection_total_photos"
 }
