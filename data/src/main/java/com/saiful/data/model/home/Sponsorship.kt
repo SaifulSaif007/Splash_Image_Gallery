@@ -1,5 +1,6 @@
 package com.saiful.data.model.home
 
+import com.saiful.data.model.User
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
