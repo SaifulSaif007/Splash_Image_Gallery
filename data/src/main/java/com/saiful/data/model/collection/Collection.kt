@@ -6,7 +6,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-internal data class Collection(
+data class Collection(
     @Json(name = "id")
     val id: String,
     @Json(name = "title")

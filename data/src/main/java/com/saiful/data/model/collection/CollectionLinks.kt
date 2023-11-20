@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-internal data class CollectionLinks(
+data class CollectionLinks(
     @Json(name = "html")
     val html: String,
     @Json(name = "photos")

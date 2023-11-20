@@ -1,4 +1,4 @@
-package com.saiful.data.repository
+package com.saiful.data.repository.photo
 
 import androidx.paging.PagingData
 import com.saiful.data.model.home.Photo

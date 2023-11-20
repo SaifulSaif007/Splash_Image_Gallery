@@ -2,7 +2,7 @@ package com.saiful.domain.usecase
 
 import androidx.paging.PagingData
 import com.saiful.core.domain.UseCase
-import com.saiful.data.repository.PhotoRepository
+import com.saiful.data.repository.photo.PhotoRepository
 import com.saiful.domain.mapper.toPhotoItem
 import com.saiful.domain.model.HomeItem
 import kotlinx.coroutines.flow.Flow

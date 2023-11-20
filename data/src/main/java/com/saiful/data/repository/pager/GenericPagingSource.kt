@@ -3,25 +3,20 @@ package com.saiful.data.repository.pager
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.saiful.core.components.logger.logError
-import com.saiful.data.model.home.Photo
-import com.saiful.data.remote.ApiService
 
-internal class PhotoPagingSource(
-    private val apiService: ApiService
-) : PagingSource<Int, Photo>() {
+internal class GenericPagingSource<T : Any>(
+    private val apiCall: suspend (page: Int, pageSize: Int) -> List<T>
+) : PagingSource<Int, T>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Photo>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, T>): Int? {
         return state.anchorPosition
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Photo> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         val pageCount = params.key ?: START_PAGE_INDEX
 
         return try {
-            val response = apiService.photos(
-                page = pageCount,
-                pageSize = PAGE_SIZE
-            )
+            val response = apiCall.invoke(pageCount, PAGE_SIZE)
 
             LoadResult.Page(
                 data = response,

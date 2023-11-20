@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-internal data class PreviewPhoto(
+data class PreviewPhoto(
     @Json(name = "blur_hash")
     val blurHash: String,
     @Json(name = "created_at")

@@ -1,4 +1,4 @@
-package com.saiful.data.repository
+package com.saiful.data.repository.photo
 
 import androidx.paging.LoadState
 import androidx.paging.testing.ErrorRecovery
@@ -6,7 +6,6 @@ import androidx.paging.testing.asSnapshot
 import com.nhaarman.mockito_kotlin.*
 import com.saiful.data.model.*
 import com.saiful.data.model.home.*
-import com.saiful.data.model.param.HomeParams
 import com.saiful.data.remote.ApiService
 import com.saiful.test.unit.BaseRepositoryTest
 import kotlinx.coroutines.test.runTest
@@ -16,16 +15,16 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
 
     private val apiService: ApiService = mock()
 
+    private val page: Int = 1
+    private val pageSize: Int = 10
     private lateinit var photoRepository: PhotoRepository
-    private lateinit var homeParams: HomeParams
     private lateinit var response: List<Photo>
+
 
     override fun setup() {
         photoRepository = PhotoRepositoryImpl(
             apiService = apiService
         )
-
-        homeParams = HomeParams(page = 1, pageSize = 10)
 
         response = listOf(
             Photo(
@@ -99,7 +98,7 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
         runTest {
             whenever(
                 apiService.photos(
-                    page = homeParams.page, pageSize = homeParams.pageSize
+                    page = page, pageSize = pageSize
                 )
             ).thenReturn(response)
 
@@ -107,8 +106,8 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
             assert(res == response)
 
             verify(apiService, times(1)).photos(
-                page = homeParams.page,
-                pageSize = homeParams.pageSize
+                page = page,
+                pageSize = pageSize
             )
         }
     }
@@ -118,22 +117,22 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
         runTest {
             whenever(
                 apiService.photos(
-                    page = homeParams.page, pageSize = homeParams.pageSize
+                    page = page, pageSize = pageSize
                 )
             ).thenThrow(RuntimeException("Something went wrong"))
 
-            val photos = photoRepository.photosList().asSnapshot(
+            val res = photoRepository.photosList().asSnapshot(
                 onError = { loadState ->
-                    assert( loadState.refresh is LoadState.Error)
+                    assert(loadState.refresh is LoadState.Error)
                     ErrorRecovery.RETURN_CURRENT_SNAPSHOT
                 }
             )
 
-            assert(photos.isEmpty())
+            assert(res.isEmpty())
 
             verify(apiService, times(1)).photos(
-                page = homeParams.page,
-                pageSize = homeParams.pageSize
+                page = page,
+                pageSize = pageSize
             )
         }
 
