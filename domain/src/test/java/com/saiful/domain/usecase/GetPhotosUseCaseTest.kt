@@ -101,8 +101,8 @@ class GetPhotosUseCaseTest : BaseUseCaseTest() {
 
 
     @Test
-    fun `verify photos useCase return success result`() {
-        runTest(mainCoroutineRule.testDispatcher) {
+    fun `verify photos useCase return homeItem paging data`() {
+        runTest {
             whenever(
                 photoRepository.photosList()
             ).thenReturn(response)
@@ -115,8 +115,8 @@ class GetPhotosUseCaseTest : BaseUseCaseTest() {
     }
 
     @Test
-    fun `verify photos useCase return error result`() {
-        runTest(mainCoroutineRule.testDispatcher) {
+    fun `verify photos useCase return empty paging data when error occurs`() {
+        runTest {
             whenever(
                 photoRepository.photosList()
             ).thenReturn(
