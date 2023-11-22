@@ -77,11 +77,11 @@ private fun PhotoScreenContent(photos: LazyPagingItems<HomeItem>) {
 
 @Preview
 @Composable
-private fun PhotoScreenPreview() {
+private fun PhotoScreenContentPreview() {
     PhotoScreenContent(
         photos = flowOf(
             PagingData.from(
-                listOf(
+                data = listOf(
                     HomeItem(
                         profileImage = "",
                         profileName = "NEOM",
@@ -95,7 +95,7 @@ private fun PhotoScreenPreview() {
                         mainImage = ""
                     )
                 )
-            )
+            ),
         ).collectAsLazyPagingItems()
     )
 }
