@@ -1,5 +1,6 @@
 package com.saiful.presentation.composables
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -69,7 +72,7 @@ internal fun CollectionRowItem(
         Spacer(modifier = Modifier.height(12.dp))
 
         Row {
-            Box {
+            Box(modifier = Modifier.clip(RoundedCornerShape(12.dp))) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(collectionItem.mainImage)
@@ -80,13 +83,20 @@ internal fun CollectionRowItem(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
                         .testTag(TestTags.MAIN_IMAGE)
                 )
 
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
+                        .background(
+                            Brush.verticalGradient(
+                                colorStops = arrayOf(
+                                    0.0f to Color.Transparent,
+                                    0.6f to AppColor.GradientBlack
+                                )
+                            )
+                        )
                         .padding(12.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {

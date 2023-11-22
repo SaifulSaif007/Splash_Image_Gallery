@@ -43,12 +43,14 @@ val Typography.collectionTitle: TextStyle
     get() = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
-        fontSize = 18.sp
+        fontSize = 18.sp,
+        color = AppColor.BackgroundLight
     )
 
 val Typography.collectionSubtitle: TextStyle
     get() = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp
+        fontSize = 16.sp,
+        color = AppColor.BackgroundLight
     )

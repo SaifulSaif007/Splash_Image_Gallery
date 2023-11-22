@@ -13,4 +13,7 @@ object AppColor {
     val PrimaryLight = Color(0xFF0C8EF7)
     val SecondaryLight = Color(0xFFE91E63)
     val BackgroundLight = Color(0xFFFFFEFE)
+
+    val GradientBlack = Color(0xD7525252)
+
 }
