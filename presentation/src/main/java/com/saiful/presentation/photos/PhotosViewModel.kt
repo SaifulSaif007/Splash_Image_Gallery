@@ -8,7 +8,6 @@ import com.saiful.core.ui.ViewEvent
 import com.saiful.domain.model.HomeItem
 import com.saiful.domain.usecase.GetPhotosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,7 +26,7 @@ internal class PhotosViewModel @Inject constructor(
     }
 
     private fun loadData() {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             getPhotosUseCase(Unit)
                 .distinctUntilChanged()
                 .cachedIn(viewModelScope)
