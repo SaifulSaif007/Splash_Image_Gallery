@@ -4,9 +4,9 @@ import androidx.paging.*
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
 import com.nhaarman.mockito_kotlin.*
+import com.saiful.data.model.*
 import com.saiful.data.model.home.*
-import com.saiful.data.model.param.HomeParams
-import com.saiful.data.repository.PhotoRepository
+import com.saiful.data.repository.photo.PhotoRepository
 import com.saiful.domain.mapper.toPhotoItem
 import com.saiful.test.unit.BaseUseCaseTest
 import com.saiful.test.unit.rules.MainCoroutineRule
@@ -26,12 +26,9 @@ class GetPhotosUseCaseTest : BaseUseCaseTest() {
 
     private val getPhotosUseCase = GetPhotosUseCase(photoRepository)
 
-    private lateinit var homeParams: HomeParams
     private lateinit var response: Flow<PagingData<Photo>>
 
     override fun setup() {
-        homeParams = HomeParams(page = 1, pageSize = 10)
-
         response = flowOf(
             PagingData.from(
                 listOf(
@@ -104,8 +101,8 @@ class GetPhotosUseCaseTest : BaseUseCaseTest() {
 
 
     @Test
-    fun `verify photos useCase return success result`() {
-        runTest(mainCoroutineRule.testDispatcher) {
+    fun `verify photos useCase return homeItem paging data`() {
+        runTest {
             whenever(
                 photoRepository.photosList()
             ).thenReturn(response)
@@ -118,8 +115,8 @@ class GetPhotosUseCaseTest : BaseUseCaseTest() {
     }
 
     @Test
-    fun `verify photos useCase return error result`() {
-        runTest(mainCoroutineRule.testDispatcher) {
+    fun `verify photos useCase return empty paging data when error occurs`() {
+        runTest {
             whenever(
                 photoRepository.photosList()
             ).thenReturn(

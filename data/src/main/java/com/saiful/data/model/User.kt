@@ -1,4 +1,4 @@
-package com.saiful.data.model.home
+package com.saiful.data.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

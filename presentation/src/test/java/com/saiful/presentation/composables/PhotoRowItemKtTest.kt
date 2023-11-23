@@ -17,24 +17,24 @@ import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(instrumentedPackages = ["androidx.loader.content"])
-class HomeRowItemKtTest {
+class PhotoRowItemKtTest {
 
     @get:Rule
     val rule = createComposeRule()
     private lateinit var homeItem: HomeItem
 
     @Test
-    fun `verify HomeRowItem works properly when sponsored is true`() {
+    fun `verify PhotoRowItem works properly when sponsored is true`() {
+        homeItem = HomeItem(
+            profileImage = "",
+            profileName = "NEOM",
+            sponsored = true,
+            mainImage = ""
+        )
+
         with(rule) {
             setContent {
-                homeItem = HomeItem(
-                    profileImage = "",
-                    profileName = "NEOM",
-                    sponsored = true,
-                    mainImage = ""
-                )
-
-                HomeRowItem(modifier = Modifier, homeItem = homeItem)
+                PhotoRowItem(modifier = Modifier, homeItem = homeItem)
             }
 
             onNodeWithTag(PROFILE_NAME).apply {
@@ -52,17 +52,17 @@ class HomeRowItemKtTest {
     }
 
     @Test
-    fun `verify HomeRowItem works properly when sponsored is false`() {
+    fun `verify PhotoRowItem works properly when sponsored is false`() {
+        homeItem = HomeItem(
+            profileImage = "",
+            profileName = "NEOM",
+            sponsored = false,
+            mainImage = ""
+        )
+
         with(rule) {
             setContent {
-                homeItem = HomeItem(
-                    profileImage = "",
-                    profileName = "NEOM",
-                    sponsored = false,
-                    mainImage = ""
-                )
-
-                HomeRowItem(modifier = Modifier, homeItem = homeItem)
+                PhotoRowItem(modifier = Modifier, homeItem = homeItem)
             }
 
             onNodeWithTag(PROFILE_NAME).apply {

@@ -1,68 +1,71 @@
-package com.saiful.presentation.photos
+package com.saiful.presentation.collections
 
 import androidx.paging.*
 import androidx.paging.testing.asSnapshot
 import com.nhaarman.mockito_kotlin.*
-import com.saiful.domain.model.HomeItem
-import com.saiful.domain.usecase.GetPhotosUseCase
+import com.saiful.domain.model.CollectionItem
+import com.saiful.domain.usecase.GetCollectionUseCase
 import com.saiful.test.unit.BaseViewModelTest
 import com.saiful.test.unit.rules.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class PhotosViewModelTest : BaseViewModelTest() {
+class CollectionsViewModelTest : BaseViewModelTest() {
 
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val photosUseCase: GetPhotosUseCase = mock()
-    private lateinit var viewModel: PhotosViewModel
+    private val collectionUseCase: GetCollectionUseCase = mock()
+    private lateinit var viewModel: CollectionsViewModel
 
-    private lateinit var flowPagingData: Flow<PagingData<HomeItem>>
+    private lateinit var flowPagingData: Flow<PagingData<CollectionItem>>
 
     override fun setup() {
         flowPagingData = flowOf(
             PagingData.from(
                 listOf(
-                    HomeItem(
-                        profileImage = "profile-image",
-                        profileName = "profile-name",
-                        sponsored = true,
-                        mainImage = "main-image"
+                    CollectionItem(
+                        mainImage = "",
+                        profileImage = "",
+                        profileName = "NEOM",
+                        title = "City",
+                        totalPhoto = 10
                     ),
-                    HomeItem(
-                        profileImage = "profile-image",
-                        profileName = "profile-name",
-                        sponsored = false,
-                        mainImage = "main-image"
-                    ),
+                    CollectionItem(
+                        mainImage = "",
+                        profileImage = "",
+                        profileName = "ABC",
+                        title = "Adventure",
+                        totalPhoto = 101
+                    )
                 )
             )
         )
     }
 
     override fun tearDown() {
-        reset(photosUseCase)
+        reset(collectionUseCase)
     }
 
     private fun initViewModel() {
-        viewModel = PhotosViewModel(photosUseCase)
+        viewModel = CollectionsViewModel(collectionUseCase)
     }
 
     @Test
     fun `load data gets flow pager data`() {
         runTest {
-            whenever(photosUseCase(Unit)).thenReturn(flowPagingData)
+            whenever(collectionUseCase(Unit)).thenReturn(flowPagingData)
 
             initViewModel()
 
-            val result = flowOf(viewModel.photoState.first()).asSnapshot()
+            val result = flowOf(viewModel.collectionState.first()).asSnapshot()
 
-            verify(photosUseCase, only()).invoke(Unit)
+            verify(collectionUseCase, only()).invoke(Unit)
             assert(result.isNotEmpty())
             assert(result.size == 2)
         }
@@ -71,7 +74,7 @@ class PhotosViewModelTest : BaseViewModelTest() {
     @Test
     fun `load data gets exception flow pager data`() {
         runTest {
-            whenever(photosUseCase(Unit)).thenReturn(
+            whenever(collectionUseCase(Unit)).thenReturn(
                 flowOf(
                     PagingData.from(
                         data = emptyList(),
@@ -86,11 +89,10 @@ class PhotosViewModelTest : BaseViewModelTest() {
 
             initViewModel()
 
-            val result = flowOf(viewModel.photoState.first()).asSnapshot()
+            val result = flowOf(viewModel.collectionState.first()).asSnapshot()
 
-            verify(photosUseCase, only()).invoke(Unit)
+            verify(collectionUseCase, only()).invoke(Unit)
             assert(result.isEmpty())
         }
     }
-
 }

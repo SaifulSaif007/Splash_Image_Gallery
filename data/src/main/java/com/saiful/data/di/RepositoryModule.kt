@@ -1,7 +1,9 @@
 package com.saiful.data.di
 
-import com.saiful.data.repository.PhotoRepository
-import com.saiful.data.repository.PhotoRepositoryImpl
+import com.saiful.data.repository.collection.CollectionRepository
+import com.saiful.data.repository.collection.CollectionRepositoryImpl
+import com.saiful.data.repository.photo.PhotoRepository
+import com.saiful.data.repository.photo.PhotoRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,4 +15,7 @@ internal interface RepositoryModule {
 
     @Binds
     fun bindPhotoRepository(photoRepositoryImpl: PhotoRepositoryImpl): PhotoRepository
+
+    @Binds
+    fun bindCollectionRepository(collectionRepositoryImpl: CollectionRepositoryImpl): CollectionRepository
 }

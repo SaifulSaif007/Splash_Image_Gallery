@@ -38,3 +38,19 @@ val Typography.errorText: TextStyle
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     )
+
+val Typography.collectionTitle: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
+        color = AppColor.BackgroundLight
+    )
+
+val Typography.collectionSubtitle: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        color = AppColor.BackgroundLight
+    )

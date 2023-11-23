@@ -28,8 +28,7 @@ private fun PhotoScreenContent(photos: LazyPagingItems<HomeItem>) {
 
     LazyColumn {
         items(photos.itemCount) { index ->
-            HomeRowItem(
-                modifier = Modifier,
+            PhotoRowItem(
                 homeItem = HomeItem(
                     profileImage = photos[index]!!.profileImage,
                     profileName = photos[index]!!.profileName,
@@ -78,11 +77,11 @@ private fun PhotoScreenContent(photos: LazyPagingItems<HomeItem>) {
 
 @Preview
 @Composable
-private fun PhotoScreenPreview() {
+private fun PhotoScreenContentPreview() {
     PhotoScreenContent(
         photos = flowOf(
             PagingData.from(
-                listOf(
+                data = listOf(
                     HomeItem(
                         profileImage = "",
                         profileName = "NEOM",
@@ -96,7 +95,7 @@ private fun PhotoScreenPreview() {
                         mainImage = ""
                     )
                 )
-            )
+            ),
         ).collectAsLazyPagingItems()
     )
 }
