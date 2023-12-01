@@ -21,7 +21,7 @@ import com.saiful.domain.model.HomeItem
 import com.saiful.presentation.R
 import com.saiful.presentation.theme.primaryText
 import com.saiful.presentation.theme.titleText
-import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
+import com.saiful.presentation.utils.TestTags
 import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_NAME
 import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
@@ -78,19 +78,17 @@ internal fun PhotoRowItem(
         Spacer(modifier = Modifier.height(12.dp))
 
         Row {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(homeItem.mainImage)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "main image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
-                    .testTag(MAIN_IMAGE)
-            )
+            Box(modifier = Modifier.clip(RoundedCornerShape(12.dp))) {
+                AsyncImageBlur(
+                    imageUrl = homeItem.mainImage,
+                    blurHash = homeItem.mainImageBlurHash,
+                    height = homeItem.mainImageHeight,
+                    width = homeItem.mainImageWidth,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .testTag(TestTags.MAIN_IMAGE)
+                )
+            }
         }
     }
 
@@ -105,6 +103,9 @@ private fun PhotoRowItemPreview() {
             profileName = "NEOM",
             sponsored = true,
             mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
+            mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
+            mainImageWidth = 4,
+            mainImageHeight = 3
         )
     )
 }

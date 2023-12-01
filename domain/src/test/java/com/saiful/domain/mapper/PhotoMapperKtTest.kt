@@ -20,8 +20,8 @@ class PhotoMapperKtTest {
                     altDescription = "",
                     blurHash = "",
                     color = "",
-                    height = 100,
-                    width = 100,
+                    height = 11316,
+                    width = 7125,
                     createdAt = "",
                     currentUserCollections = emptyList(),
                     likedByUser = false,
@@ -84,7 +84,10 @@ class PhotoMapperKtTest {
                 profileImage = it.user.profileImage.small,
                 profileName = it.user.name,
                 sponsored = it.sponsorship != null,
-                mainImage = it.urls.small
+                mainImage = it.urls.small,
+                mainImageBlurHash = "",
+                mainImageHeight = ((it.height.toDouble() / it.width.toDouble()) * 10).toInt(),
+                mainImageWidth = (it.width / it.width) * 10,
             )
         }
     }

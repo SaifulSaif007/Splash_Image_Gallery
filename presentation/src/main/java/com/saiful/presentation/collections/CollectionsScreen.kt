@@ -34,6 +34,9 @@ fun CollectionScreenContent(collections: LazyPagingItems<CollectionItem>) {
                     profileImage = collections[index]!!.profileImage,
                     profileName = collections[index]!!.profileName,
                     mainImage = collections[index]!!.mainImage,
+                    mainImageBlurHash = collections[index]!!.mainImageBlurHash,
+                    mainImageHeight = collections[index]!!.mainImageHeight,
+                    mainImageWidth = collections[index]!!.mainImageWidth,
                     title = collections[index]!!.title,
                     totalPhoto = collections[index]!!.totalPhoto
                 )
@@ -61,7 +64,7 @@ fun CollectionScreenContent(collections: LazyPagingItems<CollectionItem>) {
         when (collections.loadState.append) {
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
-                    modifier = Modifier.fillParentMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     onAction = { collections.retry() }
                 )
             }
@@ -86,6 +89,9 @@ private fun CollectionScreenContentPreview() {
                 listOf(
                     CollectionItem(
                         mainImage = "",
+                        mainImageBlurHash = "",
+                        mainImageHeight = 3,
+                        mainImageWidth = 4,
                         profileImage = "",
                         profileName = "NEOM",
                         title = "City",
@@ -93,6 +99,9 @@ private fun CollectionScreenContentPreview() {
                     ),
                     CollectionItem(
                         mainImage = "",
+                        mainImageBlurHash = "",
+                        mainImageHeight = 3,
+                        mainImageWidth = 4,
                         profileImage = "",
                         profileName = "ABC",
                         title = "Adventure",

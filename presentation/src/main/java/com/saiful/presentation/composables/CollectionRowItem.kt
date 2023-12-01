@@ -27,13 +27,13 @@ import com.saiful.presentation.theme.*
 import com.saiful.presentation.utils.TestTags
 import com.saiful.presentation.utils.TestTags.COLLECTION_TITLE
 import com.saiful.presentation.utils.TestTags.COLLECTION_TOTAL_PHOTOS
+import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 
 @Composable
 internal fun CollectionRowItem(
     modifier: Modifier = Modifier,
     collectionItem: CollectionItem
 ) {
-
     Column(
         modifier.padding(8.dp)
     ) {
@@ -73,17 +73,14 @@ internal fun CollectionRowItem(
 
         Row {
             Box(modifier = Modifier.clip(RoundedCornerShape(12.dp))) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(collectionItem.mainImage)
-                        .crossfade(true)
-                        .build(),
-                    placeholder = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = "main image",
-                    contentScale = ContentScale.Crop,
+                AsyncImageBlur(
+                    imageUrl = collectionItem.mainImage,
+                    blurHash = collectionItem.mainImageBlurHash,
+                    height = collectionItem.mainImageHeight,
+                    width = collectionItem.mainImageWidth,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag(TestTags.MAIN_IMAGE)
+                        .fillMaxSize()
+                        .testTag(MAIN_IMAGE)
                 )
 
                 Column(
@@ -134,6 +131,9 @@ private fun CollectionRowItemPreview() {
             profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
             profileName = "NEOM",
             mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
+            mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
+            mainImageWidth = 6,
+            mainImageHeight = 3,
             title = "Sad",
             totalPhoto = 127
         )

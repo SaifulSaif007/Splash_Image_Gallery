@@ -42,7 +42,6 @@ viewModel-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 
-
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
@@ -66,7 +65,6 @@ compose-navigation = { group = "androidx.navigation", name = "navigation-compose
 coil-image-loader = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagination" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
-paging-test = { group = "androidx.paging", name = "paging-testing", version.ref = "pagination" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
@@ -75,6 +73,7 @@ compose-test-boom = { group = "androidx.compose", name = "compose-bom", version.
 compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 compose-test-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+paging-test = { group = "androidx.paging", name = "paging-testing", version.ref = "pagination" }
 
 coroutine-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine-test" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }

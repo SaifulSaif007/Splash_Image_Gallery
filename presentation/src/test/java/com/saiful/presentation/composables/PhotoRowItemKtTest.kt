@@ -29,7 +29,10 @@ class PhotoRowItemKtTest {
             profileImage = "",
             profileName = "NEOM",
             sponsored = true,
-            mainImage = ""
+            mainImage = "",
+            mainImageBlurHash = "",
+            mainImageHeight = 4,
+            mainImageWidth = 3
         )
 
         with(rule) {
@@ -57,7 +60,10 @@ class PhotoRowItemKtTest {
             profileImage = "",
             profileName = "NEOM",
             sponsored = false,
-            mainImage = ""
+            mainImage = "",
+            mainImageBlurHash = "",
+            mainImageHeight = 4,
+            mainImageWidth = 3
         )
 
         with(rule) {
