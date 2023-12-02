@@ -10,7 +10,6 @@ import com.saiful.test.unit.rules.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 
@@ -31,17 +30,23 @@ class CollectionsViewModelTest : BaseViewModelTest() {
                 listOf(
                     CollectionItem(
                         mainImage = "",
+                        mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
                         profileImage = "",
                         profileName = "NEOM",
                         title = "City",
-                        totalPhoto = 10
+                        totalPhoto = 10,
+                        mainImageHeight = 4,
+                        mainImageWidth = 3
                     ),
                     CollectionItem(
                         mainImage = "",
+                        mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
                         profileImage = "",
                         profileName = "ABC",
                         title = "Adventure",
-                        totalPhoto = 101
+                        totalPhoto = 101,
+                        mainImageHeight = 4,
+                        mainImageWidth = 3
                     )
                 )
             )

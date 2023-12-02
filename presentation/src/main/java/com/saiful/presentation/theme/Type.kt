@@ -44,7 +44,7 @@ val Typography.collectionTitle: TextStyle
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
         fontSize = 18.sp,
-        color = AppColor.BackgroundLight
+        color = AppColor.Background
     )
 
 val Typography.collectionSubtitle: TextStyle
@@ -52,5 +52,5 @@ val Typography.collectionSubtitle: TextStyle
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        color = AppColor.BackgroundLight
+        color = AppColor.Background
     )

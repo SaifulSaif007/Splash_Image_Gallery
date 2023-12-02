@@ -34,6 +34,9 @@ private fun PhotoScreenContent(photos: LazyPagingItems<HomeItem>) {
                     profileName = photos[index]!!.profileName,
                     sponsored = photos[index]!!.sponsored,
                     mainImage = photos[index]!!.mainImage,
+                    mainImageBlurHash = photos[index]!!.mainImageBlurHash,
+                    mainImageHeight = photos[index]!!.mainImageHeight,
+                    mainImageWidth = photos[index]!!.mainImageWidth
                 )
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -60,7 +63,7 @@ private fun PhotoScreenContent(photos: LazyPagingItems<HomeItem>) {
         when (photos.loadState.append) {
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
-                    modifier = Modifier.fillParentMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     onAction = { photos.retry() }
                 )
             }
@@ -86,13 +89,19 @@ private fun PhotoScreenContentPreview() {
                         profileImage = "",
                         profileName = "NEOM",
                         sponsored = true,
-                        mainImage = ""
+                        mainImage = "",
+                        mainImageBlurHash = "",
+                        mainImageWidth = 4,
+                        mainImageHeight = 3
                     ),
                     HomeItem(
                         profileImage = "",
                         profileName = "NEOM",
                         sponsored = false,
-                        mainImage = ""
+                        mainImage = "",
+                        mainImageBlurHash = "",
+                        mainImageWidth = 4,
+                        mainImageHeight = 3
                     )
                 )
             ),

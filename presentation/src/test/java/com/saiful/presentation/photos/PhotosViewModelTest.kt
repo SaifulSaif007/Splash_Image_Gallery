@@ -32,13 +32,19 @@ class PhotosViewModelTest : BaseViewModelTest() {
                         profileImage = "profile-image",
                         profileName = "profile-name",
                         sponsored = true,
-                        mainImage = "main-image"
+                        mainImage = "main-image",
+                        mainImageBlurHash = "",
+                        mainImageHeight = 4,
+                        mainImageWidth = 3
                     ),
                     HomeItem(
                         profileImage = "profile-image",
                         profileName = "profile-name",
                         sponsored = false,
-                        mainImage = "main-image"
+                        mainImage = "main-image",
+                        mainImageBlurHash = "",
+                        mainImageHeight = 4,
+                        mainImageWidth = 3
                     ),
                 )
             )

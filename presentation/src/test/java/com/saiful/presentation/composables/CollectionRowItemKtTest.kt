@@ -28,14 +28,18 @@ class CollectionRowItemKtTest {
                 profileImage = "",
                 profileName = "NEOM",
                 mainImage = "",
+                mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
                 title = "Sad",
-                totalPhoto = 124
+                totalPhoto = 124,
+                mainImageHeight = 4,
+                mainImageWidth = 3
             )
 
 
             setContent {
                 CollectionRowItem(collectionItem = collectionItem)
-                totalPhotosPrefix = stringResource(id = R.string.total_photos, collectionItem.totalPhoto)
+                totalPhotosPrefix =
+                    stringResource(id = R.string.total_photos, collectionItem.totalPhoto)
             }
             onNodeWithTag(TestTags.PROFILE_NAME).apply {
                 assertIsDisplayed()
