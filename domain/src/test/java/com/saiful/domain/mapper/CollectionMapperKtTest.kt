@@ -107,7 +107,7 @@ class CollectionMapperKtTest {
             CollectionItem(
                 profileImage = it.user.profileImage.small,
                 profileName = it.user.name,
-                mainImage = it.coverPhoto.urls.small,
+                mainImage = it.coverPhoto.urls.regular,
                 mainImageBlurHash = "",
                 mainImageHeight = ((it.coverPhoto.height.toDouble() / it.coverPhoto.width.toDouble()) * 10).toInt(),
                 mainImageWidth = (it.coverPhoto.width / it.coverPhoto.width) * 10,
@@ -121,8 +121,6 @@ class CollectionMapperKtTest {
     @Test
     fun `verify toCollectionItem() maps properly`() {
         runTest {
-            println(collections.toCollectionItem().asSnapshot())
-            println(expectedList.asSnapshot())
             assert(collections.toCollectionItem().asSnapshot() == expectedList.asSnapshot())
         }
     }

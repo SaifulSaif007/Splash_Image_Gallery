@@ -84,7 +84,7 @@ class PhotoMapperKtTest {
                 profileImage = it.user.profileImage.small,
                 profileName = it.user.name,
                 sponsored = it.sponsorship != null,
-                mainImage = it.urls.small,
+                mainImage = it.urls.regular,
                 mainImageBlurHash = "",
                 mainImageHeight = ((it.height.toDouble() / it.width.toDouble()) * 10).toInt(),
                 mainImageWidth = (it.width / it.width) * 10,

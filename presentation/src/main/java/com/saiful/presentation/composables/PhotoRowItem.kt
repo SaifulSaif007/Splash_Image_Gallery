@@ -42,7 +42,7 @@ internal fun PhotoRowItem(
                     .data(homeItem.profileImage)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(id = R.drawable.ic_launcher_background),
+                placeholder = painterResource(id = R.drawable.ic_profile),
                 contentDescription = "icon",
                 modifier = Modifier
                     .size(height = 45.dp, width = 45.dp)
