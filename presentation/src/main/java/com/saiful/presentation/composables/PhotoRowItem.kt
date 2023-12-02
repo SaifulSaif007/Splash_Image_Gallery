@@ -94,7 +94,7 @@ internal fun PhotoRowItem(
 
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PhotoRowItemPreview() {
     PhotoRowItem(
