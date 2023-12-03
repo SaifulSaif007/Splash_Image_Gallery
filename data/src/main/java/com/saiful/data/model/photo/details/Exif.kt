@@ -14,9 +14,9 @@ data class Exif(
     @Json(name = "exposure_time")
     val exposureTime: String,
     @Json(name = "aperture")
-    val aperture: Int,
+    val aperture: Double,
     @Json(name = "focal_length")
     val focalLength: Double,
     @Json(name = "iso")
-    val iso: Int
+    val iso: Long
 )

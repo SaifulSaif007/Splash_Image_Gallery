@@ -2,8 +2,8 @@ package com.saiful.data.remote
 
 import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.photo.Photo
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.saiful.data.model.photo.details.PhotoDetails
+import retrofit2.http.*
 
 internal interface ApiService {
 
@@ -19,4 +19,8 @@ internal interface ApiService {
         @Query("per_page") pageSize: Int,
     ): List<Collection>
 
+    @GET("photos")
+    suspend fun photoDetails(
+        @Path("photoId") photoId: String
+    ): PhotoDetails
 }
