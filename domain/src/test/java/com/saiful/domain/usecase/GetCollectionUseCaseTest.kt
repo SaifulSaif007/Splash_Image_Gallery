@@ -7,7 +7,7 @@ import com.nhaarman.mockito_kotlin.*
 import com.saiful.data.model.*
 import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.collection.CollectionLinks
-import com.saiful.data.model.home.*
+import com.saiful.data.model.photo.*
 import com.saiful.data.repository.collection.CollectionRepository
 import com.saiful.domain.mapper.toCollectionItem
 import com.saiful.test.unit.BaseUseCaseTest

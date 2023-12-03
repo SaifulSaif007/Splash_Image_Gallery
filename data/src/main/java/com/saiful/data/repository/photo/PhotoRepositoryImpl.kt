@@ -1,7 +1,7 @@
 package com.saiful.data.repository.photo
 
 import androidx.paging.*
-import com.saiful.data.model.home.Photo
+import com.saiful.data.model.photo.Photo
 import com.saiful.data.remote.ApiService
 import com.saiful.data.repository.pager.GenericPagingSource
 import kotlinx.coroutines.flow.Flow

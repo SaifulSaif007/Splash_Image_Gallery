@@ -1,6 +1,6 @@
 package com.saiful.data.model.collection
 
-import com.saiful.data.model.home.Urls
+import com.saiful.data.model.photo.Urls
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

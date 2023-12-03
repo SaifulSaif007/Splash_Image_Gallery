@@ -6,7 +6,7 @@ import androidx.paging.testing.asSnapshot
 import com.saiful.data.model.*
 import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.collection.CollectionLinks
-import com.saiful.data.model.home.*
+import com.saiful.data.model.photo.*
 import com.saiful.domain.model.CollectionItem
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.runTest

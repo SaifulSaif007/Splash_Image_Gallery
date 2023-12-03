@@ -5,7 +5,7 @@ import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
 import com.nhaarman.mockito_kotlin.*
 import com.saiful.data.model.*
-import com.saiful.data.model.home.*
+import com.saiful.data.model.photo.*
 import com.saiful.data.remote.ApiService
 import com.saiful.test.unit.BaseRepositoryTest
 import kotlinx.coroutines.test.runTest

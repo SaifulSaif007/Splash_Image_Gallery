@@ -1,7 +1,7 @@
 package com.saiful.data.remote
 
 import com.saiful.data.model.collection.Collection
-import com.saiful.data.model.home.Photo
+import com.saiful.data.model.photo.Photo
 import retrofit2.http.GET
 import retrofit2.http.Query
 

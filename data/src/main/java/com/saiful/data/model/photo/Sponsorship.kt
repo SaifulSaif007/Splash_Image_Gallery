@@ -1,4 +1,4 @@
-package com.saiful.data.model.home
+package com.saiful.data.model.photo
 
 import com.saiful.data.model.User
 import com.squareup.moshi.Json

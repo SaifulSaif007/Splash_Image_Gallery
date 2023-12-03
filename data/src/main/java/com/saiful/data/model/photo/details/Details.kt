@@ -1,11 +1,12 @@
-package com.saiful.data.model.home
+package com.saiful.data.model.photo.details
 
 import com.saiful.data.model.User
+import com.saiful.data.model.photo.*
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Photo(
+data class Details(
     @Json(name = "id")
     val id: String,
     @Json(name = "alt_description")
@@ -27,7 +28,7 @@ data class Photo(
     @Json(name = "liked_by_user")
     val likedByUser: Boolean,
     @Json(name = "likes")
-    val likes: Int,
+    val likes: Long,
     @Json(name = "links")
     val links: ContentLink?,
     @Json(name = "promoted_at")
@@ -42,4 +43,14 @@ data class Photo(
     val urls: Urls,
     @Json(name = "user")
     val user: User,
+    @Json(name = "exif")
+    val exif: Exif,
+    @Json(name = "location")
+    val location: ImageLocation,
+    @Json(name = "tags")
+    val tags: List<Tag>,
+    @Json(name = "views")
+    val views: Long,
+    @Json(name = "downloads")
+    val downloads: Long
 )

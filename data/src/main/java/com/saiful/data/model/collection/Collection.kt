@@ -1,7 +1,7 @@
 package com.saiful.data.model.collection
 
 import com.saiful.data.model.User
-import com.saiful.data.model.home.Photo
+import com.saiful.data.model.photo.Photo
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

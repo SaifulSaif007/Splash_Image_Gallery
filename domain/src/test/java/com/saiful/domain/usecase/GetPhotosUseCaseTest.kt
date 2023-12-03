@@ -5,13 +5,14 @@ import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
 import com.nhaarman.mockito_kotlin.*
 import com.saiful.data.model.*
-import com.saiful.data.model.home.*
+import com.saiful.data.model.photo.*
 import com.saiful.data.repository.photo.PhotoRepository
 import com.saiful.domain.mapper.toPhotoItem
 import com.saiful.test.unit.BaseUseCaseTest
 import com.saiful.test.unit.rules.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test

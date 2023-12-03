@@ -2,7 +2,7 @@ package com.saiful.domain.mapper
 
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.saiful.data.model.home.Photo
+import com.saiful.data.model.photo.Photo
 import com.saiful.domain.model.HomeItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
