@@ -1,5 +1,6 @@
 package com.saiful.presentation.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,10 +30,15 @@ import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 @Composable
 internal fun PhotoRowItem(
     modifier: Modifier = Modifier,
-    homeItem: HomeItem
+    homeItem: HomeItem,
+    onItemClick: () -> Unit
 ) {
     Column(
-        modifier.padding(8.dp)
+        modifier
+            .padding(8.dp)
+            .clickable {
+                onItemClick()
+            },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -106,6 +112,7 @@ private fun PhotoRowItemPreview() {
             mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
             mainImageWidth = 4,
             mainImageHeight = 3
-        )
+        ),
+        onItemClick = {}
     )
 }

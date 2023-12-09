@@ -9,5 +9,6 @@ object AppColor {
     val Background = Color(0xFFFFFEFE)
 
     val GradientBlack = Color(0xD7525252)
+    val DividerColor = Color(0xFFCCC9C9)
 
 }

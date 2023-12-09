@@ -21,7 +21,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(onError: (DomainException) -> Unit) {
+fun HomeScreen(
+    onError: (DomainException) -> Unit,
+    navigationRequest: () -> Unit
+) {
 
     val pagerState = rememberPagerState()
     val tabs = LocalContext.current.resources.getStringArray(R.array.dashboardTabTitle)
@@ -59,7 +62,7 @@ fun HomeScreen(onError: (DomainException) -> Unit) {
             state = pagerState
         ) { page ->
             when (page) {
-                0 -> PhotosScreen()
+                0 -> PhotosScreen(navigationRequest = navigationRequest)
                 1 -> CollectionsScreen()
             }
         }
@@ -69,5 +72,5 @@ fun HomeScreen(onError: (DomainException) -> Unit) {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(onError = {})
+    HomeScreen(onError = {}, navigationRequest = {})
 }

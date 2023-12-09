@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     modifier = Modifier.fillMaxSize(),
-                    navController = rememberNavController(),
+                    navController = navController,
                     startDestination = HomeNavRoute.Root.route
                 ) {
                     homeNavGraph(

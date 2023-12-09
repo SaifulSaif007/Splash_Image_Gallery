@@ -57,7 +57,6 @@ internal fun CollectionRowItem(
             Spacer(modifier = Modifier.width(12.dp))
 
             Column {
-
                 Text(
                     text = collectionItem.profileName,
                     style = MaterialTheme.typography.titleText,
