@@ -1,6 +1,6 @@
 package com.saiful.domain.model
 
-data class HomeItem(
+data class PhotoItem(
     val profileImage: String,
     val profileName: String,
     val sponsored: Boolean = false,

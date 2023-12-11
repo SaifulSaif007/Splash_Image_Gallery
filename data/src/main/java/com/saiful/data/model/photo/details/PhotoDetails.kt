@@ -1,7 +1,9 @@
 package com.saiful.data.model.photo.details
 
 import com.saiful.data.model.User
-import com.saiful.data.model.photo.*
+import com.saiful.data.model.photo.ContentLink
+import com.saiful.data.model.photo.Sponsorship
+import com.saiful.data.model.photo.Urls
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -46,7 +48,7 @@ data class PhotoDetails(
     @Json(name = "exif")
     val exif: Exif,
     @Json(name = "location")
-    val location: ImageLocation,
+    val location: ImageLocation?,
     @Json(name = "tags")
     val tags: List<Tag>,
     @Json(name = "views")

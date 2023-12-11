@@ -1,10 +1,12 @@
 package com.saiful.presentation.composables
 
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.saiful.domain.model.HomeItem
+import com.saiful.domain.model.PhotoItem
 import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_NAME
@@ -21,11 +23,11 @@ class PhotoRowItemKtTest {
 
     @get:Rule
     val rule = createComposeRule()
-    private lateinit var homeItem: HomeItem
+    private lateinit var photoItem: PhotoItem
 
     @Test
     fun `verify PhotoRowItem works properly when sponsored is true`() {
-        homeItem = HomeItem(
+        photoItem = PhotoItem(
             profileImage = "",
             profileName = "NEOM",
             sponsored = true,
@@ -37,12 +39,12 @@ class PhotoRowItemKtTest {
 
         with(rule) {
             setContent {
-                PhotoRowItem(modifier = Modifier, homeItem = homeItem)
+                PhotoRowItem(modifier = Modifier, photoItem = photoItem)
             }
 
             onNodeWithTag(PROFILE_NAME).apply {
                 assertIsDisplayed()
-                assertTextEquals(homeItem.profileName)
+                assertTextEquals(photoItem.profileName)
             }
 
             onNodeWithTag(SPONSOR_LABEL).assertIsDisplayed()
@@ -56,7 +58,7 @@ class PhotoRowItemKtTest {
 
     @Test
     fun `verify PhotoRowItem works properly when sponsored is false`() {
-        homeItem = HomeItem(
+        photoItem = PhotoItem(
             profileImage = "",
             profileName = "NEOM",
             sponsored = false,
@@ -68,12 +70,12 @@ class PhotoRowItemKtTest {
 
         with(rule) {
             setContent {
-                PhotoRowItem(modifier = Modifier, homeItem = homeItem)
+                PhotoRowItem(modifier = Modifier, photoItem = photoItem)
             }
 
             onNodeWithTag(PROFILE_NAME).apply {
                 assertIsDisplayed()
-                assertTextEquals(homeItem.profileName)
+                assertTextEquals(photoItem.profileName)
             }
 
             onNodeWithTag(SPONSOR_LABEL).assertDoesNotExist()
