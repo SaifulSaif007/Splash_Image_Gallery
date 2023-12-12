@@ -43,11 +43,7 @@ internal fun PhotoRowItem(
     onItemClick: () -> Unit
 ) {
     Column(
-        modifier
-            .padding(8.dp)
-            .clickable {
-                onItemClick()
-            },
+        modifier.padding(8.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -101,6 +97,9 @@ internal fun PhotoRowItem(
                     width = photoItem.mainImageWidth,
                     modifier = Modifier
                         .fillMaxSize()
+                        .clickable {
+                            onItemClick()
+                        }
                         .testTag(TestTags.MAIN_IMAGE)
                 )
             }

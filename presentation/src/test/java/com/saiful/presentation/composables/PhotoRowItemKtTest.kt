@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.saiful.domain.model.PhotoItem
 import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
@@ -39,7 +40,7 @@ class PhotoRowItemKtTest {
 
         with(rule) {
             setContent {
-                PhotoRowItem(modifier = Modifier, photoItem = photoItem)
+                PhotoRowItem(modifier = Modifier, photoItem = photoItem, onItemClick = {})
             }
 
             onNodeWithTag(PROFILE_NAME).apply {
@@ -51,7 +52,7 @@ class PhotoRowItemKtTest {
 
             onNodeWithTag(PROFILE_IMAGE).assertIsDisplayed()
 
-            onNodeWithTag(MAIN_IMAGE).assertIsDisplayed()
+            onNodeWithTag(MAIN_IMAGE).assertIsDisplayed().performClick()
 
         }
     }
@@ -70,7 +71,7 @@ class PhotoRowItemKtTest {
 
         with(rule) {
             setContent {
-                PhotoRowItem(modifier = Modifier, photoItem = photoItem)
+                PhotoRowItem(modifier = Modifier, photoItem = photoItem, onItemClick = {})
             }
 
             onNodeWithTag(PROFILE_NAME).apply {
@@ -82,7 +83,7 @@ class PhotoRowItemKtTest {
 
             onNodeWithTag(PROFILE_IMAGE).assertIsDisplayed()
 
-            onNodeWithTag(MAIN_IMAGE).assertIsDisplayed()
+            onNodeWithTag(MAIN_IMAGE).assertIsDisplayed().performClick()
 
         }
     }
