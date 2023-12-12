@@ -1,27 +1,31 @@
 package com.saiful.domain.usecase
 
-import androidx.paging.*
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.*
-import com.saiful.data.model.*
-import com.saiful.data.model.photo.*
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.only
+import com.nhaarman.mockito_kotlin.reset
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import com.saiful.data.model.Links
+import com.saiful.data.model.ProfileImage
+import com.saiful.data.model.Social
+import com.saiful.data.model.User
+import com.saiful.data.model.photo.ContentLink
+import com.saiful.data.model.photo.Photo
+import com.saiful.data.model.photo.Urls
 import com.saiful.data.repository.photo.PhotoRepository
 import com.saiful.domain.mapper.toPhotoItem
 import com.saiful.test.unit.BaseUseCaseTest
-import com.saiful.test.unit.rules.MainCoroutineRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class GetPhotosUseCaseTest : BaseUseCaseTest() {
-
-    @get:Rule
-    val mainCoroutineRule = MainCoroutineRule()
 
     private val photoRepository: PhotoRepository = mock()
 
