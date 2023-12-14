@@ -29,6 +29,7 @@ class PhotoRowItemKtTest {
     @Test
     fun `verify PhotoRowItem works properly when sponsored is true`() {
         photoItem = PhotoItem(
+            photoId = "1",
             profileImage = "",
             profileName = "NEOM",
             sponsored = true,
@@ -60,6 +61,7 @@ class PhotoRowItemKtTest {
     @Test
     fun `verify PhotoRowItem works properly when sponsored is false`() {
         photoItem = PhotoItem(
+            photoId = "1",
             profileImage = "",
             profileName = "NEOM",
             sponsored = false,

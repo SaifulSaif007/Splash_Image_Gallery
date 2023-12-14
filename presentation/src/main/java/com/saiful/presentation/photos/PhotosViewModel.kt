@@ -40,10 +40,10 @@ internal class PhotosViewModel @Inject constructor(
 
 
     override fun handleEvents(event: ViewEvent) {
-        when(event){
+        when (event) {
             is PhotosContract.Event.SelectPhoto -> {
                 setEffect {
-                    PhotosContract.Effect.Navigation.NavigateDetails
+                    PhotosContract.Effect.Navigation.NavigateDetails(event.photoId)
                 }
             }
         }

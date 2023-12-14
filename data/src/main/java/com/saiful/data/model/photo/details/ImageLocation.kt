@@ -6,9 +6,9 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ImageLocation(
     @Json(name = "name")
-    val name: String,
+    val name: String?,
     @Json(name = "city")
-    val city: String,
+    val city: String?,
     @Json(name = "country")
-    val country: String
+    val country: String?
 )

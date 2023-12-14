@@ -2,15 +2,16 @@ package com.saiful.presentation.photos
 
 import com.saiful.core.ui.ViewEvent
 import com.saiful.core.ui.ViewSideEffect
+import com.saiful.domain.usecase.photoId
 
 internal class PhotosContract {
     sealed class Event : ViewEvent {
-        object SelectPhoto : Event()
+        data class SelectPhoto(val photoId: photoId) : Event()
     }
 
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
-            object NavigateDetails : Navigation()
+            data class NavigateDetails(val photoId: photoId) : Navigation()
         }
     }
 }

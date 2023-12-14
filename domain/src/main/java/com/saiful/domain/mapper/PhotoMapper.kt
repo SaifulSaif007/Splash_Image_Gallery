@@ -11,6 +11,7 @@ internal fun Flow<PagingData<Photo>>.toPhotoItem() =
     this.map { pagingData ->
         pagingData.map {
             PhotoItem(
+                photoId = it.id,
                 profileImage = it.user.profileImage.small,
                 profileName = it.user.name,
                 sponsored = it.sponsorship != null,

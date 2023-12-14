@@ -15,6 +15,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.PhotoItem
+import com.saiful.domain.usecase.photoId
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.composables.PhotoRowItem
@@ -25,13 +26,13 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 internal fun PhotosScreen(
     viewModel: PhotosViewModel = hiltViewModel(),
-    navigationRequest: () -> Unit
+    navigationRequest: (photoId) -> Unit
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is PhotosContract.Effect.Navigation -> {
-                    navigationRequest()
+                is PhotosContract.Effect.Navigation.NavigateDetails -> {
+                    navigationRequest(effect.photoId)
                 }
             }
         }.collect()
@@ -53,6 +54,7 @@ private fun PhotoScreenContent(
         items(photos.itemCount) { index ->
             PhotoRowItem(
                 photoItem = PhotoItem(
+                    photoId = photos[index]!!.photoId,
                     profileImage = photos[index]!!.profileImage,
                     profileName = photos[index]!!.profileName,
                     sponsored = photos[index]!!.sponsored,
@@ -61,8 +63,8 @@ private fun PhotoScreenContent(
                     mainImageHeight = photos[index]!!.mainImageHeight,
                     mainImageWidth = photos[index]!!.mainImageWidth
                 )
-            ) {
-                onEvent(PhotosContract.Event.SelectPhoto)
+            ) { photoId ->
+                onEvent(PhotosContract.Event.SelectPhoto(photoId))
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -112,6 +114,7 @@ private fun PhotoScreenContentPreview() {
             PagingData.from(
                 data = listOf(
                     PhotoItem(
+                        photoId = "1",
                         profileImage = "",
                         profileName = "NEOM",
                         sponsored = true,
@@ -121,6 +124,7 @@ private fun PhotoScreenContentPreview() {
                         mainImageHeight = 3
                     ),
                     PhotoItem(
+                        photoId = "2",
                         profileImage = "",
                         profileName = "NEOM",
                         sponsored = false,

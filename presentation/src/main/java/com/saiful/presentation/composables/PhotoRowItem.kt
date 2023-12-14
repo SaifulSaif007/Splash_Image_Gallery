@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.saiful.domain.model.PhotoItem
+import com.saiful.domain.usecase.photoId
 import com.saiful.presentation.R
 import com.saiful.presentation.theme.primaryText
 import com.saiful.presentation.theme.titleText
@@ -40,7 +41,7 @@ import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 internal fun PhotoRowItem(
     modifier: Modifier = Modifier,
     photoItem: PhotoItem,
-    onItemClick: () -> Unit
+    onItemClick: (photoId: photoId) -> Unit
 ) {
     Column(
         modifier.padding(8.dp)
@@ -98,7 +99,7 @@ internal fun PhotoRowItem(
                     modifier = Modifier
                         .fillMaxSize()
                         .clickable {
-                            onItemClick()
+                            onItemClick(photoItem.photoId)
                         }
                         .testTag(TestTags.MAIN_IMAGE)
                 )
@@ -113,6 +114,7 @@ internal fun PhotoRowItem(
 private fun PhotoRowItemPreview() {
     PhotoRowItem(
         photoItem = PhotoItem(
+            photoId = "1",
             profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
             profileName = "NEOM",
             sponsored = true,

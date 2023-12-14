@@ -37,6 +37,7 @@ class PhotosViewModelTest : BaseViewModelTest() {
             PagingData.from(
                 listOf(
                     PhotoItem(
+                        photoId = "1",
                         profileImage = "profile-image",
                         profileName = "profile-name",
                         sponsored = true,
@@ -46,6 +47,7 @@ class PhotosViewModelTest : BaseViewModelTest() {
                         mainImageWidth = 3
                     ),
                     PhotoItem(
+                        photoId = "2",
                         profileImage = "profile-image",
                         profileName = "profile-name",
                         sponsored = false,

@@ -88,6 +88,7 @@ class PhotoMapperKtTest {
     private val expectedList = photos.map { pagingData ->
         pagingData.map {
             PhotoItem(
+                photoId = it.id,
                 profileImage = it.user.profileImage.small,
                 profileName = it.user.name,
                 sponsored = it.sponsorship != null,
