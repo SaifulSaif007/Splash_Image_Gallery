@@ -7,9 +7,10 @@ internal fun PhotoDetails.toPhotoDetailsItem() =
     PhotoDetailsItem(
         profileName = this.user.name,
         profileImage = this.user.profileImage.small,
-        mainImage = this.urls.regular,
+        mainImage = this.urls.full,
+        thumbnailImage = this.urls.thumb,
         camera = "${exif.camera} ${exif.model}",
-        aperture = "f/$exif.aperture",
+        aperture = "f/${exif.aperture}",
         focalLength = "${exif.focalLength}mm",
         shutterSpeed = "${exif.exposureTime}s",
         iso = "${exif.iso}",

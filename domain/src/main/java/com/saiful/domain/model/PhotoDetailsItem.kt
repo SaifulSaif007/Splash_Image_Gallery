@@ -4,6 +4,7 @@ data class PhotoDetailsItem(
     val profileImage: String,
     val profileName: String,
     val mainImage: String,
+    val thumbnailImage: String,
     val camera: String,
     val focalLength: String,
     val aperture: String,

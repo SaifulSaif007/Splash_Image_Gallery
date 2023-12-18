@@ -19,20 +19,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil.compose.SubcomposeAsyncImage
+import com.saiful.domain.model.PhotoDetailsItem
 import com.saiful.presentation.R
-import com.saiful.presentation.composables.AsyncImageBlur
+import com.saiful.presentation.composables.ErrorView
+import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.theme.AppColor
 import com.saiful.presentation.theme.titleText
 import com.saiful.presentation.utils.TestTags
@@ -41,19 +43,51 @@ import com.saiful.presentation.utils.TestTags
 internal fun PhotoDetailsScreen(
     viewModel: PhotoDetailsViewModel = hiltViewModel()
 ) {
-    PhotoDetailsScreenContent()
+    val uiState = viewModel.uiState.collectAsState()
+    when (uiState.value) {
+        is UIState.Loading -> {
+            LoadingView(
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        is UIState.Success -> {
+            PhotoDetailsScreenContent(
+                photoDetailsItem = (uiState.value as UIState.Success).photoDetails
+            )
+        }
+
+        is UIState.Error -> {
+            ErrorView(
+                modifier = Modifier.fillMaxSize(),
+                onAction = {
+                    //viewModel.getPhotoDetails()
+                }
+            )
+        }
+    }
 }
 
 @Composable
-private fun PhotoDetailsScreenContent() {
+private fun PhotoDetailsScreenContent(photoDetailsItem: PhotoDetailsItem) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         item {
-            AsyncImageBlur(
-                imageUrl = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
-                blurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
-                modifier = Modifier.fillMaxWidth()
+            SubcomposeAsyncImage(
+                model = photoDetailsItem.mainImage,
+                contentDescription = "main image",
+                loading = {
+                    AsyncImage(
+                        model = photoDetailsItem.thumbnailImage,
+                        contentDescription = "thumbnail",
+                        contentScale = ContentScale.Crop,
+                    )
+                },
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(400.dp)
             )
 
             Column(
@@ -65,12 +99,9 @@ private fun PhotoDetailsScreenContent() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data("")
-                            .crossfade(true)
-                            .build(),
+                        model = photoDetailsItem.profileImage,
                         placeholder = painterResource(id = R.drawable.ic_profile),
-                        contentDescription = "icon",
+                        contentDescription = "profile image",
                         modifier = Modifier
                             .size(height = 40.dp, width = 40.dp)
                             .clip(CircleShape)
@@ -82,7 +113,7 @@ private fun PhotoDetailsScreenContent() {
 
                     Column {
                         Text(
-                            text = "NEOM",
+                            text = photoDetailsItem.profileName,
                             style = MaterialTheme.typography.titleText,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -110,11 +141,11 @@ private fun PhotoDetailsScreenContent() {
                             .padding(horizontal = 6.dp)
                     ) {
                         Text(text = "Camera")
-                        Text(text = "Unknown")
+                        Text(text = photoDetailsItem.camera)
                         Text(text = "Focal Length")
-                        Text(text = "0.0mm")
+                        Text(text = photoDetailsItem.focalLength)
                         Text(text = "ISO")
-                        Text(text = "Unknown")
+                        Text(text = photoDetailsItem.iso)
                     }
                     Column(
                         modifier = Modifier
@@ -122,11 +153,11 @@ private fun PhotoDetailsScreenContent() {
                             .padding(horizontal = 6.dp)
                     ) {
                         Text(text = "Aperture")
-                        Text(text = "Unknown")
+                        Text(text = photoDetailsItem.aperture)
                         Text(text = "Shutter Speed")
-                        Text(text = "Unknown")
+                        Text(text = photoDetailsItem.shutterSpeed)
                         Text(text = "Dimensions")
-                        Text(text = "5400 x 3600")
+                        Text(text = photoDetailsItem.dimensions)
                     }
                 }
 
@@ -147,21 +178,21 @@ private fun PhotoDetailsScreenContent() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(text = "Views")
-                        Text(text = "4.0M")
+                        Text(text = photoDetailsItem.views)
                     }
                     Column(
                         modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(text = "Downloads")
-                        Text(text = "36.1k")
+                        Text(text = photoDetailsItem.downloads)
                     }
                     Column(
                         modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(text = "Likes")
-                        Text(text = "297")
+                        Text(text = photoDetailsItem.likes)
                     }
                 }
 
@@ -211,6 +242,23 @@ private fun PhotoDetailsScreenContent() {
 
 @Preview
 @Composable
-fun PhotoDetailsScreenPreview() {
-    PhotoDetailsScreenContent()
+private fun PhotoDetailsScreenPreview() {
+    PhotoDetailsScreenContent(
+        PhotoDetailsItem(
+            profileImage = "https://i.imgur.com/00000000000000000000000000000000.jpg",
+            profileName = "John Doe",
+            mainImage = "https://i.imgur.com/00000000000000000000000000000001.jpg",
+            thumbnailImage = "",
+            camera = "Canon EOS 5D Mark IV",
+            focalLength = "50mm",
+            aperture = "f/2.8",
+            shutterSpeed = "1/100",
+            iso = "100",
+            dimensions = "1920x1080",
+            views = "1000",
+            downloads = "100",
+            likes = "10",
+            tags = listOf("nature", "landscape", "mountains")
+        )
+    )
 }
