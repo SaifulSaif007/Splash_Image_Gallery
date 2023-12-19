@@ -105,9 +105,9 @@ class PhotoDetailsMapperKtTest {
             PhotoDetailsItem(
                 profileName = this.user.name,
                 profileImage = this.user.profileImage.small,
-                mainImage = this.urls.full,
+                mainImage = this.urls.regular,
                 thumbnailImage = this.urls.thumb,
-                camera = "${exif.camera} ${exif.model}",
+                camera = exif.model.trim(),
                 aperture = "f/${exif.aperture}",
                 focalLength = "${exif.focalLength}mm",
                 shutterSpeed = "${exif.exposureTime}s",

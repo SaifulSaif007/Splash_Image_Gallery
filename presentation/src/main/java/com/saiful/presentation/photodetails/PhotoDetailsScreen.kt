@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,6 +37,8 @@ import com.saiful.presentation.R
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.theme.AppColor
+import com.saiful.presentation.theme.photoDetailsChip
+import com.saiful.presentation.theme.photoDetailsInfo
 import com.saiful.presentation.theme.titleText
 import com.saiful.presentation.utils.TestTags
 
@@ -95,7 +98,7 @@ private fun PhotoDetailsScreenContent(photoDetailsItem: PhotoDetailsItem) {
             ) {
 
                 Row(
-                    modifier = Modifier.padding(2.dp),
+                    modifier = Modifier.padding(horizontal = 2.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     AsyncImage(
@@ -140,24 +143,18 @@ private fun PhotoDetailsScreenContent(photoDetailsItem: PhotoDetailsItem) {
                             .weight(1f)
                             .padding(horizontal = 6.dp)
                     ) {
-                        Text(text = "Camera")
-                        Text(text = photoDetailsItem.camera)
-                        Text(text = "Focal Length")
-                        Text(text = photoDetailsItem.focalLength)
-                        Text(text = "ISO")
-                        Text(text = photoDetailsItem.iso)
+                        ImageInfoCell(title = "Camera", info = photoDetailsItem.camera)
+                        ImageInfoCell(title = "Focal Length", info = photoDetailsItem.focalLength)
+                        ImageInfoCell(title = "ISO", info = photoDetailsItem.iso)
                     }
                     Column(
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 6.dp)
                     ) {
-                        Text(text = "Aperture")
-                        Text(text = photoDetailsItem.aperture)
-                        Text(text = "Shutter Speed")
-                        Text(text = photoDetailsItem.shutterSpeed)
-                        Text(text = "Dimensions")
-                        Text(text = photoDetailsItem.dimensions)
+                        ImageInfoCell(title = "Aperture", info = photoDetailsItem.aperture)
+                        ImageInfoCell(title = "Shutter Speed", info = photoDetailsItem.shutterSpeed)
+                        ImageInfoCell(title = "Dimensions", info = photoDetailsItem.dimensions)
                     }
                 }
 
@@ -177,22 +174,22 @@ private fun PhotoDetailsScreenContent(photoDetailsItem: PhotoDetailsItem) {
                         modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Views")
-                        Text(text = photoDetailsItem.views)
+                        UserInteractionInfoCell(title = "Views", info = photoDetailsItem.views)
                     }
                     Column(
                         modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Downloads")
-                        Text(text = photoDetailsItem.downloads)
+                        UserInteractionInfoCell(
+                            title = "Downloads",
+                            info = photoDetailsItem.downloads
+                        )
                     }
                     Column(
                         modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Likes")
-                        Text(text = photoDetailsItem.likes)
+                        UserInteractionInfoCell(title = "Likes", info = photoDetailsItem.likes)
                     }
                 }
 
@@ -210,33 +207,52 @@ private fun PhotoDetailsScreenContent(photoDetailsItem: PhotoDetailsItem) {
                         .horizontalScroll(rememberScrollState()),
                     horizontalArrangement = Arrangement.Absolute.spacedBy(4.dp)
                 ) {
-                    SuggestionChip(
-                        onClick = { },
-                        label = { Text(text = "diving") }
-                    )
-
-                    SuggestionChip(
-                        onClick = { },
-                        label = { Text(text = "ocean") }
-                    )
-
-                    SuggestionChip(
-                        onClick = { },
-                        label = { Text(text = "swimmer") }
-                    )
-
-                    SuggestionChip(
-                        onClick = { },
-                        label = { Text(text = "reef") }
-                    )
-
-                    SuggestionChip(
-                        onClick = { },
-                        label = { Text(text = "underwater") }
-                    )
+                    for (tags in photoDetailsItem.tags) {
+                        SuggestionChip(
+                            onClick = { },
+                            label = {
+                                Text(text = tags, style = MaterialTheme.typography.photoDetailsChip)
+                            }
+                        )
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ImageInfoCell(title: String, info: String) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 2.dp, vertical = 4.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = title, style = MaterialTheme.typography.photoDetailsInfo)
+        Text(
+            text = info,
+            style = MaterialTheme.typography.photoDetailsInfo,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+private fun UserInteractionInfoCell(title: String, info: String) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 2.dp, vertical = 4.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = title, style = MaterialTheme.typography.photoDetailsInfo)
+        Text(
+            text = info,
+            style = MaterialTheme.typography.photoDetailsInfo,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 
