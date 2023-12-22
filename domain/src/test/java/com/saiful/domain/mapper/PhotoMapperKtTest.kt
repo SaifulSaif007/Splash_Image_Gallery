@@ -3,10 +3,17 @@ package com.saiful.domain.mapper
 import androidx.paging.PagingData
 import androidx.paging.map
 import androidx.paging.testing.asSnapshot
-import com.saiful.data.model.*
-import com.saiful.data.model.home.*
-import com.saiful.domain.model.HomeItem
-import kotlinx.coroutines.flow.*
+import com.saiful.data.model.Links
+import com.saiful.data.model.ProfileImage
+import com.saiful.data.model.Social
+import com.saiful.data.model.User
+import com.saiful.data.model.photo.ContentLink
+import com.saiful.data.model.photo.Photo
+import com.saiful.data.model.photo.Urls
+import com.saiful.domain.model.PhotoItem
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -80,7 +87,8 @@ class PhotoMapperKtTest {
 
     private val expectedList = photos.map { pagingData ->
         pagingData.map {
-            HomeItem(
+            PhotoItem(
+                photoId = it.id,
                 profileImage = it.user.profileImage.small,
                 profileName = it.user.name,
                 sponsored = it.sponsorship != null,

@@ -1,6 +1,9 @@
 package com.saiful.domain.model
 
-data class HomeItem(
+import com.saiful.domain.usecase.photoId
+
+data class PhotoItem(
+    val photoId: photoId,
     val profileImage: String,
     val profileName: String,
     val sponsored: Boolean = false,

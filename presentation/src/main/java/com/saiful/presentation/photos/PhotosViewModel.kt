@@ -5,10 +5,12 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.saiful.core.ui.BaseViewModel
 import com.saiful.core.ui.ViewEvent
-import com.saiful.domain.model.HomeItem
+import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.GetPhotosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,9 +19,9 @@ internal class PhotosViewModel @Inject constructor(
     private val getPhotosUseCase: GetPhotosUseCase
 ) : BaseViewModel<PhotosContract.Event, PhotosContract.Effect>() {
 
-    private val _photoState: MutableStateFlow<PagingData<HomeItem>> =
+    private val _photoState: MutableStateFlow<PagingData<PhotoItem>> =
         MutableStateFlow(value = PagingData.empty())
-    val photoState: StateFlow<PagingData<HomeItem>> get() = _photoState
+    val photoState: StateFlow<PagingData<PhotoItem>> get() = _photoState
 
     init {
         loadData()
@@ -38,7 +40,13 @@ internal class PhotosViewModel @Inject constructor(
 
 
     override fun handleEvents(event: ViewEvent) {
-        //todo ->
+        when (event) {
+            is PhotosContract.Event.SelectPhoto -> {
+                setEffect {
+                    PhotosContract.Effect.Navigation.NavigateDetails(event.photoId)
+                }
+            }
+        }
     }
 
 }

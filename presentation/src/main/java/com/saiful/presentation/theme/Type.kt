@@ -54,3 +54,17 @@ val Typography.collectionSubtitle: TextStyle
         fontSize = 16.sp,
         color = AppColor.Background
     )
+
+val Typography.photoDetailsInfo: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+    )
+
+val Typography.photoDetailsChip: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+    )

@@ -1,6 +1,16 @@
 package com.saiful.presentation.composables
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.saiful.domain.model.HomeItem
+import com.saiful.domain.model.PhotoItem
+import com.saiful.domain.usecase.photoId
 import com.saiful.presentation.R
 import com.saiful.presentation.theme.primaryText
 import com.saiful.presentation.theme.titleText
@@ -29,7 +40,8 @@ import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 @Composable
 internal fun PhotoRowItem(
     modifier: Modifier = Modifier,
-    homeItem: HomeItem
+    photoItem: PhotoItem,
+    onItemClick: (photoId: photoId) -> Unit
 ) {
     Column(
         modifier.padding(8.dp)
@@ -39,7 +51,7 @@ internal fun PhotoRowItem(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(homeItem.profileImage)
+                    .data(photoItem.profileImage)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ic_profile),
@@ -56,14 +68,14 @@ internal fun PhotoRowItem(
             Column {
 
                 Text(
-                    text = homeItem.profileName,
+                    text = photoItem.profileName,
                     style = MaterialTheme.typography.titleText,
                     modifier = Modifier
                         .fillMaxWidth()
                         .testTag(PROFILE_NAME)
                 )
 
-                if (homeItem.sponsored) {
+                if (photoItem.sponsored) {
                     Text(
                         text = "Sponsored",
                         style = MaterialTheme.typography.primaryText,
@@ -80,12 +92,15 @@ internal fun PhotoRowItem(
         Row {
             Box(modifier = Modifier.clip(RoundedCornerShape(12.dp))) {
                 AsyncImageBlur(
-                    imageUrl = homeItem.mainImage,
-                    blurHash = homeItem.mainImageBlurHash,
-                    height = homeItem.mainImageHeight,
-                    width = homeItem.mainImageWidth,
+                    imageUrl = photoItem.mainImage,
+                    blurHash = photoItem.mainImageBlurHash,
+                    height = photoItem.mainImageHeight,
+                    width = photoItem.mainImageWidth,
                     modifier = Modifier
                         .fillMaxSize()
+                        .clickable {
+                            onItemClick(photoItem.photoId)
+                        }
                         .testTag(TestTags.MAIN_IMAGE)
                 )
             }
@@ -98,7 +113,8 @@ internal fun PhotoRowItem(
 @Composable
 private fun PhotoRowItemPreview() {
     PhotoRowItem(
-        homeItem = HomeItem(
+        photoItem = PhotoItem(
+            photoId = "1",
             profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
             profileName = "NEOM",
             sponsored = true,
@@ -106,6 +122,7 @@ private fun PhotoRowItemPreview() {
             mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
             mainImageWidth = 4,
             mainImageHeight = 3
-        )
+        ),
+        onItemClick = {}
     )
 }
