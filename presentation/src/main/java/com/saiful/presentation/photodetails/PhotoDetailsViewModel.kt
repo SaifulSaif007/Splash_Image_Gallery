@@ -2,7 +2,7 @@ package com.saiful.presentation.photodetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.saiful.core.components.logger.logError
+import com.saiful.core.domain.DomainException
 import com.saiful.core.domain.Result
 import com.saiful.core.ui.BaseViewModel
 import com.saiful.core.ui.ViewEvent
@@ -22,8 +22,6 @@ internal class PhotoDetailsViewModel @Inject constructor(
 ) : BaseViewModel<PhotoDetailsContract.Event, PhotoDetailsContract.Effect>() {
 
     private val userId: String = checkNotNull(savedStateHandle[PHOTO_ID])
-    private val _photoDetails: MutableStateFlow<PhotoDetailsItem?> =
-        MutableStateFlow(value = null)
 
     val uiState: MutableStateFlow<UIState> = MutableStateFlow(value = UIState.Loading)
 
@@ -35,17 +33,14 @@ internal class PhotoDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = photoDetailsUseCase(photoId)) {
                 is Result.Success -> {
-                    _photoDetails.value = result.data
+                    uiState.value = UIState.Success(photoDetails = result.data)
                 }
 
-                is Result.Error -> logError(msg = result.error.error)
+                is Result.Error -> {
+                    uiState.value = UIState.Error(result.error)
+                }
             }
 
-            uiState.value = if (_photoDetails.value != null) {
-                UIState.Success(photoDetails = _photoDetails.value!!)
-            } else {
-                UIState.Error
-            }
         }
     }
 
@@ -59,5 +54,5 @@ sealed class UIState {
         val photoDetails: PhotoDetailsItem
     ) : UIState()
 
-    object Error : UIState()
+    data class Error(val exception: DomainException) : UIState()
 }
