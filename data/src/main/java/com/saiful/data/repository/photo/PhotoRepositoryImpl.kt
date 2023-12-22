@@ -1,6 +1,9 @@
 package com.saiful.data.repository.photo
 
-import androidx.paging.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.saiful.core.components.logger.logError
 import com.saiful.core.domain.Result
 import com.saiful.core.utils.ErrorMapper
 import com.saiful.data.model.photo.Photo
@@ -33,6 +36,7 @@ internal class PhotoRepositoryImpl @Inject constructor(
         return try {
             Result.Success(apiService.photoDetails(photoId))
         } catch (ex: Exception) {
+            logError(msg = ex.toString())
             Result.Error(errorMapper.toDomainException(ex))
         }
     }
