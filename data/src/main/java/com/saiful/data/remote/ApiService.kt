@@ -15,14 +15,22 @@ internal interface ApiService {
         @Query("per_page") pageSize: Int,
     ): List<Photo>
 
+    @GET("photos/{photoId}")
+    suspend fun photoDetails(
+        @Path("photoId") photoId: String
+    ): PhotoDetails
+
     @GET("collections")
     suspend fun collections(
         @Query("page") page: Int,
         @Query("per_page") pageSize: Int,
     ): List<Collection>
 
-    @GET("photos/{photoId}")
-    suspend fun photoDetails(
-        @Path("photoId") photoId: String
-    ): PhotoDetails
+    @GET("collections/{collectionId}/photos")
+    suspend fun collectionPhotos(
+        @Path("collectionId") collectionId: String,
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int
+    ): List<Photo>
+
 }

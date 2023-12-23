@@ -3,11 +3,20 @@ package com.saiful.data.repository.collection
 import androidx.paging.LoadState
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.*
-import com.saiful.data.model.*
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.reset
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import com.saiful.data.model.Links
+import com.saiful.data.model.ProfileImage
+import com.saiful.data.model.Social
+import com.saiful.data.model.User
 import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.collection.CollectionLinks
-import com.saiful.data.model.photo.*
+import com.saiful.data.model.photo.ContentLink
+import com.saiful.data.model.photo.Photo
+import com.saiful.data.model.photo.Urls
 import com.saiful.data.remote.ApiService
 import com.saiful.test.unit.BaseRepositoryTest
 import kotlinx.coroutines.test.runTest
@@ -20,7 +29,8 @@ class CollectionRepositoryImplTest : BaseRepositoryTest() {
     private val page: Int = 1
     private val pageSize: Int = 10
     private lateinit var collectionRepository: CollectionRepository
-    private lateinit var response: List<Collection>
+    private lateinit var collectionResponse: List<Collection>
+    private lateinit var collectionPhotoResponse: List<Photo>
 
     override fun setup() {
         collectionRepository = CollectionRepositoryImpl(
@@ -88,7 +98,7 @@ class CollectionRepositoryImplTest : BaseRepositoryTest() {
             description = "description"
         )
 
-        response = listOf(
+        collectionResponse = listOf(
             Collection(
                 id = "1",
                 coverPhoto = photo,
@@ -112,6 +122,10 @@ class CollectionRepositoryImplTest : BaseRepositoryTest() {
                 user = user
             )
         )
+
+        collectionPhotoResponse = listOf(
+            photo
+        )
     }
 
     override fun tearDown() {
@@ -125,10 +139,10 @@ class CollectionRepositoryImplTest : BaseRepositoryTest() {
                 apiService.collections(
                     page = page, pageSize = pageSize
                 )
-            ).thenReturn(response)
+            ).thenReturn(collectionResponse)
 
             val res = collectionRepository.collectionList().asSnapshot()
-            assert(res == response)
+            assert(res == collectionResponse)
 
             verify(
                 apiService, times(1)
@@ -157,6 +171,52 @@ class CollectionRepositoryImplTest : BaseRepositoryTest() {
             verify(
                 apiService, times(1)
             ).collections(page = page, pageSize = pageSize)
+        }
+    }
+
+    @Test
+    fun `verify collection photo fetch is successful`() {
+        runTest {
+            whenever(
+                apiService.collectionPhotos(
+                    collectionId = "1",
+                    page = page,
+                    pageSize = pageSize
+                )
+            ).thenReturn(collectionPhotoResponse)
+
+            val res = collectionRepository.collectionPhotos("1").asSnapshot()
+            assert(res == collectionPhotoResponse)
+
+            verify(
+                apiService, times(1)
+            ).collectionPhotos(collectionId = "1", page = page, pageSize = pageSize)
+        }
+    }
+
+    @Test
+    fun `verify collection photo fetch is not successful`() {
+        runTest {
+            whenever(
+                apiService.collectionPhotos(
+                    collectionId = "1",
+                    page = page,
+                    pageSize = pageSize
+                )
+            ).thenThrow(RuntimeException("Something went wrong"))
+
+            val res = collectionRepository.collectionPhotos("1").asSnapshot(
+                onError = { loadState ->
+                    assert(loadState.refresh is LoadState.Error)
+                    ErrorRecovery.RETURN_CURRENT_SNAPSHOT
+                }
+            )
+
+            assert(res.isEmpty())
+
+            verify(
+                apiService, times(1)
+            ).collectionPhotos(collectionId = "1", page = page, pageSize = pageSize)
         }
     }
 }
