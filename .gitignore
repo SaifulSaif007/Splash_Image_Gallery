@@ -20,3 +20,4 @@ local.properties
 build/
 gradle.properties
 
+/app/release/output-metadata.json
