@@ -38,14 +38,18 @@ internal class CollectionPhotosViewModel @Inject constructor(
             collectionPhotoUseCase(collectionId)
                 .distinctUntilChanged()
                 .cachedIn(viewModelScope)
-                .collect{
+                .collect {
                     _photoState.value = it
                 }
         }
     }
 
     override fun handleEvents(event: ViewEvent) {
-        //TODO
+        when (event) {
+            is CollectionPhotosContract.Event.SelectPhoto -> {
+                setEffect { CollectionPhotosContract.Effect.Navigation.ToPhotoDetail(event.photoId) }
+            }
+        }
     }
 
 }

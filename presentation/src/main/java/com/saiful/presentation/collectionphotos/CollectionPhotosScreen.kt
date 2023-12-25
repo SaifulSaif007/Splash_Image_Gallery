@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -17,19 +18,36 @@ import com.saiful.domain.model.PhotoItem
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.composables.PhotoRowItem
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 internal fun CollectionPhotosScreen(
-    viewModel: CollectionPhotosViewModel = hiltViewModel()
+    viewModel: CollectionPhotosViewModel = hiltViewModel(),
+    onNavigationRequest: (CollectionPhotosContract.Effect.Navigation) -> Unit
 ) {
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.effect.onEach { effect ->
+            when (effect) {
+                is CollectionPhotosContract.Effect.Navigation -> {
+                    onNavigationRequest(effect)
+                }
+            }
+        }.collect()
+    }
+
     val photos = viewModel.photoState.collectAsLazyPagingItems()
-    CollectionPhotosScreenContent(photos)
+    CollectionPhotosScreenContent(photos) { event ->
+        viewModel.setEvent(event)
+    }
 }
 
 @Composable
 private fun CollectionPhotosScreenContent(
     photos: LazyPagingItems<PhotoItem>,
+    onEvent: (CollectionPhotosContract.Event) -> Unit
 ) {
     LazyColumn {
         items(photos.itemCount) { index ->
@@ -45,7 +63,7 @@ private fun CollectionPhotosScreenContent(
                     mainImageWidth = photos[index]!!.mainImageWidth
                 )
             ) { photoId ->
-                //TODO
+                onEvent(CollectionPhotosContract.Event.SelectPhoto(photoId))
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -117,5 +135,6 @@ private fun CollectionPhotosScreenPreview() {
                 )
             ),
         ).collectAsLazyPagingItems(),
+        onEvent = {}
     )
 }

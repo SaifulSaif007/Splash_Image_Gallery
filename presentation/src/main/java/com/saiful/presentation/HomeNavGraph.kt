@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.saiful.core.domain.DomainException
+import com.saiful.presentation.collectionphotos.CollectionPhotosContract
 import com.saiful.presentation.collectionphotos.CollectionPhotosScreen
 import com.saiful.presentation.photodetails.PhotoDetailsScreen
 import com.saiful.presentation.utils.Constants.COLLECTION_ID
@@ -62,9 +63,16 @@ fun NavGraphBuilder.homeNavGraph(
         }
 
         composable(
-            route = HomeNavRoute.CollectionPhotos.route
+            route = HomeNavRoute.CollectionPhotos.route,
+            arguments = listOf(navArgument(COLLECTION_ID) { type = NavType.StringType })
         ) {
-            CollectionPhotosScreen()
+            CollectionPhotosScreen { navigationRequest ->
+                when (navigationRequest) {
+                    is CollectionPhotosContract.Effect.Navigation.ToPhotoDetail -> {
+                        navController.navigate(HomeNavRoute.PhotoDetails.createRoute(navigationRequest.photoId))
+                    }
+                }
+            }
         }
     }
 }
