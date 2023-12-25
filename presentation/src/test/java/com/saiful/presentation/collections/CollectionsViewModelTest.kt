@@ -1,14 +1,22 @@
 package com.saiful.presentation.collections
 
-import androidx.paging.*
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.only
+import com.nhaarman.mockito_kotlin.reset
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.domain.model.CollectionItem
 import com.saiful.domain.usecase.GetCollectionUseCase
 import com.saiful.test.unit.BaseViewModelTest
 import com.saiful.test.unit.rules.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -29,6 +37,7 @@ class CollectionsViewModelTest : BaseViewModelTest() {
             PagingData.from(
                 listOf(
                     CollectionItem(
+                        collectionId = "1",
                         mainImage = "",
                         mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
                         profileImage = "",
@@ -39,6 +48,7 @@ class CollectionsViewModelTest : BaseViewModelTest() {
                         mainImageWidth = 3
                     ),
                     CollectionItem(
+                        collectionId = "2",
                         mainImage = "",
                         mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
                         profileImage = "",

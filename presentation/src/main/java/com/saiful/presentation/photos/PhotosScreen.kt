@@ -31,7 +31,7 @@ internal fun PhotosScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is PhotosContract.Effect.Navigation.NavigateDetails -> {
+                is PhotosContract.Effect.Navigation.ToPhotoDetails -> {
                     navigationRequest(effect.photoId)
                 }
             }

@@ -43,7 +43,7 @@ internal class PhotosViewModel @Inject constructor(
         when (event) {
             is PhotosContract.Event.SelectPhoto -> {
                 setEffect {
-                    PhotosContract.Effect.Navigation.NavigateDetails(event.photoId)
+                    PhotosContract.Effect.Navigation.ToPhotoDetails(event.photoId)
                 }
             }
         }

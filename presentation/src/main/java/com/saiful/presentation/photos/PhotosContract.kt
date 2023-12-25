@@ -11,7 +11,7 @@ internal class PhotosContract {
 
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
-            data class NavigateDetails(val photoId: photoId) : Navigation()
+            data class ToPhotoDetails(val photoId: photoId) : Navigation()
         }
     }
 }
