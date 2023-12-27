@@ -23,6 +23,7 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     private val photoDetailsUseCase: GetPhotoDetailsUseCase = mock()
     private lateinit var viewModel: PhotoDetailsViewModel
     private lateinit var photoDetailsItem: PhotoDetailsItem
+    private val photoId = "1"
 
     override fun setup() {
         photoDetailsItem = PhotoDetailsItem(
@@ -52,7 +53,7 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
         viewModel = PhotoDetailsViewModel(
             photoDetailsUseCase = photoDetailsUseCase,
             savedStateHandle = SavedStateHandle().apply {
-                this[Constants.PHOTO_ID] = "1"
+                this[Constants.PHOTO_ID] = photoId
             }
         )
     }
@@ -60,7 +61,7 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     @Test
     fun `verify get photo load photo details`() {
         runTest {
-            whenever(photoDetailsUseCase("1")).thenReturn(
+            whenever(photoDetailsUseCase(photoId)).thenReturn(
                 Result.Success(photoDetailsItem)
             )
 
@@ -75,7 +76,7 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     @Test
     fun `verify get photo load error`() {
         runTest {
-            whenever(photoDetailsUseCase("1")).thenReturn(
+            whenever(photoDetailsUseCase(photoId)).thenReturn(
                 Result.Error(domainException)
             )
             initViewModel()
