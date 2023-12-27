@@ -41,7 +41,7 @@ import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 internal fun PhotoRowItem(
     modifier: Modifier = Modifier,
     photoItem: PhotoItem,
-    onItemClick: (photoId: photoId) -> Unit
+    onItemClick: (photoId) -> Unit
 ) {
     Column(
         modifier.padding(8.dp)

@@ -1,8 +1,10 @@
 package com.saiful.presentation.composables
 
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.saiful.domain.model.CollectionItem
 import com.saiful.presentation.R
@@ -25,6 +27,7 @@ class CollectionRowItemKtTest {
     fun `verify CollectionRowItem shows properly`() {
         with(rule) {
             collectionItem = CollectionItem(
+                collectionId = "1",
                 profileImage = "",
                 profileName = "NEOM",
                 mainImage = "",

@@ -8,7 +8,9 @@ import com.saiful.core.ui.ViewEvent
 import com.saiful.domain.model.CollectionItem
 import com.saiful.domain.usecase.GetCollectionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,6 +41,12 @@ internal class CollectionsViewModel @Inject constructor(
     }
 
     override fun handleEvents(event: ViewEvent) {
-        //TODO
+        when (event) {
+            is CollectionsContract.Event.SelectCollection -> {
+                setEffect {
+                    CollectionsContract.Effect.Navigation.ToCollectionDetails(event.collectionId)
+                }
+            }
+        }
     }
 }

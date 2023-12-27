@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.saiful.core.domain.DomainException
+import com.saiful.domain.usecase.collectionId
 import com.saiful.domain.usecase.photoId
 import com.saiful.presentation.collections.CollectionsScreen
 import com.saiful.presentation.photos.PhotosScreen
@@ -27,7 +28,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     onError: (DomainException) -> Unit,
-    navigationRequest: (photoId) -> Unit
+    onNavigateToPhotoDetails: (photoId) -> Unit,
+    onNavigateToCollectionPhotos: (collectionId) -> Unit
 ) {
 
     val pagerState = rememberPagerState()
@@ -66,8 +68,8 @@ fun HomeScreen(
             state = pagerState
         ) { page ->
             when (page) {
-                0 -> PhotosScreen(navigationRequest = navigationRequest)
-                1 -> CollectionsScreen()
+                0 -> PhotosScreen(navigationRequest = onNavigateToPhotoDetails)
+                1 -> CollectionsScreen(navigationRequest = onNavigateToCollectionPhotos)
             }
         }
     }
@@ -76,5 +78,9 @@ fun HomeScreen(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(onError = {}, navigationRequest = {})
+    HomeScreen(
+        onError = {},
+        onNavigateToPhotoDetails = {},
+        onNavigateToCollectionPhotos = {}
+    )
 }

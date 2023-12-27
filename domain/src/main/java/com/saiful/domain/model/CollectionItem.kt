@@ -1,6 +1,7 @@
 package com.saiful.domain.model
 
 data class CollectionItem(
+    val collectionId: String,
     val profileImage: String,
     val profileName: String,
     val mainImage: String,

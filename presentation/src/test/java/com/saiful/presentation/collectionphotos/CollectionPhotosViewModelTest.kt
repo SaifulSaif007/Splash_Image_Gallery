@@ -1,5 +1,6 @@
-package com.saiful.presentation.photos
+package com.saiful.presentation.collectionphotos
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
@@ -10,7 +11,8 @@ import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.domain.model.PhotoItem
-import com.saiful.domain.usecase.GetPhotosUseCase
+import com.saiful.domain.usecase.GetCollectionPhotoUseCase
+import com.saiful.presentation.utils.Constants
 import com.saiful.test.unit.BaseViewModelTest
 import com.saiful.test.unit.rules.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,15 +24,14 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class PhotosViewModelTest : BaseViewModelTest() {
-
+class CollectionPhotosViewModelTest : BaseViewModelTest() {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val photosUseCase: GetPhotosUseCase = mock()
-    private lateinit var viewModel: PhotosViewModel
-
+    private val collectionPhotoUseCase: GetCollectionPhotoUseCase = mock()
+    private lateinit var viewModel: CollectionPhotosViewModel
     private lateinit var flowPagingData: Flow<PagingData<PhotoItem>>
+    private val collectionId = "1"
 
     override fun setup() {
         flowPagingData = flowOf(
@@ -62,32 +63,40 @@ class PhotosViewModelTest : BaseViewModelTest() {
     }
 
     override fun tearDown() {
-        reset(photosUseCase)
+        reset(collectionPhotoUseCase)
     }
 
     private fun initViewModel() {
-        viewModel = PhotosViewModel(photosUseCase)
+        viewModel = CollectionPhotosViewModel(
+            collectionPhotoUseCase = collectionPhotoUseCase,
+            savedStateHandle = SavedStateHandle().apply {
+                this[Constants.COLLECTION_ID] = collectionId
+            }
+        )
     }
 
     @Test
-    fun `load data gets flow pager data`() {
+    fun `get collection photos returns paging data`() {
         runTest {
-            whenever(photosUseCase(Unit)).thenReturn(flowPagingData)
+            whenever(
+                collectionPhotoUseCase(collectionId)
+            ).thenReturn(flowPagingData)
 
             initViewModel()
 
             val result = flowOf(viewModel.photoState.first()).asSnapshot()
-
-            verify(photosUseCase, only()).invoke(Unit)
+            verify(collectionPhotoUseCase, only()).invoke(collectionId)
             assert(result.isNotEmpty())
             assert(result.size == 2)
         }
     }
 
     @Test
-    fun `load data gets exception flow pager data`() {
+    fun `get collection photos returns empty paging data`() {
         runTest {
-            whenever(photosUseCase(Unit)).thenReturn(
+            whenever(
+                collectionPhotoUseCase(collectionId)
+            ).thenReturn(
                 flowOf(
                     PagingData.from(
                         data = emptyList(),
@@ -104,18 +113,21 @@ class PhotosViewModelTest : BaseViewModelTest() {
 
             val result = flowOf(viewModel.photoState.first()).asSnapshot()
 
-            verify(photosUseCase, only()).invoke(Unit)
+            verify(collectionPhotoUseCase, only()).invoke(collectionId)
             assert(result.isEmpty())
         }
     }
 
+
     @Test
     fun `verify select photo event`() {
         runTest {
-            `load data gets flow pager data`()
+            `get collection photos returns paging data`()
 
-            viewModel.setEvent(PhotosContract.Event.SelectPhoto("1"))
-            assert(viewModel.effect.first() is PhotosContract.Effect.Navigation.ToPhotoDetails)
+            viewModel.setEvent(CollectionPhotosContract.Event.SelectPhoto("1"))
+
+            assert(viewModel.effect.first() is CollectionPhotosContract.Effect.Navigation.ToPhotoDetail)
+
         }
     }
 

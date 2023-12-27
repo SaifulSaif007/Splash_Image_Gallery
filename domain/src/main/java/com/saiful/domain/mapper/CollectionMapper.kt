@@ -11,6 +11,7 @@ internal fun Flow<PagingData<Collection>>.toCollectionItem() =
     this.map { pagingData ->
         pagingData.map {
             CollectionItem(
+                collectionId = it.id,
                 profileImage = it.user.profileImage.small,
                 profileName = it.user.name,
                 mainImage = it.coverPhoto.urls.regular,

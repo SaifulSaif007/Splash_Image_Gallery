@@ -1,7 +1,18 @@
 package com.saiful.presentation.composables
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -22,8 +33,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.saiful.domain.model.CollectionItem
+import com.saiful.domain.usecase.collectionId
 import com.saiful.presentation.R
-import com.saiful.presentation.theme.*
+import com.saiful.presentation.theme.AppColor
+import com.saiful.presentation.theme.collectionSubtitle
+import com.saiful.presentation.theme.collectionTitle
+import com.saiful.presentation.theme.titleText
 import com.saiful.presentation.utils.TestTags
 import com.saiful.presentation.utils.TestTags.COLLECTION_TITLE
 import com.saiful.presentation.utils.TestTags.COLLECTION_TOTAL_PHOTOS
@@ -32,7 +47,8 @@ import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 @Composable
 internal fun CollectionRowItem(
     modifier: Modifier = Modifier,
-    collectionItem: CollectionItem
+    collectionItem: CollectionItem,
+    onItemClick: (collectionId) -> Unit = {}
 ) {
     Column(
         modifier.padding(8.dp)
@@ -79,6 +95,9 @@ internal fun CollectionRowItem(
                     width = collectionItem.mainImageWidth,
                     modifier = Modifier
                         .fillMaxSize()
+                        .clickable {
+                            onItemClick(collectionItem.collectionId)
+                        }
                         .testTag(MAIN_IMAGE)
                 )
 
@@ -127,6 +146,7 @@ private fun CollectionRowItemPreview() {
     CollectionRowItem(
         collectionItem =
         CollectionItem(
+            collectionId = "1",
             profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
             profileName = "NEOM",
             mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",

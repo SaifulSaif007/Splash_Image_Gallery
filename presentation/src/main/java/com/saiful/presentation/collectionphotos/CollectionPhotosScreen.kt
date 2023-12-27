@@ -1,4 +1,4 @@
-package com.saiful.presentation.photos
+package com.saiful.presentation.collectionphotos
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +15,6 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.PhotoItem
-import com.saiful.domain.usecase.photoId
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.composables.PhotoRowItem
@@ -24,32 +23,32 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
 
 @Composable
-internal fun PhotosScreen(
-    viewModel: PhotosViewModel = hiltViewModel(),
-    navigationRequest: (photoId) -> Unit
+internal fun CollectionPhotosScreen(
+    viewModel: CollectionPhotosViewModel = hiltViewModel(),
+    onNavigationRequest: (CollectionPhotosContract.Effect.Navigation) -> Unit
 ) {
+
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is PhotosContract.Effect.Navigation.ToPhotoDetails -> {
-                    navigationRequest(effect.photoId)
+                is CollectionPhotosContract.Effect.Navigation -> {
+                    onNavigationRequest(effect)
                 }
             }
         }.collect()
     }
 
     val photos = viewModel.photoState.collectAsLazyPagingItems()
-    PhotoScreenContent(
-        photos = photos
-    ) { event -> viewModel.setEvent(event) }
+    CollectionPhotosScreenContent(photos) { event ->
+        viewModel.setEvent(event)
+    }
 }
 
 @Composable
-private fun PhotoScreenContent(
+private fun CollectionPhotosScreenContent(
     photos: LazyPagingItems<PhotoItem>,
-    onEvent: (event: PhotosContract.Event) -> Unit
+    onEvent: (CollectionPhotosContract.Event) -> Unit
 ) {
-
     LazyColumn {
         items(photos.itemCount) { index ->
             PhotoRowItem(
@@ -64,7 +63,7 @@ private fun PhotoScreenContent(
                     mainImageWidth = photos[index]!!.mainImageWidth
                 )
             ) { photoId ->
-                onEvent(PhotosContract.Event.SelectPhoto(photoId))
+                onEvent(CollectionPhotosContract.Event.SelectPhoto(photoId))
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -102,14 +101,14 @@ private fun PhotoScreenContent(
 
             is LoadState.NotLoading -> {}
         }
-
     }
+
 }
 
 @Preview
 @Composable
-private fun PhotoScreenContentPreview() {
-    PhotoScreenContent(
+private fun CollectionPhotosScreenPreview() {
+    CollectionPhotosScreenContent(
         photos = flowOf(
             PagingData.from(
                 data = listOf(

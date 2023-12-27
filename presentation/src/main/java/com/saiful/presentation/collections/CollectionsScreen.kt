@@ -1,8 +1,11 @@
 package com.saiful.presentation.collections
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -12,25 +15,46 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.CollectionItem
-import com.saiful.presentation.composables.*
+import com.saiful.domain.usecase.collectionId
+import com.saiful.presentation.composables.CollectionRowItem
+import com.saiful.presentation.composables.ErrorView
+import com.saiful.presentation.composables.LoadingView
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 internal fun CollectionsScreen(
-    viewModel: CollectionsViewModel = hiltViewModel()
+    viewModel: CollectionsViewModel = hiltViewModel(),
+    navigationRequest: (collectionId) -> Unit
 ) {
+    LaunchedEffect(key1 = Unit) {
+        viewModel.effect.onEach { effect ->
+            when (effect) {
+                is CollectionsContract.Effect.Navigation.ToCollectionDetails -> navigationRequest(
+                    effect.collectionId
+                )
+            }
+        }.collect()
+    }
+
     val collections = viewModel.collectionState.collectAsLazyPagingItems()
-    CollectionScreenContent(collections = collections)
+    CollectionScreenContent(
+        collections = collections
+    ) { event -> viewModel.setEvent(event) }
 
 }
 
 @Composable
-fun CollectionScreenContent(collections: LazyPagingItems<CollectionItem>) {
-
+private fun CollectionScreenContent(
+    collections: LazyPagingItems<CollectionItem>,
+    onEvent: (CollectionsContract.Event) -> Unit
+) {
     LazyColumn {
         items(collections.itemCount) { index ->
             CollectionRowItem(
                 collectionItem = CollectionItem(
+                    collectionId = collections[index]!!.collectionId,
                     profileImage = collections[index]!!.profileImage,
                     profileName = collections[index]!!.profileName,
                     mainImage = collections[index]!!.mainImage,
@@ -40,7 +64,10 @@ fun CollectionScreenContent(collections: LazyPagingItems<CollectionItem>) {
                     title = collections[index]!!.title,
                     totalPhoto = collections[index]!!.totalPhoto
                 )
-            )
+            ) { collectionId ->
+                onEvent(CollectionsContract.Event.SelectCollection(collectionId))
+            }
+
             Spacer(modifier = Modifier.height(10.dp))
         }
 
@@ -88,6 +115,7 @@ private fun CollectionScreenContentPreview() {
             PagingData.from(
                 listOf(
                     CollectionItem(
+                        collectionId = "1",
                         mainImage = "",
                         mainImageBlurHash = "",
                         mainImageHeight = 3,
@@ -98,6 +126,7 @@ private fun CollectionScreenContentPreview() {
                         totalPhoto = 10
                     ),
                     CollectionItem(
+                        collectionId = "2",
                         mainImage = "",
                         mainImageBlurHash = "",
                         mainImageHeight = 3,
@@ -109,6 +138,7 @@ private fun CollectionScreenContentPreview() {
                     )
                 )
             )
-        ).collectAsLazyPagingItems()
+        ).collectAsLazyPagingItems(),
+        onEvent = {}
     )
 }
