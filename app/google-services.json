@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "196066632820",
+    "project_id": "image-gallery-fdacd",
+    "storage_bucket": "image-gallery-fdacd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196066632820:android:5c68a652727f6f68de9d21",
+        "android_client_info": {
+          "package_name": "com.saiful.splashgallery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiZ0JnvcKcyDJK9Gsgn8MgRbPcC7xthf0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

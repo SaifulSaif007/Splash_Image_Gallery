@@ -28,6 +28,9 @@ mockito = "5.2.0"
 mockito-kotlin = "1.5.0"
 pagination = "3.2.1"
 paging-compose = "1.0.0-alpha20"
+google-service = "4.4.0"
+crashlytics = "2.9.9"
+firebase-bom = "32.7.0"
 
 [libraries]
 
@@ -66,6 +69,10 @@ coil-image-loader = { group = "io.coil-kt", name = "coil-compose", version.ref =
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagination" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
 
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
 espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
@@ -92,3 +99,5 @@ org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.re
 org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-bom" }
 hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt-pluging" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm" }
+gms-google-service = { id = "com.google.gms.google-services", version.ref = "google-service" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }

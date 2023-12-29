@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
+    alias(libs.plugins.gms.google.service)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -70,6 +72,9 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(libs.android.splash.screen)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
@@ -78,5 +83,5 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.compose.ui.test)
-    
+
 }
