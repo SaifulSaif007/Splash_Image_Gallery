@@ -11,6 +11,7 @@ import com.saiful.presentation.utils.Constants
 import com.saiful.test.unit.BaseViewModelTest
 import com.saiful.test.unit.rules.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -83,6 +84,16 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             val result = viewModel.uiState.value
             assert(result is UIState.Error)
             assert((result as UIState.Error).exception == domainException)
+        }
+    }
+
+    @Test
+    fun `verify navigate up event`() {
+        runTest {
+            initViewModel()
+            viewModel.setEvent(PhotoDetailsContract.Event.NavigateUp)
+
+            assert(viewModel.effect.first() is PhotoDetailsContract.Effect.NavigateUp)
         }
     }
 }

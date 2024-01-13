@@ -59,7 +59,9 @@ fun NavGraphBuilder.homeNavGraph(
             route = HomeNavRoute.PhotoDetails.route,
             arguments = listOf(navArgument(PHOTO_ID) { type = NavType.StringType })
         ) {
-            PhotoDetailsScreen()
+            PhotoDetailsScreen {
+                navController.navigateUp()
+            }
         }
 
         composable(
@@ -69,7 +71,11 @@ fun NavGraphBuilder.homeNavGraph(
             CollectionPhotosScreen { navigationRequest ->
                 when (navigationRequest) {
                     is CollectionPhotosContract.Effect.Navigation.ToPhotoDetail -> {
-                        navController.navigate(HomeNavRoute.PhotoDetails.createRoute(navigationRequest.photoId))
+                        navController.navigate(
+                            HomeNavRoute.PhotoDetails.createRoute(
+                                navigationRequest.photoId
+                            )
+                        )
                     }
                 }
             }

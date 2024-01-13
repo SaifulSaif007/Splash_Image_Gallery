@@ -44,7 +44,13 @@ internal class PhotoDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun handleEvents(event: ViewEvent) {}
+    override fun handleEvents(event: ViewEvent) {
+        when (event) {
+            is PhotoDetailsContract.Event.NavigateUp -> {
+                setEffect { PhotoDetailsContract.Effect.NavigateUp }
+            }
+        }
+    }
 
 }
 
