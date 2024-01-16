@@ -32,6 +32,10 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
     private lateinit var viewModel: CollectionPhotosViewModel
     private lateinit var flowPagingData: Flow<PagingData<PhotoItem>>
     private val collectionId = "1"
+    private val collectionTitle = "collection-title"
+    private val collectionDesc = "collection-desc"
+    private val collectionTotalPhotos = "10"
+    private val collectionAuthor = "author"
 
     override fun setup() {
         flowPagingData = flowOf(
@@ -71,6 +75,10 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
             collectionPhotoUseCase = collectionPhotoUseCase,
             savedStateHandle = SavedStateHandle().apply {
                 this[Constants.COLLECTION_ID] = collectionId
+                this[Constants.COLLECTION_TITLE] = collectionTitle
+                this[Constants.COLLECTION_DESCRIPTION] = collectionDesc
+                this[Constants.COLLECTION_PHOTO_COUNT] = collectionTotalPhotos
+                this[Constants.COLLECTION_AUTHOR] = collectionAuthor
             }
         )
     }
@@ -128,6 +136,17 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
 
             assert(viewModel.effect.first() is CollectionPhotosContract.Effect.Navigation.ToPhotoDetail)
 
+        }
+    }
+
+    @Test
+    fun `verify navigate back event`() {
+        runTest {
+            `get collection photos returns paging data`()
+
+            viewModel.setEvent(CollectionPhotosContract.Event.NavigateBack)
+
+            assert(viewModel.effect.first() is CollectionPhotosContract.Effect.Navigation.NavigateBack)
         }
     }
 

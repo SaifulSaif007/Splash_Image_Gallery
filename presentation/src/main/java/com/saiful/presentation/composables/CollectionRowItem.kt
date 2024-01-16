@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.saiful.domain.model.CollectionItem
-import com.saiful.domain.usecase.collectionId
 import com.saiful.presentation.R
 import com.saiful.presentation.theme.AppColor
 import com.saiful.presentation.theme.collectionSubtitle
@@ -48,7 +47,7 @@ import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 internal fun CollectionRowItem(
     modifier: Modifier = Modifier,
     collectionItem: CollectionItem,
-    onItemClick: (collectionId) -> Unit = {}
+    onItemClick: (String, String, String, Int, String) -> Unit
 ) {
     Column(
         modifier.padding(8.dp)
@@ -96,7 +95,13 @@ internal fun CollectionRowItem(
                     modifier = Modifier
                         .fillMaxSize()
                         .clickable {
-                            onItemClick(collectionItem.collectionId)
+                            onItemClick(
+                                collectionItem.collectionId,
+                                collectionItem.title,
+                                collectionItem.description,
+                                collectionItem.totalPhoto,
+                                collectionItem.profileName
+                            )
                         }
                         .testTag(MAIN_IMAGE)
                 )
@@ -154,7 +159,8 @@ private fun CollectionRowItemPreview() {
             mainImageWidth = 6,
             mainImageHeight = 3,
             title = "Sad",
-            totalPhoto = 127
+            description = "Description",
+            totalPhoto = 127,
         )
-    )
+    ) { _, _, _, _, _ -> }
 }

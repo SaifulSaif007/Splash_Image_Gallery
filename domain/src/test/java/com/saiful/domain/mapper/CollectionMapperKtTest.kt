@@ -120,7 +120,8 @@ class CollectionMapperKtTest {
                 mainImageHeight = ((it.coverPhoto.height.toDouble() / it.coverPhoto.width.toDouble()) * 10).toInt(),
                 mainImageWidth = (it.coverPhoto.width / it.coverPhoto.width) * 10,
                 title = it.title,
-                totalPhoto = it.totalPhotos
+                totalPhoto = it.totalPhotos,
+                description = it.description ?: "",
             )
         }
     }

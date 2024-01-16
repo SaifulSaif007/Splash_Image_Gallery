@@ -35,12 +35,15 @@ class CollectionRowItemKtTest {
                 title = "Sad",
                 totalPhoto = 124,
                 mainImageHeight = 4,
-                mainImageWidth = 3
+                mainImageWidth = 3,
+                description = "desc"
             )
 
 
             setContent {
-                CollectionRowItem(collectionItem = collectionItem)
+                CollectionRowItem(
+                    collectionItem = collectionItem,
+                    onItemClick = { _, _, _, _, _ -> })
                 totalPhotosPrefix =
                     stringResource(id = R.string.total_photos, collectionItem.totalPhoto)
             }

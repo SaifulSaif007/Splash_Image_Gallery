@@ -45,7 +45,8 @@ class CollectionsViewModelTest : BaseViewModelTest() {
                         title = "City",
                         totalPhoto = 10,
                         mainImageHeight = 4,
-                        mainImageWidth = 3
+                        mainImageWidth = 3,
+                        description = "desc"
                     ),
                     CollectionItem(
                         collectionId = "2",
@@ -56,7 +57,8 @@ class CollectionsViewModelTest : BaseViewModelTest() {
                         title = "Adventure",
                         totalPhoto = 101,
                         mainImageHeight = 4,
-                        mainImageWidth = 3
+                        mainImageWidth = 3,
+                        description = "desc"
                     )
                 )
             )

@@ -9,5 +9,6 @@ data class CollectionItem(
     val mainImageHeight: Int,
     val mainImageWidth: Int,
     val title: String,
-    val totalPhoto: Int
+    val description: String,
+    val totalPhoto: Int,
 )
