@@ -16,10 +16,11 @@ internal fun Flow<PagingData<Collection>>.toCollectionItem() =
                 profileName = it.user.name,
                 mainImage = it.coverPhoto.urls.regular,
                 mainImageBlurHash = it.coverPhoto.blurHash ?: "",
-                mainImageHeight =((it.coverPhoto.height.toDouble() / it.coverPhoto.width.toDouble()) * 10).toInt(),
+                mainImageHeight = ((it.coverPhoto.height.toDouble() / it.coverPhoto.width.toDouble()) * 10).toInt(),
                 mainImageWidth = (it.coverPhoto.width / it.coverPhoto.width) * 10,
                 title = it.title,
-                totalPhoto = it.totalPhotos
+                description = it.description ?: "",
+                totalPhoto = it.totalPhotos,
             )
         }
 

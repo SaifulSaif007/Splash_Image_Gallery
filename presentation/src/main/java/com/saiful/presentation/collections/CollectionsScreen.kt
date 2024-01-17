@@ -15,7 +15,6 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.CollectionItem
-import com.saiful.domain.usecase.collectionId
 import com.saiful.presentation.composables.CollectionRowItem
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
@@ -26,13 +25,17 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 internal fun CollectionsScreen(
     viewModel: CollectionsViewModel = hiltViewModel(),
-    navigationRequest: (collectionId) -> Unit
+    navigationRequest: (String, String, String, String, String) -> Unit
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach { effect ->
             when (effect) {
                 is CollectionsContract.Effect.Navigation.ToCollectionDetails -> navigationRequest(
-                    effect.collectionId
+                    effect.collectionId,
+                    effect.collectionName,
+                    effect.collectionDesc,
+                    effect.totalPhotos,
+                    effect.collectionAuthor
                 )
             }
         }.collect()
@@ -62,10 +65,19 @@ private fun CollectionScreenContent(
                     mainImageHeight = collections[index]!!.mainImageHeight,
                     mainImageWidth = collections[index]!!.mainImageWidth,
                     title = collections[index]!!.title,
+                    description = collections[index]!!.description,
                     totalPhoto = collections[index]!!.totalPhoto
                 )
-            ) { collectionId ->
-                onEvent(CollectionsContract.Event.SelectCollection(collectionId))
+            ) { collectionId, title, desc, total, author ->
+                onEvent(
+                    CollectionsContract.Event.SelectCollection(
+                        collectionId = collectionId,
+                        collectionName = title,
+                        collectionDesc = desc,
+                        totalPhotos = total.toString(),
+                        collectionAuthor = author
+                    )
+                )
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -123,6 +135,7 @@ private fun CollectionScreenContentPreview() {
                         profileImage = "",
                         profileName = "NEOM",
                         title = "City",
+                        description = "desc",
                         totalPhoto = 10
                     ),
                     CollectionItem(
@@ -134,6 +147,7 @@ private fun CollectionScreenContentPreview() {
                         profileImage = "",
                         profileName = "ABC",
                         title = "Adventure",
+                        description = "",
                         totalPhoto = 101
                     )
                 )

@@ -68,3 +68,26 @@ val Typography.photoDetailsChip: TextStyle
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
     )
+
+val Typography.toolbarText: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 15.sp
+    )
+
+val Typography.collectionInfoTitle: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        color = AppColor.Primary
+    )
+
+val Typography.collectionInfoSubTitle: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        color = AppColor.GradientBlack
+    )

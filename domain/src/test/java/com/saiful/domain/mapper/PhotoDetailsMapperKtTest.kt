@@ -113,10 +113,10 @@ class PhotoDetailsMapperKtTest {
                 focalLength = if (exif.focalLength != null) "${exif.focalLength}mm" else UNKNOWN,
                 shutterSpeed = if (exif.exposureTime != null) "${exif.exposureTime}s" else UNKNOWN,
                 iso = if (exif.iso != null) "${exif.iso}" else UNKNOWN,
-                views = "$views",
-                dimensions = this.width.toString() + " x " + this.height.toString(),
-                downloads = this.downloads.toString(),
-                likes = this.likes.toString(),
+                views = views.formatNumberWithSuffix(),
+                dimensions = "$width x $height",
+                downloads = downloads.formatNumberWithSuffix(),
+                likes = likes.formatNumberWithSuffix(),
                 tags = this.tags.map { tag ->
                     tag.title
                 }
@@ -130,6 +130,18 @@ class PhotoDetailsMapperKtTest {
             assert(photoDetails.toPhotoDetailsItem() == expectedPhotoDetails)
         }
 
+    }
+
+    @Test
+    fun `verify number with suffix`() {
+        val value1: Long = 33
+        assert(value1.formatNumberWithSuffix() == "33")
+
+        val value2: Long = 3333
+        assert(value2.formatNumberWithSuffix() == "3.3K")
+
+        val value3: Long = 3333333
+        assert(value3.formatNumberWithSuffix() == "3.3M")
     }
 }
 

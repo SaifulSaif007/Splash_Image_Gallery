@@ -44,7 +44,13 @@ internal class CollectionsViewModel @Inject constructor(
         when (event) {
             is CollectionsContract.Event.SelectCollection -> {
                 setEffect {
-                    CollectionsContract.Effect.Navigation.ToCollectionDetails(event.collectionId)
+                    CollectionsContract.Effect.Navigation.ToCollectionDetails(
+                        collectionId = event.collectionId,
+                        collectionName = event.collectionName,
+                        collectionDesc = event.collectionDesc,
+                        totalPhotos = event.totalPhotos,
+                        collectionAuthor = event.collectionAuthor
+                    )
                 }
             }
         }

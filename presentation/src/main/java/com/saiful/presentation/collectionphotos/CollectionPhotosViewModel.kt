@@ -9,7 +9,11 @@ import com.saiful.core.ui.ViewEvent
 import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.GetCollectionPhotoUseCase
 import com.saiful.domain.usecase.collectionId
+import com.saiful.presentation.utils.Constants.COLLECTION_AUTHOR
+import com.saiful.presentation.utils.Constants.COLLECTION_DESCRIPTION
 import com.saiful.presentation.utils.Constants.COLLECTION_ID
+import com.saiful.presentation.utils.Constants.COLLECTION_PHOTO_COUNT
+import com.saiful.presentation.utils.Constants.COLLECTION_TITLE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +32,10 @@ internal class CollectionPhotosViewModel @Inject constructor(
     val photoState: StateFlow<PagingData<PhotoItem>> get() = _photoState
 
     private val collectionId: String = checkNotNull(savedStateHandle[COLLECTION_ID])
+    val collectionName: String = checkNotNull(savedStateHandle[COLLECTION_TITLE])
+    val collectionDesc: String = checkNotNull(savedStateHandle[COLLECTION_DESCRIPTION])
+    val collectionPhotoCount: String = checkNotNull(savedStateHandle[COLLECTION_PHOTO_COUNT])
+    val collectionAuthor: String = checkNotNull(savedStateHandle[COLLECTION_AUTHOR])
 
     init {
         getCollectionPhotos(collectionId)
@@ -48,6 +56,10 @@ internal class CollectionPhotosViewModel @Inject constructor(
         when (event) {
             is CollectionPhotosContract.Event.SelectPhoto -> {
                 setEffect { CollectionPhotosContract.Effect.Navigation.ToPhotoDetail(event.photoId) }
+            }
+
+            is CollectionPhotosContract.Event.NavigateBack -> {
+                setEffect { CollectionPhotosContract.Effect.Navigation.NavigateBack }
             }
         }
     }
