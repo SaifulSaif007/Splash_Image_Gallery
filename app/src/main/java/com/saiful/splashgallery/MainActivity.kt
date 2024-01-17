@@ -6,13 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
+import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.saiful.core.components.logger.logError
+import com.saiful.core.components.logger.logInfo
 import com.saiful.core.domain.DomainException
 import com.saiful.presentation.HomeNavRoute
 import com.saiful.presentation.homeNavGraph
+import com.saiful.presentation.theme.AppColor
 import com.saiful.presentation.theme.SplashGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +47,11 @@ class MainActivity : ComponentActivity() {
                         }
                     )
                 }
+
+                navController.addOnDestinationChangedListener { _, destination, _ ->
+                    logInfo(msg = "destination -> $destination")
+                    handleStatusBar(destination)
+                }
             }
         }
     }
@@ -48,5 +59,21 @@ class MainActivity : ComponentActivity() {
     private fun handleException(exception: DomainException) {
         //todo -> add toast or snack bar
         logError(msg = exception.message)
+    }
+
+    private fun handleStatusBar(destination: NavDestination) {
+        val currentDestination = destination.route
+        when (currentDestination) {
+            HomeNavRoute.PhotoDetails.route -> {
+                window.statusBarColor = Color.Transparent.copy(alpha = 0.3f).toArgb()
+                WindowCompat.setDecorFitsSystemWindows(window, false)
+                WindowCompat.getInsetsController(window,  window.decorView).isAppearanceLightStatusBars = false
+            }
+
+            else -> {
+                window.statusBarColor = AppColor.Background.toArgb()
+                WindowCompat.setDecorFitsSystemWindows(window, true)
+            }
+        }
     }
 }

@@ -19,11 +19,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,6 +56,7 @@ import com.saiful.presentation.utils.TestTags
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun PhotoDetailsScreen(
     viewModel: PhotoDetailsViewModel = hiltViewModel(),
@@ -67,29 +72,58 @@ internal fun PhotoDetailsScreen(
     }
 
     val uiState = viewModel.uiState.collectAsState()
-    when (uiState.value) {
-        is UIState.Loading -> {
-            LoadingView(
-                modifier = Modifier.fillMaxSize()
-            )
-        }
 
-        is UIState.Success -> {
-            PhotoDetailsScreenContent(
-                photoDetailsItem = (uiState.value as UIState.Success).photoDetails,
-                onEvent = { viewModel.setEvent(it) },
-            )
-        }
-
-        is UIState.Error -> {
-            ErrorView(
-                modifier = Modifier.fillMaxSize(),
-                onAction = {
-                    //viewModel.getPhotoDetails()
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {},
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    navigationIconContentColor = Color.White,
+                    actionIconContentColor = Color.White,
+                ),
+                navigationIcon = {
+                    IconButton(onClick = {
+                        viewModel.setEvent(PhotoDetailsContract.Event.NavigateUp)
+                    }) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = "",
+                        )
+                    }
                 }
             )
         }
+    ) { paddingValues ->
+        when (uiState.value) {
+            is UIState.Loading -> {
+                LoadingView(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                )
+            }
+
+            is UIState.Success -> {
+                PhotoDetailsScreenContent(
+                    photoDetailsItem = (uiState.value as UIState.Success).photoDetails,
+                    onEvent = { viewModel.setEvent(it) },
+                )
+            }
+
+            is UIState.Error -> {
+                ErrorView(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxSize(),
+                    onAction = {
+                        //viewModel.getPhotoDetails()
+                    }
+                )
+            }
+        }
     }
+
 }
 
 @Composable
@@ -254,9 +288,6 @@ private fun PhotoDetailsScreenContent(
             }
         }
 
-        TollBar(
-            onClick = { onEvent(PhotoDetailsContract.Event.NavigateUp) }
-        )
     }
 }
 
