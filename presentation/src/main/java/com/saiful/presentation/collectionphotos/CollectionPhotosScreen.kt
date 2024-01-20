@@ -32,6 +32,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.PhotoItem
+import com.saiful.presentation.composables.EmptyView
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.composables.PhotoRowItem
@@ -148,7 +149,15 @@ private fun CollectionPhotosScreenContent(
                 LoadingView(modifier = Modifier.fillParentMaxSize())
             }
 
-            is LoadState.NotLoading -> {}
+            is LoadState.NotLoading -> {
+                item {
+                    if (photos.itemCount == 0) {
+                        EmptyView(
+                            modifier = Modifier.fillParentMaxSize().padding(bottom = 140.dp)
+                        )
+                    }
+                }
+            }
         }
 
         //after first time paging data load
@@ -178,7 +187,9 @@ private fun CollectionInfoView(
     collectionAuthor: String
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 6.dp, vertical = 1.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -187,6 +198,8 @@ private fun CollectionInfoView(
                 text = collectionDesc,
                 style = MaterialTheme.typography.collectionInfoTitle,
                 textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),

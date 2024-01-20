@@ -91,3 +91,11 @@ val Typography.collectionInfoSubTitle: TextStyle
         fontSize = 14.sp,
         color = AppColor.GradientBlack
     )
+
+val Typography.emptyText: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        color = AppColor.Primary
+    )

@@ -8,6 +8,8 @@ object TestTags {
 
     const val ERROR_TEXT = "error_text"
     const val ERROR_ACTION_BUTTON = "error_action_button"
+    const val EMPTY_TEXT = "empty_text"
+    const val EMPTY_ICON = "empty_icon"
 
     const val CIRCULAR_INDICATOR = "circular_indicator"
 

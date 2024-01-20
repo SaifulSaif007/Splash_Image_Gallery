@@ -18,7 +18,6 @@ import com.saiful.core.components.logger.logInfo
 import com.saiful.core.domain.DomainException
 import com.saiful.presentation.HomeNavRoute
 import com.saiful.presentation.homeNavGraph
-import com.saiful.presentation.theme.AppColor
 import com.saiful.presentation.theme.SplashGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -71,8 +70,9 @@ class MainActivity : ComponentActivity() {
             }
 
             else -> {
-                window.statusBarColor = AppColor.Background.toArgb()
+                window.statusBarColor = Color.Transparent.toArgb()
                 WindowCompat.setDecorFitsSystemWindows(window, true)
+                WindowCompat.getInsetsController(window,  window.decorView).isAppearanceLightStatusBars = true
             }
         }
     }
