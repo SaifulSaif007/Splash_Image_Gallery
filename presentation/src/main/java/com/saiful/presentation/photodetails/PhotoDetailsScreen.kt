@@ -1,6 +1,5 @@
 package com.saiful.presentation.photodetails
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -323,27 +322,6 @@ private fun UserInteractionInfoCell(title: String, info: String) {
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-    }
-}
-
-@Composable
-private fun TollBar(
-    onClick: () -> Unit = {}
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Transparent)
-            .height(44.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(onClick = onClick) {
-            Icon(
-                Icons.Filled.ArrowBack,
-                contentDescription = "",
-                tint = Color.White
-            )
-        }
     }
 }
 
