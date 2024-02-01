@@ -11,6 +11,7 @@ import com.saiful.domain.model.PhotoItem
 import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_NAME
+import com.saiful.presentation.utils.TestTags.PROFILE_ROW
 import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 import org.junit.Rule
 import org.junit.Test
@@ -36,7 +37,8 @@ class PhotoRowItemKtTest {
             mainImage = "",
             mainImageBlurHash = "",
             mainImageHeight = 4,
-            mainImageWidth = 3
+            mainImageWidth = 3,
+            profileUserName = "saiful"
         )
 
         with(rule) {
@@ -44,16 +46,18 @@ class PhotoRowItemKtTest {
                 PhotoRowItem(modifier = Modifier, photoItem = photoItem, onItemClick = {})
             }
 
-            onNodeWithTag(PROFILE_NAME).apply {
+            onNodeWithTag(PROFILE_NAME, useUnmergedTree = true).apply {
                 assertIsDisplayed()
                 assertTextEquals(photoItem.profileName)
             }
 
-            onNodeWithTag(SPONSOR_LABEL).assertIsDisplayed()
+            onNodeWithTag(SPONSOR_LABEL, useUnmergedTree = true).assertIsDisplayed()
 
-            onNodeWithTag(PROFILE_IMAGE).assertIsDisplayed()
+            onNodeWithTag(PROFILE_IMAGE, useUnmergedTree = true).assertIsDisplayed()
 
             onNodeWithTag(MAIN_IMAGE).assertIsDisplayed().performClick()
+
+            onNodeWithTag(PROFILE_ROW).assertIsDisplayed().performClick()
 
         }
     }
@@ -68,7 +72,8 @@ class PhotoRowItemKtTest {
             mainImage = "",
             mainImageBlurHash = "",
             mainImageHeight = 4,
-            mainImageWidth = 3
+            mainImageWidth = 3,
+            profileUserName = "saiful"
         )
 
         with(rule) {
@@ -76,17 +81,18 @@ class PhotoRowItemKtTest {
                 PhotoRowItem(modifier = Modifier, photoItem = photoItem, onItemClick = {})
             }
 
-            onNodeWithTag(PROFILE_NAME).apply {
+            onNodeWithTag(PROFILE_NAME, useUnmergedTree = true).apply {
                 assertIsDisplayed()
                 assertTextEquals(photoItem.profileName)
             }
 
-            onNodeWithTag(SPONSOR_LABEL).assertDoesNotExist()
+            onNodeWithTag(SPONSOR_LABEL, useUnmergedTree = true).assertDoesNotExist()
 
-            onNodeWithTag(PROFILE_IMAGE).assertIsDisplayed()
+            onNodeWithTag(PROFILE_IMAGE, useUnmergedTree = true).assertIsDisplayed()
 
             onNodeWithTag(MAIN_IMAGE).assertIsDisplayed().performClick()
 
+            onNodeWithTag(PROFILE_ROW).assertIsDisplayed().performClick()
         }
     }
 }

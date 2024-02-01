@@ -1,6 +1,7 @@
 package com.saiful.presentation.composables
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +31,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.photoId
+import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
 import com.saiful.presentation.theme.primaryText
 import com.saiful.presentation.theme.titleText
@@ -41,13 +44,23 @@ import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 internal fun PhotoRowItem(
     modifier: Modifier = Modifier,
     photoItem: PhotoItem,
+    onProfileClick: (userName) -> Unit = {},
     onItemClick: (photoId) -> Unit
 ) {
     Column(
         modifier.padding(8.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) {
+                    onProfileClick(photoItem.profileUserName)
+                }
+                .testTag(TestTags.PROFILE_ROW)
+
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -121,8 +134,10 @@ private fun PhotoRowItemPreview() {
             mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
             mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
             mainImageWidth = 4,
-            mainImageHeight = 3
+            mainImageHeight = 3,
+            profileUserName = "neom",
         ),
-        onItemClick = {}
+        onItemClick = {},
+        onProfileClick = {}
     )
 }

@@ -96,6 +96,7 @@ class PhotoMapperKtTest {
                 mainImageBlurHash = "",
                 mainImageHeight = ((it.height.toDouble() / it.width.toDouble()) * 10).toInt(),
                 mainImageWidth = (it.width / it.width) * 10,
+                profileUserName = it.user.username,
             )
         }
     }

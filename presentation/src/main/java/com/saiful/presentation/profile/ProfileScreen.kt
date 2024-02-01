@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.saiful.presentation.R
 import com.saiful.presentation.composables.EmptyViewPreview
@@ -48,7 +49,9 @@ import com.saiful.presentation.utils.TestTags
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+internal fun ProfileScreen(
+    viewModel: ProfileViewModel = hiltViewModel()
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -72,7 +75,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
         }
     ) { padding ->
         ProfileScreenContent(
-            modifier = modifier.padding(padding)
+            modifier = Modifier.padding(padding)
         )
     }
 }
@@ -192,5 +195,5 @@ private fun UserInfoCell(title: String, info: String) {
 @Preview
 @Composable
 private fun ProfileScreenPreview() {
-    ProfileScreen(modifier = Modifier)
+    ProfileScreen()
 }

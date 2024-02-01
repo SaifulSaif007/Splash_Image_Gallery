@@ -15,4 +15,6 @@ object TestTags {
 
     const val COLLECTION_TITLE = "collection_title"
     const val COLLECTION_TOTAL_PHOTOS = "collection_total_photos"
+
+    const val PROFILE_ROW = "profile_row"
 }

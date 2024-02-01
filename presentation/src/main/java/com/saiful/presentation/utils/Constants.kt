@@ -8,4 +8,5 @@ internal object Constants {
     const val COLLECTION_DESCRIPTION = "collectionDescription"
     const val COLLECTION_PHOTO_COUNT = "collectionPhotoCount"
     const val COLLECTION_AUTHOR = "collectionAuthor"
+    const val USER_NAME = "userName"
 }

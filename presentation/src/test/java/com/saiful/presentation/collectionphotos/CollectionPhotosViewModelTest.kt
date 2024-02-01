@@ -49,7 +49,8 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
                         mainImage = "main-image",
                         mainImageBlurHash = "",
                         mainImageHeight = 4,
-                        mainImageWidth = 3
+                        mainImageWidth = 3,
+                        profileUserName = "profile-user-name"
                     ),
                     PhotoItem(
                         photoId = "2",
@@ -59,7 +60,8 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
                         mainImage = "main-image",
                         mainImageBlurHash = "",
                         mainImageHeight = 4,
-                        mainImageWidth = 3
+                        mainImageWidth = 3,
+                        profileUserName = "profile-user-name"
                     ),
                 )
             )
@@ -147,6 +149,17 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
             viewModel.setEvent(CollectionPhotosContract.Event.NavigateBack)
 
             assert(viewModel.effect.first() is CollectionPhotosContract.Effect.Navigation.NavigateBack)
+        }
+    }
+
+    @Test
+    fun `verify select profile event`() {
+        runTest {
+            `get collection photos returns paging data`()
+
+            viewModel.setEvent(CollectionPhotosContract.Event.SelectProfile("saiful"))
+
+            assert(viewModel.effect.first() is CollectionPhotosContract.Effect.Navigation.ToProfile)
         }
     }
 

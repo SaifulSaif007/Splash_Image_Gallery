@@ -10,12 +10,14 @@ import com.saiful.core.domain.DomainException
 import com.saiful.presentation.collectionphotos.CollectionPhotosContract
 import com.saiful.presentation.collectionphotos.CollectionPhotosScreen
 import com.saiful.presentation.photodetails.PhotoDetailsScreen
+import com.saiful.presentation.profile.ProfileScreen
 import com.saiful.presentation.utils.Constants.COLLECTION_AUTHOR
 import com.saiful.presentation.utils.Constants.COLLECTION_DESCRIPTION
 import com.saiful.presentation.utils.Constants.COLLECTION_ID
 import com.saiful.presentation.utils.Constants.COLLECTION_PHOTO_COUNT
 import com.saiful.presentation.utils.Constants.COLLECTION_TITLE
 import com.saiful.presentation.utils.Constants.PHOTO_ID
+import com.saiful.presentation.utils.Constants.USER_NAME
 import kotlinx.coroutines.CoroutineScope
 
 private const val HOME = "home"
@@ -47,6 +49,10 @@ sealed class HomeNavRoute(val route: String) {
                     "?$COLLECTION_DESCRIPTION=${collectionDescription}" +
                     "?$COLLECTION_PHOTO_COUNT=${collectionPhotoCount}" +
                     "?$COLLECTION_AUTHOR=${collectionAuthor}"
+    }
+
+    object Profile : HomeNavRoute("${HOME}/profile/{$USER_NAME}") {
+        fun createRoute(userName: String) = "$HOME/profile/${userName}"
     }
 }
 
@@ -115,8 +121,19 @@ fun NavGraphBuilder.homeNavGraph(
                     is CollectionPhotosContract.Effect.Navigation.NavigateBack -> {
                         navController.navigateUp()
                     }
+
+                    is CollectionPhotosContract.Effect.Navigation.ToProfile -> {
+                        navController.navigate(HomeNavRoute.Profile.createRoute(navigationRequest.userName))
+                    }
                 }
             }
+        }
+
+        composable(
+            route = HomeNavRoute.Profile.route,
+            arguments = listOf(navArgument(USER_NAME) { type = NavType.StringType })
+        ) {
+            ProfileScreen()
         }
     }
 }

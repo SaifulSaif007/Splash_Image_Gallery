@@ -7,9 +7,11 @@ import com.saiful.domain.mapper.toProfileInfo
 import com.saiful.domain.model.ProfileInfo
 import javax.inject.Inject
 
+typealias userName = String
+
 class GetProfileInfoUseCase @Inject constructor(
     private val repository: ProfileRepository
-) : UseCase<String, Result<ProfileInfo>>() {
+) : UseCase<userName, Result<ProfileInfo>>() {
     override suspend fun execute(params: String): Result<ProfileInfo> {
         return when (val result = repository.profile(params)) {
             is Result.Error -> {
