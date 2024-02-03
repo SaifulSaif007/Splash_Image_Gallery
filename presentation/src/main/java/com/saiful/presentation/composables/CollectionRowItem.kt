@@ -2,6 +2,7 @@ package com.saiful.presentation.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.saiful.domain.model.CollectionItem
+import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
 import com.saiful.presentation.theme.AppColor
 import com.saiful.presentation.theme.collectionSubtitle
@@ -47,12 +50,21 @@ import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 internal fun CollectionRowItem(
     modifier: Modifier = Modifier,
     collectionItem: CollectionItem,
-    onItemClick: (String, String, String, Int, String) -> Unit
+    onProfileClick: (userName) -> Unit = {},
+    onItemClick: (String, String, String, Int, String) -> Unit,
 ) {
     Column(
         modifier.padding(8.dp)
     ) {
         Row(
+            modifier = Modifier
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) {
+                    onProfileClick(collectionItem.profileUserName)
+                }
+                .testTag(TestTags.PROFILE_ROW),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
@@ -161,6 +173,8 @@ private fun CollectionRowItemPreview() {
             title = "Sad",
             description = "Description",
             totalPhoto = 127,
-        )
+            profileUserName = "saiful",
+        ),
+        onProfileClick = {}
     ) { _, _, _, _, _ -> }
 }

@@ -21,6 +21,7 @@ internal fun Flow<PagingData<Collection>>.toCollectionItem() =
                 title = it.title,
                 description = it.description ?: "",
                 totalPhoto = it.totalPhotos,
+                profileUserName = it.user.username
             )
         }
 

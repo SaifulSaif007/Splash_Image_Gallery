@@ -11,4 +11,5 @@ data class CollectionItem(
     val title: String,
     val description: String,
     val totalPhoto: Int,
+    val profileUserName: String,
 )

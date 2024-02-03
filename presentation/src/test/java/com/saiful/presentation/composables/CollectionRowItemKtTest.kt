@@ -1,6 +1,7 @@
 package com.saiful.presentation.composables
 
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -36,27 +37,38 @@ class CollectionRowItemKtTest {
                 totalPhoto = 124,
                 mainImageHeight = 4,
                 mainImageWidth = 3,
-                description = "desc"
+                description = "desc",
+                profileUserName = "saiful",
             )
 
 
             setContent {
                 CollectionRowItem(
                     collectionItem = collectionItem,
+                    onProfileClick = {},
                     onItemClick = { _, _, _, _, _ -> })
                 totalPhotosPrefix =
                     stringResource(id = R.string.total_photos, collectionItem.totalPhoto)
             }
-            onNodeWithTag(TestTags.PROFILE_NAME).apply {
+
+            onNodeWithTag(TestTags.PROFILE_NAME, useUnmergedTree = true).apply {
                 assertIsDisplayed()
                 assertTextEquals(collectionItem.profileName)
             }
 
-            onNodeWithTag(TestTags.PROFILE_IMAGE).assertIsDisplayed()
+            onNodeWithTag(TestTags.PROFILE_IMAGE, useUnmergedTree = true).assertIsDisplayed()
 
-            onNodeWithTag(TestTags.MAIN_IMAGE).assertIsDisplayed()
+            onNodeWithTag(TestTags.PROFILE_ROW, useUnmergedTree = true).apply {
+                assertIsDisplayed()
+                assertHasClickAction()
+            }
 
-            onNodeWithTag(TestTags.COLLECTION_TITLE).apply {
+            onNodeWithTag(TestTags.MAIN_IMAGE, useUnmergedTree = true).apply {
+                assertIsDisplayed()
+                assertHasClickAction()
+            }
+
+            onNodeWithTag(TestTags.COLLECTION_TITLE, useUnmergedTree = true).apply {
                 assertIsDisplayed()
                 assertTextEquals(collectionItem.title)
             }
