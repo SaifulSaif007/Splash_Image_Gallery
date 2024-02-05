@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import com.saiful.core.domain.DomainException
 import com.saiful.presentation.collectionphotos.CollectionPhotosContract
 import com.saiful.presentation.collectionphotos.CollectionPhotosScreen
+import com.saiful.presentation.photodetails.PhotoDetailsContract
 import com.saiful.presentation.photodetails.PhotoDetailsScreen
 import com.saiful.presentation.profile.ProfileScreen
 import com.saiful.presentation.utils.Constants.COLLECTION_AUTHOR
@@ -71,20 +72,33 @@ fun NavGraphBuilder.homeNavGraph(
         ) {
             HomeScreen(
                 onError = onError,
-                onNavigateToPhotoDetails = { photoId ->
-                    navController.navigate(HomeNavRoute.PhotoDetails.createRoute(photoId))
-                },
-                onNavigateToCollectionPhotos = { collectionId, title, desc, count, author ->
-                    navController.navigate(
-                        HomeNavRoute.CollectionPhotos.createRoute(
-                            collectionId = collectionId,
-                            collectionTitle = title,
-                            collectionDescription = desc,
-                            collectionPhotoCount = count,
-                            collectionAuthor = author
-                        )
-                    )
-                },
+                onNavigationRequest = {
+                    when (it) {
+                        is HomeContract.Effect.Navigation.ToCollectionDetail -> {
+                            navController.navigate(
+                                HomeNavRoute.CollectionPhotos.createRoute(
+                                    collectionId = it.collectionId,
+                                    collectionTitle = it.title,
+                                    collectionDescription = it.desc,
+                                    collectionPhotoCount = it.count,
+                                    collectionAuthor = it.author
+                                )
+                            )
+                        }
+
+                        is HomeContract.Effect.Navigation.ToPhotoDetail -> {
+                            navController.navigate(
+                                HomeNavRoute.PhotoDetails.createRoute(photoId = it.photoId)
+                            )
+                        }
+
+                        is HomeContract.Effect.Navigation.ToProfile -> {
+                            navController.navigate(
+                                HomeNavRoute.Profile.createRoute(userName = it.userName)
+                            )
+                        }
+                    }
+                }
             )
 
         }
@@ -93,8 +107,16 @@ fun NavGraphBuilder.homeNavGraph(
             route = HomeNavRoute.PhotoDetails.route,
             arguments = listOf(navArgument(PHOTO_ID) { type = NavType.StringType })
         ) {
-            PhotoDetailsScreen {
-                navController.navigateUp()
+            PhotoDetailsScreen { navigationRequest ->
+                when (navigationRequest) {
+                    is PhotoDetailsContract.Effect.Navigation.NavigateUp -> {
+                        navController.navigateUp()
+                    }
+
+                    is PhotoDetailsContract.Effect.Navigation.ToProfile -> {
+                        navController.navigate(HomeNavRoute.Profile.createRoute(navigationRequest.userName))
+                    }
+                }
             }
         }
 
