@@ -93,7 +93,17 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             initViewModel()
             viewModel.setEvent(PhotoDetailsContract.Event.NavigateUp)
 
-            assert(viewModel.effect.first() is PhotoDetailsContract.Effect.NavigateUp)
+            assert(viewModel.effect.first() is PhotoDetailsContract.Effect.Navigation.NavigateUp)
+        }
+    }
+
+    @Test
+    fun `verify navigate to profile event`() {
+        runTest {
+            initViewModel()
+            viewModel.setEvent(PhotoDetailsContract.Event.SelectProfile("saiful"))
+
+            assert(viewModel.effect.first() is PhotoDetailsContract.Effect.Navigation.ToProfile)
         }
     }
 }

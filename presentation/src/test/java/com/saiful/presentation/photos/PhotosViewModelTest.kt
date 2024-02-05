@@ -44,7 +44,8 @@ class PhotosViewModelTest : BaseViewModelTest() {
                         mainImage = "main-image",
                         mainImageBlurHash = "",
                         mainImageHeight = 4,
-                        mainImageWidth = 3
+                        mainImageWidth = 3,
+                        profileUserName = "profile-user-name"
                     ),
                     PhotoItem(
                         photoId = "2",
@@ -54,7 +55,8 @@ class PhotosViewModelTest : BaseViewModelTest() {
                         mainImage = "main-image",
                         mainImageBlurHash = "",
                         mainImageHeight = 4,
-                        mainImageWidth = 3
+                        mainImageWidth = 3,
+                        profileUserName = "profile-user-name"
                     ),
                 )
             )
@@ -116,6 +118,16 @@ class PhotosViewModelTest : BaseViewModelTest() {
 
             viewModel.setEvent(PhotosContract.Event.SelectPhoto("1"))
             assert(viewModel.effect.first() is PhotosContract.Effect.Navigation.ToPhotoDetails)
+        }
+    }
+
+    @Test
+    fun `verify select profile event`() {
+        runTest {
+            `load data gets flow pager data`()
+
+            viewModel.setEvent(PhotosContract.Event.SelectProfile("1"))
+            assert(viewModel.effect.first() is PhotosContract.Effect.Navigation.ToProfile)
         }
     }
 

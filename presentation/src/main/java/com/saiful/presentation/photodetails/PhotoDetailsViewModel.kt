@@ -47,7 +47,11 @@ internal class PhotoDetailsViewModel @Inject constructor(
     override fun handleEvents(event: ViewEvent) {
         when (event) {
             is PhotoDetailsContract.Event.NavigateUp -> {
-                setEffect { PhotoDetailsContract.Effect.NavigateUp }
+                setEffect { PhotoDetailsContract.Effect.Navigation.NavigateUp }
+            }
+
+            is PhotoDetailsContract.Event.SelectProfile -> {
+                setEffect { PhotoDetailsContract.Effect.Navigation.ToProfile(event.userName) }
             }
         }
     }

@@ -53,6 +53,12 @@ internal class CollectionsViewModel @Inject constructor(
                     )
                 }
             }
+
+            is CollectionsContract.Event.SelectProfile -> {
+                setEffect {
+                    CollectionsContract.Effect.Navigation.ToProfile(event.userName)
+                }
+            }
         }
     }
 }

@@ -46,7 +46,8 @@ class CollectionsViewModelTest : BaseViewModelTest() {
                         totalPhoto = 10,
                         mainImageHeight = 4,
                         mainImageWidth = 3,
-                        description = "desc"
+                        description = "desc",
+                        profileUserName = "neom"
                     ),
                     CollectionItem(
                         collectionId = "2",
@@ -58,7 +59,8 @@ class CollectionsViewModelTest : BaseViewModelTest() {
                         totalPhoto = 101,
                         mainImageHeight = 4,
                         mainImageWidth = 3,
-                        description = "desc"
+                        description = "desc",
+                        profileUserName = "abc"
                     )
                 )
             )
@@ -112,4 +114,35 @@ class CollectionsViewModelTest : BaseViewModelTest() {
             assert(result.isEmpty())
         }
     }
+
+    @Test
+    fun `verify select profile`() {
+        runTest {
+            `load data gets flow pager data`()
+
+            viewModel.setEvent(CollectionsContract.Event.SelectProfile("abc"))
+
+            assert(viewModel.effect.first() is CollectionsContract.Effect.Navigation.ToProfile)
+        }
+    }
+
+    @Test
+    fun `verify select collection`() {
+        runTest {
+            `load data gets flow pager data`()
+
+            viewModel.setEvent(
+                CollectionsContract.Event.SelectCollection(
+                    "1",
+                    "abc",
+                    "desc",
+                    "12",
+                    "saiful"
+                )
+            )
+
+            assert(viewModel.effect.first() is CollectionsContract.Effect.Navigation.ToCollectionDetails)
+        }
+    }
+
 }

@@ -12,6 +12,8 @@ internal class CollectionsContract {
             val totalPhotos: String,
             val collectionAuthor: String
         ) : Event()
+
+        data class SelectProfile(val userName: String) : Event()
     }
 
     sealed class Effect : ViewSideEffect {
@@ -23,6 +25,8 @@ internal class CollectionsContract {
                 val totalPhotos: String,
                 val collectionAuthor: String
             ) : Navigation()
+
+            data class ToProfile(val userName: String) : Navigation()
         }
     }
 }

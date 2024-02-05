@@ -25,18 +25,21 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 internal fun CollectionsScreen(
     viewModel: CollectionsViewModel = hiltViewModel(),
-    navigationRequest: (String, String, String, String, String) -> Unit
+    navigateCollectionPhotos: (String, String, String, String, String) -> Unit,
+    navigateProfile: (String) -> Unit
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is CollectionsContract.Effect.Navigation.ToCollectionDetails -> navigationRequest(
+                is CollectionsContract.Effect.Navigation.ToCollectionDetails -> navigateCollectionPhotos(
                     effect.collectionId,
                     effect.collectionName,
                     effect.collectionDesc,
                     effect.totalPhotos,
                     effect.collectionAuthor
                 )
+
+                is CollectionsContract.Effect.Navigation.ToProfile -> navigateProfile(effect.userName)
             }
         }.collect()
     }
@@ -66,8 +69,12 @@ private fun CollectionScreenContent(
                     mainImageWidth = collections[index]!!.mainImageWidth,
                     title = collections[index]!!.title,
                     description = collections[index]!!.description,
-                    totalPhoto = collections[index]!!.totalPhoto
-                )
+                    totalPhoto = collections[index]!!.totalPhoto,
+                    profileUserName = collections[index]!!.profileUserName
+                ),
+                onProfileClick = {
+                    onEvent(CollectionsContract.Event.SelectProfile(it))
+                }
             ) { collectionId, title, desc, total, author ->
                 onEvent(
                     CollectionsContract.Event.SelectCollection(
@@ -136,7 +143,8 @@ private fun CollectionScreenContentPreview() {
                         profileName = "NEOM",
                         title = "City",
                         description = "desc",
-                        totalPhoto = 10
+                        totalPhoto = 10,
+                        profileUserName = "saiful"
                     ),
                     CollectionItem(
                         collectionId = "2",
@@ -148,7 +156,8 @@ private fun CollectionScreenContentPreview() {
                         profileName = "ABC",
                         title = "Adventure",
                         description = "",
-                        totalPhoto = 101
+                        totalPhoto = 101,
+                        profileUserName = "saiful"
                     )
                 )
             )

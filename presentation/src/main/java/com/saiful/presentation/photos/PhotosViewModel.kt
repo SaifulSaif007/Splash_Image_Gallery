@@ -46,6 +46,12 @@ internal class PhotosViewModel @Inject constructor(
                     PhotosContract.Effect.Navigation.ToPhotoDetails(event.photoId)
                 }
             }
+
+            is PhotosContract.Event.SelectProfile -> {
+                setEffect {
+                    PhotosContract.Effect.Navigation.ToProfile(event.userName)
+                }
+            }
         }
     }
 

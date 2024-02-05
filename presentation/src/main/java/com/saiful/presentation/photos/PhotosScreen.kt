@@ -16,6 +16,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.photoId
+import com.saiful.domain.usecase.userName
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.composables.PhotoRowItem
@@ -26,13 +27,18 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 internal fun PhotosScreen(
     viewModel: PhotosViewModel = hiltViewModel(),
-    navigationRequest: (photoId) -> Unit
+    navigatePhotoDetails: (photoId) -> Unit,
+    navigateProfile: (userName) -> Unit
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach { effect ->
             when (effect) {
                 is PhotosContract.Effect.Navigation.ToPhotoDetails -> {
-                    navigationRequest(effect.photoId)
+                    navigatePhotoDetails(effect.photoId)
+                }
+
+                is PhotosContract.Effect.Navigation.ToProfile -> {
+                    navigateProfile(effect.userName)
                 }
             }
         }.collect()
@@ -61,8 +67,12 @@ private fun PhotoScreenContent(
                     mainImage = photos[index]!!.mainImage,
                     mainImageBlurHash = photos[index]!!.mainImageBlurHash,
                     mainImageHeight = photos[index]!!.mainImageHeight,
-                    mainImageWidth = photos[index]!!.mainImageWidth
-                )
+                    mainImageWidth = photos[index]!!.mainImageWidth,
+                    profileUserName = photos[index]!!.profileUserName
+                ),
+                onProfileClick = {
+                    onEvent(PhotosContract.Event.SelectProfile(photos[index]!!.profileUserName))
+                }
             ) { photoId ->
                 onEvent(PhotosContract.Event.SelectPhoto(photoId))
             }
@@ -121,7 +131,8 @@ private fun PhotoScreenContentPreview() {
                         mainImage = "",
                         mainImageBlurHash = "",
                         mainImageWidth = 4,
-                        mainImageHeight = 3
+                        mainImageHeight = 3,
+                        profileUserName = "saiful"
                     ),
                     PhotoItem(
                         photoId = "2",
@@ -131,7 +142,8 @@ private fun PhotoScreenContentPreview() {
                         mainImage = "",
                         mainImageBlurHash = "",
                         mainImageWidth = 4,
-                        mainImageHeight = 3
+                        mainImageHeight = 3,
+                        profileUserName = "saiful"
                     )
                 )
             ),
