@@ -96,7 +96,7 @@ internal fun PhotoDetailsScreen(
         }
     ) { paddingValues ->
         when (uiState.value) {
-            is UIState.Loading -> {
+            is PhotoDetailsViewModel.UIState.Loading -> {
                 LoadingView(
                     modifier = Modifier
                         .padding(paddingValues)
@@ -104,14 +104,14 @@ internal fun PhotoDetailsScreen(
                 )
             }
 
-            is UIState.Success -> {
+            is PhotoDetailsViewModel.UIState.Success -> {
                 PhotoDetailsScreenContent(
-                    photoDetailsItem = (uiState.value as UIState.Success).photoDetails,
+                    photoDetailsItem = (uiState.value as PhotoDetailsViewModel.UIState.Success).photoDetails,
                     onEvent = { viewModel.setEvent(it) },
                 )
             }
 
-            is UIState.Error -> {
+            is PhotoDetailsViewModel.UIState.Error -> {
                 ErrorView(
                     modifier = Modifier
                         .padding(paddingValues)
@@ -163,7 +163,12 @@ private fun PhotoDetailsScreenContent(
                                 indication = null,
                                 interactionSource = remember { MutableInteractionSource() }
                             ) {
-                                onEvent(PhotoDetailsContract.Event.SelectProfile(photoDetailsItem.profileName))
+                                onEvent(
+                                    PhotoDetailsContract.Event.SelectProfile(
+                                        photoDetailsItem.profileName,
+                                        photoDetailsItem.profileName
+                                    )
+                                )
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {

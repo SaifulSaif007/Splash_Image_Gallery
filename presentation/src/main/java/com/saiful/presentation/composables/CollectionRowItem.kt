@@ -50,7 +50,7 @@ import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 internal fun CollectionRowItem(
     modifier: Modifier = Modifier,
     collectionItem: CollectionItem,
-    onProfileClick: (userName) -> Unit = {},
+    onProfileClick: (userName, String) -> Unit,
     onItemClick: (String, String, String, Int, String) -> Unit,
 ) {
     Column(
@@ -62,7 +62,7 @@ internal fun CollectionRowItem(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 ) {
-                    onProfileClick(collectionItem.profileUserName)
+                    onProfileClick(collectionItem.profileUserName, collectionItem.profileName)
                 }
                 .testTag(TestTags.PROFILE_ROW),
             verticalAlignment = Alignment.CenterVertically
@@ -175,6 +175,6 @@ private fun CollectionRowItemPreview() {
             totalPhoto = 127,
             profileUserName = "saiful",
         ),
-        onProfileClick = {}
+        onProfileClick = { _, _ -> },
     ) { _, _, _, _, _ -> }
 }

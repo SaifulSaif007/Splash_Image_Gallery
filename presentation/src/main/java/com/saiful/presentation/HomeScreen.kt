@@ -82,8 +82,8 @@ fun HomeScreen(
                     navigatePhotoDetails = {
                         viewModel.setEvent(HomeContract.Event.SelectPhoto(it))
                     },
-                    navigateProfile = {
-                        viewModel.setEvent(HomeContract.Event.SelectProfile(it))
+                    navigateProfile = { userName, profileName ->
+                        viewModel.setEvent(HomeContract.Event.SelectProfile(userName, profileName))
                     }
                 )
 
@@ -99,8 +99,8 @@ fun HomeScreen(
                             )
                         )
                     },
-                    navigateProfile = {
-                        viewModel.setEvent(HomeContract.Event.SelectProfile(it))
+                    navigateProfile = { userName, profileName ->
+                        viewModel.setEvent(HomeContract.Event.SelectProfile(userName, profileName))
                     }
                 )
             }

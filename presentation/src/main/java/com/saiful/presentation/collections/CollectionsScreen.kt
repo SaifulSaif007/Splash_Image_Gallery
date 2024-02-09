@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.onEach
 internal fun CollectionsScreen(
     viewModel: CollectionsViewModel = hiltViewModel(),
     navigateCollectionPhotos: (String, String, String, String, String) -> Unit,
-    navigateProfile: (String) -> Unit
+    navigateProfile: (String, String) -> Unit
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach { effect ->
@@ -39,7 +39,10 @@ internal fun CollectionsScreen(
                     effect.collectionAuthor
                 )
 
-                is CollectionsContract.Effect.Navigation.ToProfile -> navigateProfile(effect.userName)
+                is CollectionsContract.Effect.Navigation.ToProfile -> navigateProfile(
+                    effect.userName,
+                    effect.profileName
+                )
             }
         }.collect()
     }
@@ -72,8 +75,8 @@ private fun CollectionScreenContent(
                     totalPhoto = collections[index]!!.totalPhoto,
                     profileUserName = collections[index]!!.profileUserName
                 ),
-                onProfileClick = {
-                    onEvent(CollectionsContract.Event.SelectProfile(it))
+                onProfileClick = { userName, profileName ->
+                    onEvent(CollectionsContract.Event.SelectProfile(userName, profileName))
                 }
             ) { collectionId, title, desc, total, author ->
                 onEvent(

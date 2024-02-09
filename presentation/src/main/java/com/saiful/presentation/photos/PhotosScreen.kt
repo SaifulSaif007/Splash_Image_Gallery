@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.onEach
 internal fun PhotosScreen(
     viewModel: PhotosViewModel = hiltViewModel(),
     navigatePhotoDetails: (photoId) -> Unit,
-    navigateProfile: (userName) -> Unit
+    navigateProfile: (userName, String) -> Unit
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach { effect ->
@@ -38,7 +38,7 @@ internal fun PhotosScreen(
                 }
 
                 is PhotosContract.Effect.Navigation.ToProfile -> {
-                    navigateProfile(effect.userName)
+                    navigateProfile(effect.userName, effect.profileName)
                 }
             }
         }.collect()
@@ -70,8 +70,8 @@ private fun PhotoScreenContent(
                     mainImageWidth = photos[index]!!.mainImageWidth,
                     profileUserName = photos[index]!!.profileUserName
                 ),
-                onProfileClick = {
-                    onEvent(PhotosContract.Event.SelectProfile(photos[index]!!.profileUserName))
+                onProfileClick = { userName, profileName ->
+                    onEvent(PhotosContract.Event.SelectProfile(userName, profileName))
                 }
             ) { photoId ->
                 onEvent(PhotosContract.Event.SelectPhoto(photoId))

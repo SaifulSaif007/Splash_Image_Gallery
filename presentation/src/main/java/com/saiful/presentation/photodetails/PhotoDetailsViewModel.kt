@@ -51,18 +51,22 @@ internal class PhotoDetailsViewModel @Inject constructor(
             }
 
             is PhotoDetailsContract.Event.SelectProfile -> {
-                setEffect { PhotoDetailsContract.Effect.Navigation.ToProfile(event.userName) }
+                setEffect {
+                    PhotoDetailsContract.Effect.Navigation.ToProfile(
+                        event.userName,
+                        event.profileName
+                    )
+                }
             }
         }
     }
 
-}
+    sealed class UIState {
+        object Loading : UIState()
+        data class Success(
+            val photoDetails: PhotoDetailsItem
+        ) : UIState()
 
-sealed class UIState {
-    object Loading : UIState()
-    data class Success(
-        val photoDetails: PhotoDetailsItem
-    ) : UIState()
-
-    data class Error(val exception: DomainException) : UIState()
+        data class Error(val exception: DomainException) : UIState()
+    }
 }

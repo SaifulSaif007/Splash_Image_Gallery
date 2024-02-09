@@ -129,8 +129,8 @@ private fun CollectionPhotosScreenContent(
                     mainImageWidth = photos[index]!!.mainImageWidth,
                     profileUserName = photos[index]!!.profileUserName,
                 ),
-                onProfileClick = {
-                    onEvent(CollectionPhotosContract.Event.SelectProfile(it))
+                onProfileClick = { userName, profileName ->
+                    onEvent(CollectionPhotosContract.Event.SelectProfile(userName, profileName))
                 },
                 onItemClick = { photoId ->
                     onEvent(CollectionPhotosContract.Event.SelectPhoto(photoId))

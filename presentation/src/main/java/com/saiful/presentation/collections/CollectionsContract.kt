@@ -13,7 +13,7 @@ internal class CollectionsContract {
             val collectionAuthor: String
         ) : Event()
 
-        data class SelectProfile(val userName: String) : Event()
+        data class SelectProfile(val userName: String, val profileName: String) : Event()
     }
 
     sealed class Effect : ViewSideEffect {
@@ -26,7 +26,7 @@ internal class CollectionsContract {
                 val collectionAuthor: String
             ) : Navigation()
 
-            data class ToProfile(val userName: String) : Navigation()
+            data class ToProfile(val userName: String, val profileName: String) : Navigation()
         }
     }
 }

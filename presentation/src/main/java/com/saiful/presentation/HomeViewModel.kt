@@ -27,7 +27,12 @@ class HomeViewModel @Inject constructor() :
             }
 
             is HomeContract.Event.SelectProfile -> {
-                setEffect { HomeContract.Effect.Navigation.ToProfile(event.userName) }
+                setEffect {
+                    HomeContract.Effect.Navigation.ToProfile(
+                        event.userName,
+                        event.profileName
+                    )
+                }
             }
         }
     }

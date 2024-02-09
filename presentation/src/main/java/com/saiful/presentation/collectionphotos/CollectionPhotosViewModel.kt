@@ -63,7 +63,12 @@ internal class CollectionPhotosViewModel @Inject constructor(
             }
 
             is CollectionPhotosContract.Event.SelectProfile -> {
-                setEffect { CollectionPhotosContract.Effect.Navigation.ToProfile(event.userName) }
+                setEffect {
+                    CollectionPhotosContract.Effect.Navigation.ToProfile(
+                        event.userName,
+                        event.profileName
+                    )
+                }
             }
         }
 

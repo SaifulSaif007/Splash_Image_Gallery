@@ -13,6 +13,7 @@ internal class ProfileRepositoryImpl @Inject constructor(
     override suspend fun profile(username: String): Result<Profile> {
         return try {
             Result.Success(apiService.profile(username))
+
         } catch (ex: Exception) {
             Result.Error(errorMapper.toDomainException(ex))
         }

@@ -16,7 +16,7 @@ class HomeContract {
             val author: String
         ) : Event()
 
-        data class SelectProfile(val userName: userName) : Event()
+        data class SelectProfile(val userName: userName, val profileName: String) : Event()
     }
 
     sealed class Effect : ViewSideEffect {
@@ -30,7 +30,7 @@ class HomeContract {
                 val author: String
             ) : Navigation()
 
-            data class ToProfile(val userName: userName) : Navigation()
+            data class ToProfile(val userName: userName, val profileName: String) : Navigation()
         }
     }
 }

@@ -69,8 +69,8 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             initViewModel()
 
             val result = viewModel.uiState.value
-            assert(result is UIState.Success)
-            assert((result as UIState.Success).photoDetails == photoDetailsItem)
+            assert(result is PhotoDetailsViewModel.UIState.Success)
+            assert((result as PhotoDetailsViewModel.UIState.Success).photoDetails == photoDetailsItem)
         }
     }
 
@@ -82,8 +82,8 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             )
             initViewModel()
             val result = viewModel.uiState.value
-            assert(result is UIState.Error)
-            assert((result as UIState.Error).exception == domainException)
+            assert(result is PhotoDetailsViewModel.UIState.Error)
+            assert((result as PhotoDetailsViewModel.UIState.Error).exception == domainException)
         }
     }
 

@@ -44,7 +44,7 @@ import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 internal fun PhotoRowItem(
     modifier: Modifier = Modifier,
     photoItem: PhotoItem,
-    onProfileClick: (userName) -> Unit = {},
+    onProfileClick: (userName, String) -> Unit,
     onItemClick: (photoId) -> Unit
 ) {
     Column(
@@ -57,7 +57,7 @@ internal fun PhotoRowItem(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 ) {
-                    onProfileClick(photoItem.profileUserName)
+                    onProfileClick(photoItem.profileUserName, photoItem.profileName)
                 }
                 .testTag(TestTags.PROFILE_ROW)
 
@@ -138,6 +138,6 @@ private fun PhotoRowItemPreview() {
             profileUserName = "neom",
         ),
         onItemClick = {},
-        onProfileClick = {}
+        onProfileClick = { _, _ -> }
     )
 }

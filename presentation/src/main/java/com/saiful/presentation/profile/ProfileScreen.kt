@@ -25,6 +25,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,12 +53,20 @@ import com.saiful.presentation.utils.TestTags
 internal fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+
+    val uiState = viewModel.uiState.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "profile name",
+                        text = when (uiState.value) {
+                            is ProfileViewModel.UIState.Success -> {
+                                (uiState.value as ProfileViewModel.UIState.Success).data.profileName
+                            }
+                            else -> ""
+                        },
                         style = MaterialTheme.typography.toolbarText
                     )
                 },
@@ -96,7 +105,7 @@ private fun ProfileScreenContent(modifier: Modifier) {
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             AsyncImage(
-                model = "url", //todo
+                model = "",
                 placeholder = painterResource(id = R.drawable.ic_profile),
                 contentDescription = "profile image",
                 modifier = Modifier
@@ -195,5 +204,5 @@ private fun UserInfoCell(title: String, info: String) {
 @Preview
 @Composable
 private fun ProfileScreenPreview() {
-    ProfileScreen()
+    ProfileScreenContent(Modifier)
 }
