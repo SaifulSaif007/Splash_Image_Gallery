@@ -49,7 +49,7 @@ class HomeViewModelTest {
     fun `verify select profile event`() {
         runTest {
             initViewModel()
-            viewModel.setEvent(HomeContract.Event.SelectProfile("username"))
+            viewModel.setEvent(HomeContract.Event.SelectProfile("saiful", "Saiful"))
 
             assert(viewModel.effect.first() is HomeContract.Effect.Navigation.ToProfile)
         }

@@ -101,7 +101,7 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     fun `verify navigate to profile event`() {
         runTest {
             initViewModel()
-            viewModel.setEvent(PhotoDetailsContract.Event.SelectProfile("saiful"))
+            viewModel.setEvent(PhotoDetailsContract.Event.SelectProfile("saiful", "Saiful"))
 
             assert(viewModel.effect.first() is PhotoDetailsContract.Effect.Navigation.ToProfile)
         }

@@ -126,7 +126,7 @@ class PhotosViewModelTest : BaseViewModelTest() {
         runTest {
             `load data gets flow pager data`()
 
-            viewModel.setEvent(PhotosContract.Event.SelectProfile("1"))
+            viewModel.setEvent(PhotosContract.Event.SelectProfile("saiful", "Saiful"))
             assert(viewModel.effect.first() is PhotosContract.Effect.Navigation.ToProfile)
         }
     }

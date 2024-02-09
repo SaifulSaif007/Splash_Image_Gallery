@@ -120,7 +120,7 @@ class CollectionsViewModelTest : BaseViewModelTest() {
         runTest {
             `load data gets flow pager data`()
 
-            viewModel.setEvent(CollectionsContract.Event.SelectProfile("abc"))
+            viewModel.setEvent(CollectionsContract.Event.SelectProfile("saiufl", "Saiful"))
 
             assert(viewModel.effect.first() is CollectionsContract.Effect.Navigation.ToProfile)
         }

@@ -157,7 +157,7 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
         runTest {
             `get collection photos returns paging data`()
 
-            viewModel.setEvent(CollectionPhotosContract.Event.SelectProfile("saiful"))
+            viewModel.setEvent(CollectionPhotosContract.Event.SelectProfile("saiful", "Saiful"))
 
             assert(viewModel.effect.first() is CollectionPhotosContract.Effect.Navigation.ToProfile)
         }

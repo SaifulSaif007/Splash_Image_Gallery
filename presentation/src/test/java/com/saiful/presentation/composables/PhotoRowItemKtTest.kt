@@ -43,7 +43,11 @@ class PhotoRowItemKtTest {
 
         with(rule) {
             setContent {
-                PhotoRowItem(modifier = Modifier, photoItem = photoItem, onItemClick = {})
+                PhotoRowItem(
+                    modifier = Modifier,
+                    photoItem = photoItem,
+                    onItemClick = {},
+                    onProfileClick = { _, _ -> })
             }
 
             onNodeWithTag(PROFILE_NAME, useUnmergedTree = true).apply {
@@ -78,7 +82,11 @@ class PhotoRowItemKtTest {
 
         with(rule) {
             setContent {
-                PhotoRowItem(modifier = Modifier, photoItem = photoItem, onItemClick = {})
+                PhotoRowItem(
+                    modifier = Modifier,
+                    photoItem = photoItem,
+                    onItemClick = {},
+                    onProfileClick = { _, _ -> })
             }
 
             onNodeWithTag(PROFILE_NAME, useUnmergedTree = true).apply {

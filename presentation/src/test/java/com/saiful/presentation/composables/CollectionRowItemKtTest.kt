@@ -45,7 +45,7 @@ class CollectionRowItemKtTest {
             setContent {
                 CollectionRowItem(
                     collectionItem = collectionItem,
-                    onProfileClick = {},
+                    onProfileClick = { _, _ -> },
                     onItemClick = { _, _, _, _, _ -> })
                 totalPhotosPrefix =
                     stringResource(id = R.string.total_photos, collectionItem.totalPhoto)
