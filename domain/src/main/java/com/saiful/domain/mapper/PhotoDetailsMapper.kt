@@ -23,7 +23,9 @@ internal fun PhotoDetails.toPhotoDetailsItem() =
         likes = likes.formatNumberWithSuffix(),
         tags = tags.map { tag ->
             tag.title
-        }
+        },
+        userName = user.username
+
     )
 
 

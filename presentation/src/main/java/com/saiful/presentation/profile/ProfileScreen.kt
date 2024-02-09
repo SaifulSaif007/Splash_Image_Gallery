@@ -6,6 +6,7 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,7 +26,9 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,20 +42,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.saiful.domain.model.ProfileInfo
 import com.saiful.presentation.R
 import com.saiful.presentation.composables.EmptyViewPreview
+import com.saiful.presentation.composables.ErrorView
+import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.theme.collectionInfoSubTitle
 import com.saiful.presentation.theme.photoDetailsInfo
 import com.saiful.presentation.theme.primaryText
 import com.saiful.presentation.theme.titleText
 import com.saiful.presentation.theme.toolbarText
 import com.saiful.presentation.utils.TestTags
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ProfileScreen(
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel(),
+    navigationRequest: (ProfileContract.Effect) -> Unit
 ) {
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.effect.onEach {
+            navigationRequest(it)
+        }.collect()
+    }
 
     val uiState = viewModel.uiState.collectAsState()
 
@@ -61,18 +77,13 @@ internal fun ProfileScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = when (uiState.value) {
-                            is ProfileViewModel.UIState.Success -> {
-                                (uiState.value as ProfileViewModel.UIState.Success).data.profileName
-                            }
-                            else -> ""
-                        },
+                        text = viewModel.profileName,
                         style = MaterialTheme.typography.toolbarText
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = {
-                        //todo
+                        viewModel.setEvent(ProfileContract.Event.navigateBack)
                     }) {
                         Icon(
                             Icons.Filled.ArrowBack,
@@ -83,15 +94,39 @@ internal fun ProfileScreen(
             )
         }
     ) { padding ->
-        ProfileScreenContent(
-            modifier = Modifier.padding(padding)
-        )
+        when (uiState.value) {
+            is ProfileViewModel.UIState.Error -> {
+                ErrorView(
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxSize(),
+                    onAction = {
+                        //todo
+                    }
+                )
+            }
+
+            ProfileViewModel.UIState.Loading -> {
+                LoadingView(
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxSize()
+                )
+            }
+
+            is ProfileViewModel.UIState.Success -> {
+                ProfileScreenContent(
+                    modifier = Modifier.padding(padding),
+                    profileInfo = (uiState.value as ProfileViewModel.UIState.Success).data
+                )
+            }
+        }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ProfileScreenContent(modifier: Modifier) {
+private fun ProfileScreenContent(modifier: Modifier, profileInfo: ProfileInfo) {
     Column(
         modifier = modifier.scrollable(
             state = rememberScrollState(),
@@ -100,12 +135,13 @@ private fun ProfileScreenContent(modifier: Modifier) {
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             AsyncImage(
-                model = "",
+                model = profileInfo.profileImage,
                 placeholder = painterResource(id = R.drawable.ic_profile),
                 contentDescription = "profile image",
                 modifier = Modifier
@@ -117,36 +153,39 @@ private fun ProfileScreenContent(modifier: Modifier) {
 
             UserInfoCell(
                 title = "Photos",
-                info = "292"
+                info = profileInfo.photos
             )
             UserInfoCell(
                 title = "Likes",
-                info = "122"
+                info = profileInfo.likes
             )
             UserInfoCell(
                 title = "Collection",
-                info = "22"
+                info = profileInfo.collection
             )
         }
 
         Column(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp, vertical = 6.dp)
         ) {
             Text(
-                text = "Profile Name",
+                text = profileInfo.profileName,
                 style = MaterialTheme.typography.titleText
             )
             Text(
-                text = "Name with some text",
+                text = profileInfo.location,
                 style = MaterialTheme.typography.collectionInfoSubTitle
             )
             Text(
-                text = "Description",
+                text = profileInfo.bio,
                 style = MaterialTheme.typography.photoDetailsInfo,
                 modifier = Modifier.padding(vertical = 5.dp)
             )
         }
 
+        val coroutineScope = rememberCoroutineScope()
         val pagerState = rememberPagerState()
         val tabs = LocalContext.current.resources.getStringArray(R.array.dashboardTabTitle) //todo
 
@@ -165,7 +204,9 @@ private fun ProfileScreenContent(modifier: Modifier) {
                         },
                         selected = pagerState.currentPage == index,
                         onClick = {
-                            //todo
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
                         })
                 }
             }
@@ -204,5 +245,16 @@ private fun UserInfoCell(title: String, info: String) {
 @Preview
 @Composable
 private fun ProfileScreenPreview() {
-    ProfileScreenContent(Modifier)
+    ProfileScreenContent(
+        modifier = Modifier,
+        profileInfo = ProfileInfo(
+            profileImage = "",
+            profileName = "saiful",
+            location = "Dhaka, Bangladesh",
+            bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            photos = "100",
+            likes = "100",
+            collection = "100"
+        )
+    )
 }

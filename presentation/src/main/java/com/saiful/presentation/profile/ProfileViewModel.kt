@@ -23,7 +23,7 @@ internal class ProfileViewModel @Inject constructor(
 ) : BaseViewModel<ProfileContract.Event, ProfileContract.Effect>() {
 
     private val userName: String = checkNotNull(savedStateHandle[USER_NAME])
-    private val profileName: String = checkNotNull(savedStateHandle[USER_PROFILE_NAME])
+    val profileName: String = checkNotNull(savedStateHandle[USER_PROFILE_NAME])
 
     val uiState: MutableStateFlow<UIState> = MutableStateFlow(UIState.Loading)
 
@@ -48,7 +48,11 @@ internal class ProfileViewModel @Inject constructor(
     }
 
     override fun handleEvents(event: ViewEvent) {
-        //todo
+        when (event) {
+            is ProfileContract.Event.navigateBack -> {
+                setEffect { ProfileContract.Effect.Navigation.navigateUp }
+            }
+        }
     }
 
     sealed class UIState {

@@ -11,6 +11,7 @@ import com.saiful.presentation.collectionphotos.CollectionPhotosContract
 import com.saiful.presentation.collectionphotos.CollectionPhotosScreen
 import com.saiful.presentation.photodetails.PhotoDetailsContract
 import com.saiful.presentation.photodetails.PhotoDetailsScreen
+import com.saiful.presentation.profile.ProfileContract
 import com.saiful.presentation.profile.ProfileScreen
 import com.saiful.presentation.utils.Constants.COLLECTION_AUTHOR
 import com.saiful.presentation.utils.Constants.COLLECTION_DESCRIPTION
@@ -176,7 +177,11 @@ fun NavGraphBuilder.homeNavGraph(
                 navArgument(USER_PROFILE_NAME) { type = NavType.StringType }
             )
         ) {
-            ProfileScreen()
+            ProfileScreen { navigationRequest ->
+                when (navigationRequest) {
+                    ProfileContract.Effect.Navigation.navigateUp -> navController.navigateUp()
+                }
+            }
         }
     }
 }

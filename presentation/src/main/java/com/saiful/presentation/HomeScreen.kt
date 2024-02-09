@@ -65,7 +65,7 @@ fun HomeScreen(
                     selected = pagerState.currentPage == index,
                     onClick = {
                         coroutineScope.launch {
-                            pagerState.scrollToPage(index)
+                            pagerState.animateScrollToPage(index)
                         }
                     }
                 )

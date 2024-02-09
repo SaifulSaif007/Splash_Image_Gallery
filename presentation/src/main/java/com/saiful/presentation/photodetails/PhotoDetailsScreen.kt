@@ -165,7 +165,7 @@ private fun PhotoDetailsScreenContent(
                             ) {
                                 onEvent(
                                     PhotoDetailsContract.Event.SelectProfile(
-                                        photoDetailsItem.profileName,
+                                        photoDetailsItem.userName,
                                         photoDetailsItem.profileName
                                     )
                                 )
@@ -356,7 +356,8 @@ private fun PhotoDetailsScreenPreview() {
             views = "1000",
             downloads = "100",
             likes = "10",
-            tags = listOf("nature", "landscape", "mountains")
+            tags = listOf("nature", "landscape", "mountains"),
+            userName = "saiful"
         ),
         onEvent = {}
     )

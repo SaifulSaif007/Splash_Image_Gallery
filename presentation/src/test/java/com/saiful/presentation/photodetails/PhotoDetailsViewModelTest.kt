@@ -41,7 +41,8 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             views = "1000",
             downloads = "100",
             likes = "10",
-            tags = listOf("nature", "landscape", "mountains")
+            tags = listOf("nature", "landscape", "mountains"),
+            userName = "johndoe"
         )
 
     }
