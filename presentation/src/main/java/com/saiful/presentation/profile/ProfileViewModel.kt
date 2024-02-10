@@ -2,7 +2,6 @@ package com.saiful.presentation.profile
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.saiful.core.components.logger.logDebug
 import com.saiful.core.domain.DomainException
 import com.saiful.core.domain.Result
 import com.saiful.core.ui.BaseViewModel
@@ -36,12 +35,10 @@ internal class ProfileViewModel @Inject constructor(
             when (val result = profileInfoUseCase(username)) {
                 is Result.Success -> {
                     uiState.value = UIState.Success(result.data)
-                    logDebug(msg = result.data.toString())
                 }
 
                 is Result.Error -> {
                     uiState.value = UIState.Error(result.error)
-                    logDebug(msg = result.error.toString())
                 }
             }
         }
