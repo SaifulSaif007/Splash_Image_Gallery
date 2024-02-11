@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -42,11 +41,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.saiful.domain.mapper.COLLECTIONS
+import com.saiful.domain.mapper.LIKES
+import com.saiful.domain.mapper.PHOTOS
 import com.saiful.domain.model.ProfileInfo
 import com.saiful.presentation.R
-import com.saiful.presentation.composables.EmptyViewPreview
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
+import com.saiful.presentation.profile.collection.ProfileCollections
+import com.saiful.presentation.profile.likes.ProfileLikes
+import com.saiful.presentation.profile.photos.ProfilePhotos
 import com.saiful.presentation.theme.collectionInfoSubTitle
 import com.saiful.presentation.theme.photoDetailsInfo
 import com.saiful.presentation.theme.primaryText
@@ -185,9 +189,10 @@ private fun ProfileScreenContent(modifier: Modifier, profileInfo: ProfileInfo) {
             )
         }
 
+
         val coroutineScope = rememberCoroutineScope()
         val pagerState = rememberPagerState()
-        val tabs = LocalContext.current.resources.getStringArray(R.array.dashboardTabTitle) //todo
+        val tabs = profileInfo.visibleTabs
 
         Column {
             TabRow(selectedTabIndex = pagerState.currentPage) {
@@ -215,9 +220,10 @@ private fun ProfileScreenContent(modifier: Modifier, profileInfo: ProfileInfo) {
                 pageCount = tabs.size,
                 state = pagerState
             ) { page ->
-                when (page) {
-                    0 -> EmptyViewPreview()
-                    1 -> EmptyViewPreview()
+                when (tabs[page]) {
+                    PHOTOS -> ProfilePhotos()
+                    LIKES -> ProfileLikes()
+                    COLLECTIONS -> ProfileCollections()
                 }
             }
         }
@@ -254,7 +260,8 @@ private fun ProfileScreenPreview() {
             bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             photos = "100",
             likes = "100",
-            collection = "100"
+            collection = "100",
+            visibleTabs = listOf("PHOTOS", "LIKES", "COLLECTIONS")
         )
     )
 }

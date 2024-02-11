@@ -12,4 +12,24 @@ internal fun Profile.toProfileInfo() =
         photos = this.totalPhotos.toString(),
         likes = this.totalLikes.toString(),
         collection = this.totalCollections.toString(),
+        visibleTabs = visibleTabs(this)
     )
+
+
+private fun visibleTabs(profile: Profile): List<String> {
+    val list = mutableListOf<String>()
+    if (profile.totalPhotos > 0) {
+        list.add(PHOTOS)
+    }
+    if (profile.totalLikes > 0) {
+        list.add(LIKES)
+    }
+    if (profile.totalCollections > 0) {
+        list.add(COLLECTIONS)
+    }
+    return list
+}
+
+const val PHOTOS = "PHOTOS"
+const val LIKES = "LIKES"
+const val COLLECTIONS = "COLLECTIONS"

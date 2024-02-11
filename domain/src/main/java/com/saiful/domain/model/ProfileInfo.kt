@@ -7,5 +7,6 @@ data class ProfileInfo(
     val profileImage: String,
     val photos: String,
     val likes: String,
-    val collection: String
+    val collection: String,
+    val visibleTabs: List<String>
 )

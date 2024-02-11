@@ -6,6 +6,9 @@ import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.core.domain.Result
+import com.saiful.domain.mapper.COLLECTIONS
+import com.saiful.domain.mapper.LIKES
+import com.saiful.domain.mapper.PHOTOS
 import com.saiful.domain.model.ProfileInfo
 import com.saiful.domain.usecase.GetProfileInfoUseCase
 import com.saiful.presentation.utils.Constants
@@ -37,7 +40,8 @@ class ProfileViewModelTest : BaseViewModelTest() {
             profileImage = "https://example.com/profile_image.jpg",
             photos = "10,000",
             likes = "1,000",
-            collection = "100"
+            collection = "100",
+            visibleTabs = listOf(PHOTOS, LIKES, COLLECTIONS)
         )
     }
 

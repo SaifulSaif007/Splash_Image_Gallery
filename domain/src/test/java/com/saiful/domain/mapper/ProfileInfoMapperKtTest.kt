@@ -78,6 +78,7 @@ class ProfileInfoMapperKtTest {
         photos = profile.totalPhotos.toString(),
         likes = profile.totalLikes.toString(),
         collection = profile.totalCollections.toString(),
+        visibleTabs = listOf(PHOTOS, LIKES, COLLECTIONS)
     )
 
     @Test
