@@ -70,12 +70,13 @@ private fun PhotoScreenContent(
                     mainImageWidth = photos[index]!!.mainImageWidth,
                     profileUserName = photos[index]!!.profileUserName
                 ),
+                onItemClick = { photoId ->
+                    onEvent(PhotosContract.Event.SelectPhoto(photoId))
+                },
                 onProfileClick = { userName, profileName ->
                     onEvent(PhotosContract.Event.SelectProfile(userName, profileName))
                 }
-            ) { photoId ->
-                onEvent(PhotosContract.Event.SelectPhoto(photoId))
-            }
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
 

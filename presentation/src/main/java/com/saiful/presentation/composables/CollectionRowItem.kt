@@ -50,52 +50,55 @@ import com.saiful.presentation.utils.TestTags.MAIN_IMAGE
 internal fun CollectionRowItem(
     modifier: Modifier = Modifier,
     collectionItem: CollectionItem,
-    onProfileClick: (userName, String) -> Unit,
     onItemClick: (String, String, String, Int, String) -> Unit,
+    onProfileClick: (userName, String) -> Unit = { _, _ -> },
+    profileSectionVisible: Boolean = true
 ) {
     Column(
         modifier.padding(8.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) {
-                    onProfileClick(collectionItem.profileUserName, collectionItem.profileName)
-                }
-                .testTag(TestTags.PROFILE_ROW),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(collectionItem.profileImage)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.ic_profile),
-                contentDescription = "icon",
+        if (profileSectionVisible) {
+            Row(
                 modifier = Modifier
-                    .size(height = 45.dp, width = 45.dp)
-                    .clip(CircleShape)
-                    .testTag(TestTags.PROFILE_IMAGE),
-                contentScale = ContentScale.Crop
-            )
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column {
-                Text(
-                    text = collectionItem.profileName,
-                    style = MaterialTheme.typography.titleText,
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ) {
+                        onProfileClick(collectionItem.profileUserName, collectionItem.profileName)
+                    }
+                    .testTag(TestTags.PROFILE_ROW),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(collectionItem.profileImage)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(id = R.drawable.ic_profile),
+                    contentDescription = "icon",
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag(TestTags.PROFILE_NAME)
+                        .size(height = 45.dp, width = 45.dp)
+                        .clip(CircleShape)
+                        .testTag(TestTags.PROFILE_IMAGE),
+                    contentScale = ContentScale.Crop
                 )
 
-            }
-        }
+                Spacer(modifier = Modifier.width(12.dp))
 
-        Spacer(modifier = Modifier.height(12.dp))
+                Column {
+                    Text(
+                        text = collectionItem.profileName,
+                        style = MaterialTheme.typography.titleText,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .testTag(TestTags.PROFILE_NAME)
+                    )
+
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+        }
 
         Row {
             Box(modifier = Modifier.clip(RoundedCornerShape(12.dp))) {
@@ -159,7 +162,7 @@ internal fun CollectionRowItem(
 
 @Preview
 @Composable
-private fun CollectionRowItemPreview() {
+private fun CollectionRowItemWithProfilePreview() {
     CollectionRowItem(
         collectionItem =
         CollectionItem(
@@ -175,6 +178,31 @@ private fun CollectionRowItemPreview() {
             totalPhoto = 127,
             profileUserName = "saiful",
         ),
+        onItemClick = { _, _, _, _, _ -> },
         onProfileClick = { _, _ -> },
-    ) { _, _, _, _, _ -> }
+    )
+}
+
+@Preview
+@Composable
+private fun CollectionRowItemWithoutProfilePreview() {
+    CollectionRowItem(
+        collectionItem =
+        CollectionItem(
+            collectionId = "1",
+            profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
+            profileName = "NEOM",
+            mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
+            mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
+            mainImageWidth = 6,
+            mainImageHeight = 3,
+            title = "Sad",
+            description = "Description",
+            totalPhoto = 127,
+            profileUserName = "saiful",
+        ),
+        onItemClick = { _, _, _, _, _ -> },
+        onProfileClick = { _, _ -> },
+        profileSectionVisible = false
+    )
 }

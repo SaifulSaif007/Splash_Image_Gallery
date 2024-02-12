@@ -25,7 +25,7 @@ class CollectionRowItemKtTest {
     private lateinit var totalPhotosPrefix: String
 
     @Test
-    fun `verify CollectionRowItem shows properly`() {
+    fun `verify CollectionRowItem shows properly when profile row is visible`() {
         with(rule) {
             collectionItem = CollectionItem(
                 collectionId = "1",
@@ -62,6 +62,55 @@ class CollectionRowItemKtTest {
                 assertIsDisplayed()
                 assertHasClickAction()
             }
+
+            onNodeWithTag(TestTags.MAIN_IMAGE, useUnmergedTree = true).apply {
+                assertIsDisplayed()
+                assertHasClickAction()
+            }
+
+            onNodeWithTag(TestTags.COLLECTION_TITLE, useUnmergedTree = true).apply {
+                assertIsDisplayed()
+                assertTextEquals(collectionItem.title)
+            }
+
+            onNodeWithTag(TestTags.COLLECTION_TOTAL_PHOTOS, useUnmergedTree = true).apply {
+                assertIsDisplayed()
+                assertTextEquals(totalPhotosPrefix)
+            }
+
+        }
+    }
+
+    @Test
+    fun `verify CollectionRowItem shows properly when profile row is not visible`() {
+        with(rule) {
+            collectionItem = CollectionItem(
+                collectionId = "1",
+                profileImage = "",
+                profileName = "NEOM",
+                mainImage = "",
+                mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
+                title = "Sad",
+                totalPhoto = 124,
+                mainImageHeight = 4,
+                mainImageWidth = 3,
+                description = "desc",
+                profileUserName = "saiful",
+            )
+
+            setContent {
+                CollectionRowItem(
+                    collectionItem = collectionItem,
+                    onProfileClick = { _, _ -> },
+                    onItemClick = { _, _, _, _, _ -> },
+                    profileSectionVisible = false
+                )
+
+                totalPhotosPrefix =
+                    stringResource(id = R.string.total_photos, collectionItem.totalPhoto)
+            }
+
+            onNodeWithTag(TestTags.PROFILE_ROW).assertDoesNotExist()
 
             onNodeWithTag(TestTags.MAIN_IMAGE, useUnmergedTree = true).apply {
                 assertIsDisplayed()

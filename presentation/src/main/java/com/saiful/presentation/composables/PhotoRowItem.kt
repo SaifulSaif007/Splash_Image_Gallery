@@ -44,63 +44,66 @@ import com.saiful.presentation.utils.TestTags.SPONSOR_LABEL
 internal fun PhotoRowItem(
     modifier: Modifier = Modifier,
     photoItem: PhotoItem,
-    onProfileClick: (userName, String) -> Unit,
-    onItemClick: (photoId) -> Unit
+    onItemClick: (photoId) -> Unit,
+    onProfileClick: (userName, String) -> Unit = { _, _ -> },
+    profileSectionVisible: Boolean = true
 ) {
     Column(
         modifier.padding(8.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) {
-                    onProfileClick(photoItem.profileUserName, photoItem.profileName)
-                }
-                .testTag(TestTags.PROFILE_ROW)
-
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(photoItem.profileImage)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.ic_profile),
-                contentDescription = "icon",
+        if (profileSectionVisible) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .size(height = 45.dp, width = 45.dp)
-                    .clip(CircleShape)
-                    .testTag(PROFILE_IMAGE),
-                contentScale = ContentScale.Crop
-            )
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ) {
+                        onProfileClick(photoItem.profileUserName, photoItem.profileName)
+                    }
+                    .testTag(TestTags.PROFILE_ROW)
 
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column {
-
-                Text(
-                    text = photoItem.profileName,
-                    style = MaterialTheme.typography.titleText,
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(photoItem.profileImage)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(id = R.drawable.ic_profile),
+                    contentDescription = "icon",
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag(PROFILE_NAME)
+                        .size(height = 45.dp, width = 45.dp)
+                        .clip(CircleShape)
+                        .testTag(PROFILE_IMAGE),
+                    contentScale = ContentScale.Crop
                 )
 
-                if (photoItem.sponsored) {
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Column {
+
                     Text(
-                        text = "Sponsored",
-                        style = MaterialTheme.typography.primaryText,
+                        text = photoItem.profileName,
+                        style = MaterialTheme.typography.titleText,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .testTag(SPONSOR_LABEL)
+                            .testTag(PROFILE_NAME)
                     )
+
+                    if (photoItem.sponsored) {
+                        Text(
+                            text = "Sponsored",
+                            style = MaterialTheme.typography.primaryText,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .testTag(SPONSOR_LABEL)
+                        )
+                    }
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+        }
 
         Row {
             Box(modifier = Modifier.clip(RoundedCornerShape(12.dp))) {
@@ -124,7 +127,7 @@ internal fun PhotoRowItem(
 
 @Preview(showBackground = true)
 @Composable
-private fun PhotoRowItemPreview() {
+private fun PhotoRowItemWithProfilePreview() {
     PhotoRowItem(
         photoItem = PhotoItem(
             photoId = "1",
@@ -139,5 +142,26 @@ private fun PhotoRowItemPreview() {
         ),
         onItemClick = {},
         onProfileClick = { _, _ -> }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PhotoRowItemWithoutProfilePreview() {
+    PhotoRowItem(
+        photoItem = PhotoItem(
+            photoId = "1",
+            profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
+            profileName = "NEOM",
+            sponsored = true,
+            mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
+            mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
+            mainImageWidth = 4,
+            mainImageHeight = 3,
+            profileUserName = "neom",
+        ),
+        onItemClick = {},
+        onProfileClick = { _, _ -> },
+        profileSectionVisible = false
     )
 }

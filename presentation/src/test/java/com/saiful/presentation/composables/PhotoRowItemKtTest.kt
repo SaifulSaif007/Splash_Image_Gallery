@@ -103,4 +103,33 @@ class PhotoRowItemKtTest {
             onNodeWithTag(PROFILE_ROW).assertIsDisplayed().performClick()
         }
     }
+
+    @Test
+    fun `verify PhotoRowItem works properly when profile section is hidden`() {
+        photoItem = PhotoItem(
+            photoId = "1",
+            profileImage = "",
+            profileName = "NEOM",
+            sponsored = false,
+            mainImage = "",
+            mainImageBlurHash = "",
+            mainImageHeight = 4,
+            mainImageWidth = 3,
+            profileUserName = "saiful"
+        )
+
+        with(rule) {
+            setContent {
+                PhotoRowItem(
+                    modifier = Modifier,
+                    photoItem = photoItem,
+                    onItemClick = {},
+                    onProfileClick = { _, _ -> },
+                    profileSectionVisible = false
+                )
+            }
+
+            onNodeWithTag(PROFILE_ROW, useUnmergedTree = true).assertDoesNotExist()
+        }
+    }
 }

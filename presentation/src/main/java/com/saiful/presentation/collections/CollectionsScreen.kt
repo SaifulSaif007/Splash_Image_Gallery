@@ -75,20 +75,21 @@ private fun CollectionScreenContent(
                     totalPhoto = collections[index]!!.totalPhoto,
                     profileUserName = collections[index]!!.profileUserName
                 ),
+                onItemClick = { collectionId, title, desc, total, author ->
+                    onEvent(
+                        CollectionsContract.Event.SelectCollection(
+                            collectionId = collectionId,
+                            collectionName = title,
+                            collectionDesc = desc,
+                            totalPhotos = total.toString(),
+                            collectionAuthor = author
+                        )
+                    )
+                },
                 onProfileClick = { userName, profileName ->
                     onEvent(CollectionsContract.Event.SelectProfile(userName, profileName))
                 }
-            ) { collectionId, title, desc, total, author ->
-                onEvent(
-                    CollectionsContract.Event.SelectCollection(
-                        collectionId = collectionId,
-                        collectionName = title,
-                        collectionDesc = desc,
-                        totalPhotos = total.toString(),
-                        collectionAuthor = author
-                    )
-                )
-            }
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
         }
