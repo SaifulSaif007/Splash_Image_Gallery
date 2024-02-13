@@ -1,5 +1,8 @@
 package com.saiful.data.repository.profile
 
+import androidx.paging.LoadState
+import androidx.paging.testing.ErrorRecovery
+import androidx.paging.testing.asSnapshot
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.times
@@ -9,7 +12,10 @@ import com.saiful.core.domain.Result
 import com.saiful.data.model.Links
 import com.saiful.data.model.ProfileImage
 import com.saiful.data.model.Social
+import com.saiful.data.model.User
 import com.saiful.data.model.collection.PreviewPhoto
+import com.saiful.data.model.photo.ContentLink
+import com.saiful.data.model.photo.Photo
 import com.saiful.data.model.photo.Urls
 import com.saiful.data.model.profile.Profile
 import com.saiful.data.remote.ApiService
@@ -23,6 +29,10 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
 
     private lateinit var profileRepository: ProfileRepository
     private lateinit var profileResponse: Profile
+    private val userName = "saiful"
+    private val page: Int = 1
+    private val pageSize: Int = 10
+    private lateinit var photoListResponse: List<Photo>
 
     override fun setup() {
         profileRepository = ProfileRepositoryImpl(apiService, errorMapper)
@@ -85,6 +95,67 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
             followingCount = 500,
             downloads = 10000
         )
+
+        photoListResponse = listOf(
+            Photo(
+                id = "1",
+                altDescription = "",
+                blurHash = "",
+                color = "",
+                height = 100,
+                width = 100,
+                createdAt = "",
+                currentUserCollections = emptyList(),
+                likedByUser = false,
+                likes = 100,
+                links = ContentLink(
+                    download = "", downloadLocation = "", html = "", self = ""
+                ),
+                promotedAt = "",
+                slug = "",
+                sponsorship = null,
+                updatedAt = "",
+                urls = Urls(
+                    full = "url", raw = "url", regular = "url", small = "url", thumb = "url"
+                ),
+                user = User(
+                    acceptedTos = false,
+                    bio = null,
+                    instagramUsername = null,
+                    firstName = "name",
+                    lastName = null,
+                    forHire = false,
+                    id = "12",
+                    location = null,
+                    name = "name",
+                    portfolioUrl = null,
+                    links = Links(
+                        followers = "",
+                        following = "",
+                        html = "",
+                        likes = "",
+                        photos = "",
+                        portfolio = "",
+                        self = ""
+                    ),
+                    username = "abc",
+                    profileImage = ProfileImage(
+                        small = "url", medium = "url", large = "url"
+                    ),
+                    social = Social(
+                        instagramUsername = "username",
+                        portfolioUrl = "username",
+                        twitterUsername = null
+                    ),
+                    totalCollections = 0,
+                    totalLikes = 0,
+                    totalPhotos = 1,
+                    twitterUsername = null,
+                    updatedAt = ""
+                ),
+                description = "description"
+            )
+        )
     }
 
     override fun tearDown() {
@@ -96,12 +167,12 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
     fun `verify get profile success`() {
         runTest {
             whenever(
-                apiService.profile("username")
+                apiService.profile(userName)
             ).thenReturn(profileResponse)
 
-            val result = profileRepository.profile("username")
+            val result = profileRepository.profile(userName)
             assert(result is Result.Success)
-            verify(apiService, times(1)).profile("username")
+            verify(apiService, times(1)).profile(userName)
         }
     }
 
@@ -109,12 +180,45 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
     fun `verify get profile failure`() {
         runTest {
             whenever(
-                apiService.profile("username")
+                apiService.profile(userName)
             ).thenThrow(RuntimeException())
 
-            val result = profileRepository.profile("username")
+            val result = profileRepository.profile(userName)
             assert(result is Result.Error)
-            verify(apiService, times(1)).profile("username")
+            verify(apiService, times(1)).profile(userName)
+        }
+    }
+
+    @Test
+    fun `verify get profile photos success`() {
+        runTest {
+            whenever(
+                apiService.profilePhotos(userName, page, pageSize)
+            ).thenReturn(photoListResponse)
+
+            val result = profileRepository.profilePhotos(userName).asSnapshot()
+
+            assert(result == photoListResponse)
+            verify(apiService, times(1)).profilePhotos(userName, page, pageSize)
+        }
+    }
+
+    @Test
+    fun `verify get profile photos is not successful`() {
+        runTest {
+            whenever(
+                apiService.profilePhotos(userName, page, pageSize)
+            ).thenThrow(RuntimeException())
+
+            val result = profileRepository.profilePhotos(userName).asSnapshot(
+                onError = { loadState ->
+                    assert(loadState.refresh is LoadState.Error)
+                    ErrorRecovery.RETURN_CURRENT_SNAPSHOT
+                }
+            )
+
+            assert(result.isEmpty())
+            verify(apiService, times(1)).profilePhotos(userName, page, pageSize)
         }
     }
 }

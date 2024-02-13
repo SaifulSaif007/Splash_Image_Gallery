@@ -39,4 +39,10 @@ internal interface ApiService {
         @Path("user_name") userName: String
     ): Profile
 
+    @GET("users/{user_name}/photos")
+    suspend fun profilePhotos(
+        @Path("user_name") userName: String,
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int
+    ): List<Photo>
 }
