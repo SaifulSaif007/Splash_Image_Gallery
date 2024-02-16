@@ -46,8 +46,12 @@ internal class ProfileViewModel @Inject constructor(
 
     override fun handleEvents(event: ViewEvent) {
         when (event) {
-            is ProfileContract.Event.navigateBack -> {
-                setEffect { ProfileContract.Effect.Navigation.navigateUp }
+            is ProfileContract.Event.NavigateBack -> {
+                setEffect { ProfileContract.Effect.Navigation.NavigateUp }
+            }
+
+            is ProfileContract.Event.NavigateToPhotoDetails -> {
+                setEffect { ProfileContract.Effect.Navigation.ToPhotoDetails(event.photoId) }
             }
         }
     }

@@ -176,10 +176,17 @@ fun NavGraphBuilder.homeNavGraph(
                 navArgument(USER_NAME) { type = NavType.StringType },
                 navArgument(USER_PROFILE_NAME) { type = NavType.StringType }
             )
-        ) {
-            ProfileScreen { navigationRequest ->
+        ) { entry ->
+            ProfileScreen(
+                profileUserName = entry.arguments?.getString(USER_NAME) ?: ""
+            ) { navigationRequest ->
                 when (navigationRequest) {
-                    ProfileContract.Effect.Navigation.navigateUp -> navController.navigateUp()
+                    is ProfileContract.Effect.Navigation.NavigateUp -> navController.navigateUp()
+                    is ProfileContract.Effect.Navigation.ToPhotoDetails -> {
+                        navController.navigate(
+                            HomeNavRoute.PhotoDetails.createRoute(photoId = navigationRequest.photoId)
+                        )
+                    }
                 }
             }
         }

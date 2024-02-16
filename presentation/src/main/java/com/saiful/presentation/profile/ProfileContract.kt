@@ -5,12 +5,16 @@ import com.saiful.core.ui.ViewSideEffect
 
 internal class ProfileContract {
     sealed class Event : ViewEvent {
-        object navigateBack : Event()
+        object NavigateBack : Event()
+        data class NavigateToPhotoDetails(val photoId: String) : Event()
     }
 
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
-            object navigateUp : Navigation()
+            object NavigateUp : Navigation()
+
+            data class ToPhotoDetails(val photoId: String) : Navigation()
+
         }
     }
 }

@@ -96,8 +96,8 @@ class ProfileViewModelTest : BaseViewModelTest() {
         runTest {
             initViewModel()
 
-            viewModel.setEvent(ProfileContract.Event.navigateBack)
-            assert(viewModel.effect.first() is ProfileContract.Effect.Navigation.navigateUp)
+            viewModel.setEvent(ProfileContract.Event.NavigateBack)
+            assert(viewModel.effect.first() is ProfileContract.Effect.Navigation.NavigateUp)
         }
     }
 }

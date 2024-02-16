@@ -45,12 +45,13 @@ import com.saiful.domain.mapper.COLLECTIONS
 import com.saiful.domain.mapper.LIKES
 import com.saiful.domain.mapper.PHOTOS
 import com.saiful.domain.model.ProfileInfo
+import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.profile.collection.ProfileCollections
 import com.saiful.presentation.profile.likes.ProfileLikes
-import com.saiful.presentation.profile.photos.ProfilePhotos
+import com.saiful.presentation.profile.photos.ProfilePhotoScreen
 import com.saiful.presentation.theme.collectionInfoSubTitle
 import com.saiful.presentation.theme.photoDetailsInfo
 import com.saiful.presentation.theme.primaryText
@@ -65,6 +66,7 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
+    profileUserName: userName,
     navigationRequest: (ProfileContract.Effect) -> Unit
 ) {
 
@@ -87,7 +89,7 @@ internal fun ProfileScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = {
-                        viewModel.setEvent(ProfileContract.Event.navigateBack)
+                        viewModel.setEvent(ProfileContract.Event.NavigateBack)
                     }) {
                         Icon(
                             Icons.Filled.ArrowBack,
@@ -121,8 +123,11 @@ internal fun ProfileScreen(
             is ProfileViewModel.UIState.Success -> {
                 ProfileScreenContent(
                     modifier = Modifier.padding(padding),
-                    profileInfo = (uiState.value as ProfileViewModel.UIState.Success).data
-                )
+                    profileInfo = (uiState.value as ProfileViewModel.UIState.Success).data,
+                    userName = profileUserName
+                ) {
+                    viewModel.setEvent(it)
+                }
             }
         }
     }
@@ -130,7 +135,12 @@ internal fun ProfileScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ProfileScreenContent(modifier: Modifier, profileInfo: ProfileInfo) {
+private fun ProfileScreenContent(
+    modifier: Modifier,
+    profileInfo: ProfileInfo,
+    userName: userName,
+    event: (ProfileContract.Event) -> Unit
+) {
     Column(
         modifier = modifier.scrollable(
             state = rememberScrollState(),
@@ -221,9 +231,14 @@ private fun ProfileScreenContent(modifier: Modifier, profileInfo: ProfileInfo) {
                 state = pagerState
             ) { page ->
                 when (tabs[page]) {
-                    PHOTOS -> ProfilePhotos()
-                    LIKES -> ProfileLikes()
-                    COLLECTIONS -> ProfileCollections()
+                    PHOTOS -> ProfilePhotoScreen(userName,
+                        navigateToPhotoDetails = { photoId ->
+                            event(ProfileContract.Event.NavigateToPhotoDetails(photoId))
+                        }
+                    )
+
+                    LIKES -> ProfileLikes(userName)
+                    COLLECTIONS -> ProfileCollections(userName)
                 }
             }
         }
@@ -262,6 +277,8 @@ private fun ProfileScreenPreview() {
             likes = "100",
             collection = "100",
             visibleTabs = listOf("PHOTOS", "LIKES", "COLLECTIONS")
-        )
+        ),
+        userName = "saiful",
+        event = {}
     )
 }
