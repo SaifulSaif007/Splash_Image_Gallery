@@ -100,4 +100,14 @@ class ProfileViewModelTest : BaseViewModelTest() {
             assert(viewModel.effect.first() is ProfileContract.Effect.Navigation.NavigateUp)
         }
     }
+
+    @Test
+    fun `verify navigate to photoDetails event`() {
+        runTest {
+            initViewModel()
+
+            viewModel.setEvent(ProfileContract.Event.NavigateToPhotoDetails("1"))
+            assert(viewModel.effect.first() is ProfileContract.Effect.Navigation.ToPhotoDetails)
+        }
+    }
 }
