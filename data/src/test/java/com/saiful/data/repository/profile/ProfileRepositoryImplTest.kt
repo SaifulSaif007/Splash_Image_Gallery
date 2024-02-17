@@ -221,4 +221,37 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
             verify(apiService, times(1)).profilePhotos(userName, page, pageSize)
         }
     }
+
+    @Test
+    fun `verify get profile liked photos success`() {
+        runTest {
+            whenever(
+                apiService.profileLikedPhotos(userName, page, pageSize)
+            ).thenReturn(photoListResponse)
+
+            val result = profileRepository.profileLikedPhotos(userName).asSnapshot()
+
+            assert(result == photoListResponse)
+            verify(apiService, times(1)).profileLikedPhotos(userName, page, pageSize)
+        }
+    }
+
+    @Test
+    fun `verify get profile liked photos is not successful`() {
+        runTest {
+            whenever(
+                apiService.profileLikedPhotos(userName, page, pageSize)
+            ).thenThrow(RuntimeException())
+
+            val result = profileRepository.profileLikedPhotos(userName).asSnapshot(
+                onError = { loadState ->
+                    assert(loadState.refresh is LoadState.Error)
+                    ErrorRecovery.RETURN_CURRENT_SNAPSHOT
+                }
+            )
+
+            assert(result.isEmpty())
+            verify(apiService, times(1)).profileLikedPhotos(userName, page, pageSize)
+        }
+    }
 }

@@ -37,4 +37,18 @@ internal class ProfileRepositoryImpl @Inject constructor(
             }
         ).flow
     }
+
+    override suspend fun profileLikedPhotos(username: String): Flow<PagingData<Photo>> {
+        val apiService = apiService::profileLikedPhotos
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                maxSize = 100,
+            ),
+            pagingSourceFactory = {
+                ProfileItemsPagingSource(apiCall = apiService, userName = username)
+            }
+        ).flow
+    }
 }

@@ -10,4 +10,5 @@ interface ProfileRepository {
     suspend fun profile(username: String): Result<Profile>
 
     suspend fun profilePhotos(username: String): Flow<PagingData<Photo>>
+    suspend fun profileLikedPhotos(username: String): Flow<PagingData<Photo>>
 }

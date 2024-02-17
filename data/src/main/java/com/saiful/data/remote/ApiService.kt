@@ -45,4 +45,11 @@ internal interface ApiService {
         @Query("page") page: Int,
         @Query("per_page") pageSize: Int
     ): List<Photo>
+
+    @GET("users/{user_name}/likes")
+    suspend fun profileLikedPhotos(
+        @Path("user_name") userName: String,
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int
+    ): List<Photo>
 }
