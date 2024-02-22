@@ -50,7 +50,7 @@ import com.saiful.presentation.R
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.profile.collection.ProfileCollections
-import com.saiful.presentation.profile.likes.ProfileLikes
+import com.saiful.presentation.profile.likes.ProfileLikesScreen
 import com.saiful.presentation.profile.photos.ProfilePhotoScreen
 import com.saiful.presentation.theme.collectionInfoSubTitle
 import com.saiful.presentation.theme.photoDetailsInfo
@@ -237,7 +237,12 @@ private fun ProfileScreenContent(
                         }
                     )
 
-                    LIKES -> ProfileLikes(userName)
+                    LIKES -> ProfileLikesScreen(userName,
+                        navigateToPhotoDetails = { photoId ->
+                            event(ProfileContract.Event.NavigateToPhotoDetails(photoId))
+                        }
+                    )
+
                     COLLECTIONS -> ProfileCollections(userName)
                 }
             }

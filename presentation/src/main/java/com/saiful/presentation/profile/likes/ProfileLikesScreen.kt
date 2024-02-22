@@ -1,4 +1,4 @@
-package com.saiful.presentation.profile.photos
+package com.saiful.presentation.profile.likes
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,17 +25,17 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
 
 @Composable
-fun ProfilePhotoScreen(
+fun ProfileLikesScreen(
     userName: userName,
     navigateToPhotoDetails: (photoId) -> Unit,
-    viewModel: ProfilePhotosViewModel = hiltViewModel()
+    viewModel: ProfileLikesViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = Unit) {
-        viewModel.setEvent(ProfilePhotosContract.Event.Initialize(userName = userName))
+        viewModel.setEvent(ProfileLikesContract.Event.Initialize(userName))
 
         viewModel.effect.onEach {
             when (it) {
-                is ProfilePhotosContract.Effect.Navigation.ToPhotoDetails -> {
+                is ProfileLikesContract.Effect.Navigation.ToPhotoDetails -> {
                     navigateToPhotoDetails(it.photoId)
                 }
             }
@@ -44,15 +44,16 @@ fun ProfilePhotoScreen(
 
     val photos = viewModel.photoState.collectAsLazyPagingItems()
 
-    ProfilePhotosContent(photos = photos) { event: ProfilePhotosContract.Event ->
-        viewModel.setEvent(event)
+    ProfileLikedPhotoContent(photos = photos) {
+        viewModel.setEvent(it)
     }
 }
 
+
 @Composable
-private fun ProfilePhotosContent(
+private fun ProfileLikedPhotoContent(
     photos: LazyPagingItems<PhotoItem>,
-    event: (ProfilePhotosContract.Event) -> Unit
+    event: (ProfileLikesContract.Event) -> Unit
 ) {
     LazyColumn {
         items(photos.itemCount) { index ->
@@ -71,7 +72,7 @@ private fun ProfilePhotosContent(
                     ),
                     profileSectionVisible = false,
                     onItemClick = {
-                        event(ProfilePhotosContract.Event.SelectPhoto(photoId = it))
+                        event(ProfileLikesContract.Event.SelectPhoto(photoId = it))
                     }
                 )
             }
@@ -110,12 +111,14 @@ private fun ProfilePhotosContent(
             is LoadState.NotLoading -> {}
         }
     }
+
 }
+
 
 @Preview
 @Composable
-private fun ProfilePhotosPreview() {
-    ProfilePhotosContent(
+private fun ProfileLikesPhotoContentPreview() {
+    ProfileLikedPhotoContent(
         photos = flowOf(
             PagingData.from(
                 data = listOf(
