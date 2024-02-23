@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.saiful.core.domain.Result
 import com.saiful.core.utils.ErrorMapper
+import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.photo.Photo
 import com.saiful.data.model.profile.Profile
 import com.saiful.data.remote.ApiService
@@ -40,6 +41,20 @@ internal class ProfileRepositoryImpl @Inject constructor(
 
     override suspend fun profileLikedPhotos(username: String): Flow<PagingData<Photo>> {
         val apiService = apiService::profileLikedPhotos
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                maxSize = 100,
+            ),
+            pagingSourceFactory = {
+                ProfileItemsPagingSource(apiCall = apiService, userName = username)
+            }
+        ).flow
+    }
+
+    override suspend fun profilePhotoCollections(username: String): Flow<PagingData<Collection>> {
+        val apiService = apiService::profileCollections
 
         return Pager(
             config = PagingConfig(

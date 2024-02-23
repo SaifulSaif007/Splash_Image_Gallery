@@ -52,4 +52,12 @@ internal interface ApiService {
         @Query("page") page: Int,
         @Query("per_page") pageSize: Int
     ): List<Photo>
+
+    @GET("users/{user_name}/collections")
+    suspend fun profileCollections(
+        @Path("user_name") userName: String,
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int
+    ): List<Collection>
+
 }
