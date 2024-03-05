@@ -49,7 +49,7 @@ import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
-import com.saiful.presentation.profile.collection.ProfileCollections
+import com.saiful.presentation.profile.collection.ProfileCollectionScreen
 import com.saiful.presentation.profile.likes.ProfileLikesScreen
 import com.saiful.presentation.profile.photos.ProfilePhotoScreen
 import com.saiful.presentation.theme.collectionInfoSubTitle
@@ -243,7 +243,20 @@ private fun ProfileScreenContent(
                         }
                     )
 
-                    COLLECTIONS -> ProfileCollections(userName)
+                    COLLECTIONS -> ProfileCollectionScreen(
+                        userName,
+                        navigateCollectionPhotos = { collectionId, name, desc, total, author ->
+                            event(
+                                ProfileContract.Event.NavigateToCollection(
+                                    collectionId = collectionId,
+                                    title = name,
+                                    desc = desc,
+                                    count = total,
+                                    author = author
+                                )
+                            )
+                        },
+                    )
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.saiful.presentation.collections
+package com.saiful.presentation.profile.collection
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -6,7 +6,8 @@ import androidx.paging.cachedIn
 import com.saiful.core.ui.BaseViewModel
 import com.saiful.core.ui.ViewEvent
 import com.saiful.domain.model.CollectionItem
-import com.saiful.domain.usecase.GetCollectionUseCase
+import com.saiful.domain.usecase.GetProfileCollectionUseCase
+import com.saiful.domain.usecase.userName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,22 +16,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class CollectionsViewModel @Inject constructor(
-    private val getCollectionUseCase: GetCollectionUseCase
-) : BaseViewModel<CollectionsContract.Event, CollectionsContract.Effect>() {
+internal class ProfileCollectionViewModel @Inject constructor(
+    private val profileCollectionUseCase: GetProfileCollectionUseCase
+) : BaseViewModel<ProfileCollectionContract.Event, ProfileCollectionContract.Effect>() {
 
     private val _collectionState: MutableStateFlow<PagingData<CollectionItem>> =
         MutableStateFlow(value = PagingData.empty())
 
     val collectionState: StateFlow<PagingData<CollectionItem>> get() = _collectionState
-
-    init {
-        loadData()
-    }
-
-    private fun loadData() {
+    private fun loadData(userName: userName) {
         viewModelScope.launch {
-            getCollectionUseCase(Unit)
+            profileCollectionUseCase(userName)
                 .distinctUntilChanged()
                 .cachedIn(viewModelScope)
                 .collect {
@@ -41,9 +37,11 @@ internal class CollectionsViewModel @Inject constructor(
 
     override fun handleEvents(event: ViewEvent) {
         when (event) {
-            is CollectionsContract.Event.SelectCollection -> {
+            is ProfileCollectionContract.Event.Initialize -> loadData(event.username)
+
+            is ProfileCollectionContract.Event.SelectCollection -> {
                 setEffect {
-                    CollectionsContract.Effect.Navigation.ToCollectionDetails(
+                    ProfileCollectionContract.Effect.Navigation.ToCollectionDetails(
                         collectionId = event.collectionId,
                         collectionName = event.collectionName,
                         collectionDesc = event.collectionDesc,
@@ -52,15 +50,8 @@ internal class CollectionsViewModel @Inject constructor(
                     )
                 }
             }
-
-            is CollectionsContract.Event.SelectProfile -> {
-                setEffect {
-                    CollectionsContract.Effect.Navigation.ToProfile(
-                        event.userName,
-                        event.profileName
-                    )
-                }
-            }
         }
     }
+
+
 }

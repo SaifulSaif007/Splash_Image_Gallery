@@ -187,6 +187,18 @@ fun NavGraphBuilder.homeNavGraph(
                             HomeNavRoute.PhotoDetails.createRoute(photoId = navigationRequest.photoId)
                         )
                     }
+
+                    is ProfileContract.Effect.Navigation.ToCollectionDetail -> {
+                        navController.navigate(
+                            HomeNavRoute.CollectionPhotos.createRoute(
+                                collectionId = navigationRequest.collectionId,
+                                collectionTitle = navigationRequest.title,
+                                collectionDescription = navigationRequest.desc,
+                                collectionPhotoCount = navigationRequest.count,
+                                collectionAuthor = navigationRequest.author
+                            )
+                        )
+                    }
                 }
             }
         }

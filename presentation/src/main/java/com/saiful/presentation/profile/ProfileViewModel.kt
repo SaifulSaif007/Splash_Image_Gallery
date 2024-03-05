@@ -53,6 +53,18 @@ internal class ProfileViewModel @Inject constructor(
             is ProfileContract.Event.NavigateToPhotoDetails -> {
                 setEffect { ProfileContract.Effect.Navigation.ToPhotoDetails(event.photoId) }
             }
+
+            is ProfileContract.Event.NavigateToCollection -> {
+                setEffect {
+                    ProfileContract.Effect.Navigation.ToCollectionDetail(
+                        collectionId = event.collectionId,
+                        title = event.title,
+                        desc = event.desc,
+                        count = event.count,
+                        author = event.author
+                    )
+                }
+            }
         }
     }
 
