@@ -41,7 +41,8 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             views = "1000",
             downloads = "100",
             likes = "10",
-            tags = listOf("nature", "landscape", "mountains")
+            tags = listOf("nature", "landscape", "mountains"),
+            userName = "johndoe"
         )
 
     }
@@ -69,8 +70,8 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             initViewModel()
 
             val result = viewModel.uiState.value
-            assert(result is UIState.Success)
-            assert((result as UIState.Success).photoDetails == photoDetailsItem)
+            assert(result is PhotoDetailsViewModel.UIState.Success)
+            assert((result as PhotoDetailsViewModel.UIState.Success).photoDetails == photoDetailsItem)
         }
     }
 
@@ -82,8 +83,8 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             )
             initViewModel()
             val result = viewModel.uiState.value
-            assert(result is UIState.Error)
-            assert((result as UIState.Error).exception == domainException)
+            assert(result is PhotoDetailsViewModel.UIState.Error)
+            assert((result as PhotoDetailsViewModel.UIState.Error).exception == domainException)
         }
     }
 
@@ -93,7 +94,17 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             initViewModel()
             viewModel.setEvent(PhotoDetailsContract.Event.NavigateUp)
 
-            assert(viewModel.effect.first() is PhotoDetailsContract.Effect.NavigateUp)
+            assert(viewModel.effect.first() is PhotoDetailsContract.Effect.Navigation.NavigateUp)
+        }
+    }
+
+    @Test
+    fun `verify navigate to profile event`() {
+        runTest {
+            initViewModel()
+            viewModel.setEvent(PhotoDetailsContract.Event.SelectProfile("saiful", "Saiful"))
+
+            assert(viewModel.effect.first() is PhotoDetailsContract.Effect.Navigation.ToProfile)
         }
     }
 }

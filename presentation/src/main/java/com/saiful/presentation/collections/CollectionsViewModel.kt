@@ -17,8 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class CollectionsViewModel @Inject constructor(
     private val getCollectionUseCase: GetCollectionUseCase
-) :
-    BaseViewModel<CollectionsContract.Event, CollectionsContract.Effect>() {
+) : BaseViewModel<CollectionsContract.Event, CollectionsContract.Effect>() {
 
     private val _collectionState: MutableStateFlow<PagingData<CollectionItem>> =
         MutableStateFlow(value = PagingData.empty())
@@ -50,6 +49,15 @@ internal class CollectionsViewModel @Inject constructor(
                         collectionDesc = event.collectionDesc,
                         totalPhotos = event.totalPhotos,
                         collectionAuthor = event.collectionAuthor
+                    )
+                }
+            }
+
+            is CollectionsContract.Event.SelectProfile -> {
+                setEffect {
+                    CollectionsContract.Effect.Navigation.ToProfile(
+                        event.userName,
+                        event.profileName
                     )
                 }
             }

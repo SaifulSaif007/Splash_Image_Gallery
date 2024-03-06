@@ -122,6 +122,7 @@ class CollectionMapperKtTest {
                 title = it.title,
                 totalPhoto = it.totalPhotos,
                 description = it.description ?: "",
+                profileUserName = it.user.username
             )
         }
     }

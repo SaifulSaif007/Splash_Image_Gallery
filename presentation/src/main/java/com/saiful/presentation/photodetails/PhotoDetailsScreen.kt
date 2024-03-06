@@ -1,7 +1,8 @@
 package com.saiful.presentation.photodetails
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,14 +62,12 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 internal fun PhotoDetailsScreen(
     viewModel: PhotoDetailsViewModel = hiltViewModel(),
-    onNavigationRequest: () -> Unit
+    onNavigationRequest: (PhotoDetailsContract.Effect) -> Unit
 ) {
 
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach {
-            when (it) {
-                PhotoDetailsContract.Effect.NavigateUp -> onNavigationRequest()
-            }
+            onNavigationRequest(it)
         }.collect()
     }
 
@@ -96,7 +96,7 @@ internal fun PhotoDetailsScreen(
         }
     ) { paddingValues ->
         when (uiState.value) {
-            is UIState.Loading -> {
+            is PhotoDetailsViewModel.UIState.Loading -> {
                 LoadingView(
                     modifier = Modifier
                         .padding(paddingValues)
@@ -104,14 +104,14 @@ internal fun PhotoDetailsScreen(
                 )
             }
 
-            is UIState.Success -> {
+            is PhotoDetailsViewModel.UIState.Success -> {
                 PhotoDetailsScreenContent(
-                    photoDetailsItem = (uiState.value as UIState.Success).photoDetails,
+                    photoDetailsItem = (uiState.value as PhotoDetailsViewModel.UIState.Success).photoDetails,
                     onEvent = { viewModel.setEvent(it) },
                 )
             }
 
-            is UIState.Error -> {
+            is PhotoDetailsViewModel.UIState.Error -> {
                 ErrorView(
                     modifier = Modifier
                         .padding(paddingValues)
@@ -157,7 +157,19 @@ private fun PhotoDetailsScreenContent(
                 ) {
 
                     Row(
-                        modifier = Modifier.padding(horizontal = 2.dp, vertical = 4.dp),
+                        modifier = Modifier
+                            .padding(horizontal = 2.dp, vertical = 4.dp)
+                            .clickable(
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() }
+                            ) {
+                                onEvent(
+                                    PhotoDetailsContract.Event.SelectProfile(
+                                        photoDetailsItem.userName,
+                                        photoDetailsItem.profileName
+                                    )
+                                )
+                            },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         AsyncImage(
@@ -326,27 +338,6 @@ private fun UserInteractionInfoCell(title: String, info: String) {
     }
 }
 
-@Composable
-private fun TollBar(
-    onClick: () -> Unit = {}
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Transparent)
-            .height(44.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(onClick = onClick) {
-            Icon(
-                Icons.Filled.ArrowBack,
-                contentDescription = "",
-                tint = Color.White
-            )
-        }
-    }
-}
-
 @Preview
 @Composable
 private fun PhotoDetailsScreenPreview() {
@@ -365,7 +356,8 @@ private fun PhotoDetailsScreenPreview() {
             views = "1000",
             downloads = "100",
             likes = "10",
-            tags = listOf("nature", "landscape", "mountains")
+            tags = listOf("nature", "landscape", "mountains"),
+            userName = "saiful"
         ),
         onEvent = {}
     )

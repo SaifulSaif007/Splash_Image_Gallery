@@ -14,5 +14,6 @@ data class PhotoDetailsItem(
     val views: String,
     val downloads: String,
     val likes: String,
-    val tags: List<String>
+    val tags: List<String>,
+    val userName: String
 )

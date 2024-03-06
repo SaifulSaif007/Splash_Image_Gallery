@@ -9,13 +9,18 @@ import androidx.navigation.navigation
 import com.saiful.core.domain.DomainException
 import com.saiful.presentation.collectionphotos.CollectionPhotosContract
 import com.saiful.presentation.collectionphotos.CollectionPhotosScreen
+import com.saiful.presentation.photodetails.PhotoDetailsContract
 import com.saiful.presentation.photodetails.PhotoDetailsScreen
+import com.saiful.presentation.profile.ProfileContract
+import com.saiful.presentation.profile.ProfileScreen
 import com.saiful.presentation.utils.Constants.COLLECTION_AUTHOR
 import com.saiful.presentation.utils.Constants.COLLECTION_DESCRIPTION
 import com.saiful.presentation.utils.Constants.COLLECTION_ID
 import com.saiful.presentation.utils.Constants.COLLECTION_PHOTO_COUNT
 import com.saiful.presentation.utils.Constants.COLLECTION_TITLE
 import com.saiful.presentation.utils.Constants.PHOTO_ID
+import com.saiful.presentation.utils.Constants.USER_NAME
+import com.saiful.presentation.utils.Constants.USER_PROFILE_NAME
 import kotlinx.coroutines.CoroutineScope
 
 private const val HOME = "home"
@@ -48,6 +53,14 @@ sealed class HomeNavRoute(val route: String) {
                     "?$COLLECTION_PHOTO_COUNT=${collectionPhotoCount}" +
                     "?$COLLECTION_AUTHOR=${collectionAuthor}"
     }
+
+    object Profile : HomeNavRoute(
+        "${HOME}/profile?$USER_NAME={$USER_NAME}" + "?$USER_PROFILE_NAME={$USER_PROFILE_NAME}"
+    ) {
+        fun createRoute(userName: String, profileName: String) =
+            "$HOME/profile?$USER_NAME=${userName}" +
+                    "?$USER_PROFILE_NAME=${profileName}"
+    }
 }
 
 fun NavGraphBuilder.homeNavGraph(
@@ -65,20 +78,36 @@ fun NavGraphBuilder.homeNavGraph(
         ) {
             HomeScreen(
                 onError = onError,
-                onNavigateToPhotoDetails = { photoId ->
-                    navController.navigate(HomeNavRoute.PhotoDetails.createRoute(photoId))
-                },
-                onNavigateToCollectionPhotos = { collectionId, title, desc, count, author ->
-                    navController.navigate(
-                        HomeNavRoute.CollectionPhotos.createRoute(
-                            collectionId = collectionId,
-                            collectionTitle = title,
-                            collectionDescription = desc,
-                            collectionPhotoCount = count,
-                            collectionAuthor = author
-                        )
-                    )
-                },
+                onNavigationRequest = {
+                    when (it) {
+                        is HomeContract.Effect.Navigation.ToCollectionDetail -> {
+                            navController.navigate(
+                                HomeNavRoute.CollectionPhotos.createRoute(
+                                    collectionId = it.collectionId,
+                                    collectionTitle = it.title,
+                                    collectionDescription = it.desc,
+                                    collectionPhotoCount = it.count,
+                                    collectionAuthor = it.author
+                                )
+                            )
+                        }
+
+                        is HomeContract.Effect.Navigation.ToPhotoDetail -> {
+                            navController.navigate(
+                                HomeNavRoute.PhotoDetails.createRoute(photoId = it.photoId)
+                            )
+                        }
+
+                        is HomeContract.Effect.Navigation.ToProfile -> {
+                            navController.navigate(
+                                HomeNavRoute.Profile.createRoute(
+                                    userName = it.userName,
+                                    profileName = it.profileName
+                                )
+                            )
+                        }
+                    }
+                }
             )
 
         }
@@ -87,8 +116,21 @@ fun NavGraphBuilder.homeNavGraph(
             route = HomeNavRoute.PhotoDetails.route,
             arguments = listOf(navArgument(PHOTO_ID) { type = NavType.StringType })
         ) {
-            PhotoDetailsScreen {
-                navController.navigateUp()
+            PhotoDetailsScreen { navigationRequest ->
+                when (navigationRequest) {
+                    is PhotoDetailsContract.Effect.Navigation.NavigateUp -> {
+                        navController.navigateUp()
+                    }
+
+                    is PhotoDetailsContract.Effect.Navigation.ToProfile -> {
+                        navController.navigate(
+                            HomeNavRoute.Profile.createRoute(
+                                navigationRequest.userName,
+                                navigationRequest.profileName
+                            )
+                        )
+                    }
+                }
             }
         }
 
@@ -114,6 +156,48 @@ fun NavGraphBuilder.homeNavGraph(
 
                     is CollectionPhotosContract.Effect.Navigation.NavigateBack -> {
                         navController.navigateUp()
+                    }
+
+                    is CollectionPhotosContract.Effect.Navigation.ToProfile -> {
+                        navController.navigate(
+                            HomeNavRoute.Profile.createRoute(
+                                navigationRequest.userName,
+                                navigationRequest.profileName
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+        composable(
+            route = HomeNavRoute.Profile.route,
+            arguments = listOf(
+                navArgument(USER_NAME) { type = NavType.StringType },
+                navArgument(USER_PROFILE_NAME) { type = NavType.StringType }
+            )
+        ) { entry ->
+            ProfileScreen(
+                profileUserName = entry.arguments?.getString(USER_NAME) ?: ""
+            ) { navigationRequest ->
+                when (navigationRequest) {
+                    is ProfileContract.Effect.Navigation.NavigateUp -> navController.navigateUp()
+                    is ProfileContract.Effect.Navigation.ToPhotoDetails -> {
+                        navController.navigate(
+                            HomeNavRoute.PhotoDetails.createRoute(photoId = navigationRequest.photoId)
+                        )
+                    }
+
+                    is ProfileContract.Effect.Navigation.ToCollectionDetail -> {
+                        navController.navigate(
+                            HomeNavRoute.CollectionPhotos.createRoute(
+                                collectionId = navigationRequest.collectionId,
+                                collectionTitle = navigationRequest.title,
+                                collectionDescription = navigationRequest.desc,
+                                collectionPhotoCount = navigationRequest.count,
+                                collectionAuthor = navigationRequest.author
+                            )
+                        )
                     }
                 }
             }

@@ -19,6 +19,7 @@ internal fun Flow<PagingData<Photo>>.toPhotoItem() =
                 mainImageBlurHash = it.blurHash ?: "",
                 mainImageHeight = ((it.height.toDouble() / it.width.toDouble()) * 10).toInt(),
                 mainImageWidth = (it.width / it.width) * 10,
+                profileUserName = it.user.username,
             )
         }
     }

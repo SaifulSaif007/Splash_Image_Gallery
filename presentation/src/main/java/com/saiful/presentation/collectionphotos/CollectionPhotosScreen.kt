@@ -126,12 +126,16 @@ private fun CollectionPhotosScreenContent(
                     mainImage = photos[index]!!.mainImage,
                     mainImageBlurHash = photos[index]!!.mainImageBlurHash,
                     mainImageHeight = photos[index]!!.mainImageHeight,
-                    mainImageWidth = photos[index]!!.mainImageWidth
-                )
-            ) { photoId ->
-                onEvent(CollectionPhotosContract.Event.SelectPhoto(photoId))
-            }
-
+                    mainImageWidth = photos[index]!!.mainImageWidth,
+                    profileUserName = photos[index]!!.profileUserName,
+                ),
+                onProfileClick = { userName, profileName ->
+                    onEvent(CollectionPhotosContract.Event.SelectProfile(userName, profileName))
+                },
+                onItemClick = { photoId ->
+                    onEvent(CollectionPhotosContract.Event.SelectPhoto(photoId))
+                }
+            )
             Spacer(modifier = Modifier.height(10.dp))
 
         }
@@ -153,7 +157,9 @@ private fun CollectionPhotosScreenContent(
                 item {
                     if (photos.itemCount == 0) {
                         EmptyView(
-                            modifier = Modifier.fillParentMaxSize().padding(bottom = 140.dp)
+                            modifier = Modifier
+                                .fillParentMaxSize()
+                                .padding(bottom = 140.dp)
                         )
                     }
                 }
@@ -237,7 +243,8 @@ private fun CollectionPhotosScreenPreview() {
                         mainImage = "",
                         mainImageBlurHash = "",
                         mainImageWidth = 4,
-                        mainImageHeight = 3
+                        mainImageHeight = 3,
+                        profileUserName = "neom"
                     ),
                     PhotoItem(
                         photoId = "2",
@@ -247,7 +254,8 @@ private fun CollectionPhotosScreenPreview() {
                         mainImage = "",
                         mainImageBlurHash = "",
                         mainImageWidth = 4,
-                        mainImageHeight = 3
+                        mainImageHeight = 3,
+                        profileUserName = "neom"
                     )
                 )
             ),

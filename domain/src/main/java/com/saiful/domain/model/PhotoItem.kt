@@ -11,4 +11,5 @@ data class PhotoItem(
     val mainImageBlurHash: String,
     val mainImageHeight: Int,
     val mainImageWidth: Int,
+    val profileUserName: String,
 )

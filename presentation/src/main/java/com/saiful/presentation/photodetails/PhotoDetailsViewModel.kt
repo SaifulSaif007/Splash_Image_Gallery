@@ -47,18 +47,26 @@ internal class PhotoDetailsViewModel @Inject constructor(
     override fun handleEvents(event: ViewEvent) {
         when (event) {
             is PhotoDetailsContract.Event.NavigateUp -> {
-                setEffect { PhotoDetailsContract.Effect.NavigateUp }
+                setEffect { PhotoDetailsContract.Effect.Navigation.NavigateUp }
+            }
+
+            is PhotoDetailsContract.Event.SelectProfile -> {
+                setEffect {
+                    PhotoDetailsContract.Effect.Navigation.ToProfile(
+                        event.userName,
+                        event.profileName
+                    )
+                }
             }
         }
     }
 
-}
+    sealed class UIState {
+        object Loading : UIState()
+        data class Success(
+            val photoDetails: PhotoDetailsItem
+        ) : UIState()
 
-sealed class UIState {
-    object Loading : UIState()
-    data class Success(
-        val photoDetails: PhotoDetailsItem
-    ) : UIState()
-
-    data class Error(val exception: DomainException) : UIState()
+        data class Error(val exception: DomainException) : UIState()
+    }
 }

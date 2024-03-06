@@ -119,7 +119,8 @@ class PhotoDetailsMapperKtTest {
                 likes = likes.formatNumberWithSuffix(),
                 tags = this.tags.map { tag ->
                     tag.title
-                }
+                },
+                userName = user.username,
             )
         }
 

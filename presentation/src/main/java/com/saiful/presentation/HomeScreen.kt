@@ -9,27 +9,38 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.saiful.core.domain.DomainException
-import com.saiful.domain.usecase.photoId
 import com.saiful.presentation.collections.CollectionsScreen
 import com.saiful.presentation.photos.PhotosScreen
 import com.saiful.presentation.theme.primaryText
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
     onError: (DomainException) -> Unit,
-    onNavigateToPhotoDetails: (photoId) -> Unit,
-    onNavigateToCollectionPhotos: (String, String, String, String, String) -> Unit
+    onNavigationRequest: (HomeContract.Effect.Navigation) -> Unit
 ) {
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.effect.onEach {
+            when (it) {
+                is HomeContract.Effect.Navigation -> onNavigationRequest(it)
+            }
+        }.collect()
+    }
 
     val pagerState = rememberPagerState()
     val tabs = LocalContext.current.resources.getStringArray(R.array.dashboardTabTitle)
@@ -54,7 +65,7 @@ fun HomeScreen(
                     selected = pagerState.currentPage == index,
                     onClick = {
                         coroutineScope.launch {
-                            pagerState.scrollToPage(index)
+                            pagerState.animateScrollToPage(index)
                         }
                     }
                 )
@@ -67,8 +78,31 @@ fun HomeScreen(
             state = pagerState
         ) { page ->
             when (page) {
-                0 -> PhotosScreen(navigationRequest = onNavigateToPhotoDetails)
-                1 -> CollectionsScreen(navigationRequest = onNavigateToCollectionPhotos)
+                0 -> PhotosScreen(
+                    navigatePhotoDetails = {
+                        viewModel.setEvent(HomeContract.Event.SelectPhoto(it))
+                    },
+                    navigateProfile = { userName, profileName ->
+                        viewModel.setEvent(HomeContract.Event.SelectProfile(userName, profileName))
+                    }
+                )
+
+                1 -> CollectionsScreen(
+                    navigateCollectionPhotos = { collectionId, name, desc, total, author ->
+                        viewModel.setEvent(
+                            HomeContract.Event.SelectCollection(
+                                collectionId = collectionId,
+                                title = name,
+                                desc = desc,
+                                count = total,
+                                author = author
+                            )
+                        )
+                    },
+                    navigateProfile = { userName, profileName ->
+                        viewModel.setEvent(HomeContract.Event.SelectProfile(userName, profileName))
+                    }
+                )
             }
         }
     }
@@ -79,7 +113,6 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     HomeScreen(
         onError = {},
-        onNavigateToPhotoDetails = {},
-        onNavigateToCollectionPhotos = { _, _, _, _, _ -> }
+        onNavigationRequest = {}
     )
 }
