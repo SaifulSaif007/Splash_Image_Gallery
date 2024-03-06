@@ -24,6 +24,7 @@ internal class ProfileCollectionViewModel @Inject constructor(
         MutableStateFlow(value = PagingData.empty())
 
     val collectionState: StateFlow<PagingData<CollectionItem>> get() = _collectionState
+
     private fun loadData(userName: userName) {
         viewModelScope.launch {
             profileCollectionUseCase(userName)
