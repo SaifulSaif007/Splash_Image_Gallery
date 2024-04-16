@@ -1,8 +1,6 @@
 package com.saiful.presentation.profile
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -49,6 +46,8 @@ import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
+import com.saiful.presentation.composables.nestedscroll.VerticalNestedScrollView
+import com.saiful.presentation.composables.nestedscroll.rememberNestedScrollViewState
 import com.saiful.presentation.profile.collection.ProfileCollectionScreen
 import com.saiful.presentation.profile.likes.ProfileLikesScreen
 import com.saiful.presentation.profile.photos.ProfilePhotoScreen
@@ -96,9 +95,10 @@ internal fun ProfileScreen(
                             contentDescription = "",
                         )
                     }
-                }
+                },
             )
-        }
+
+        },
     ) { padding ->
         when (uiState.value) {
             is ProfileViewModel.UIState.Error -> {
@@ -133,7 +133,7 @@ internal fun ProfileScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+
 @Composable
 private fun ProfileScreenContent(
     modifier: Modifier,
@@ -141,12 +141,93 @@ private fun ProfileScreenContent(
     userName: userName,
     event: (ProfileContract.Event) -> Unit
 ) {
-    Column(
-        modifier = modifier.scrollable(
-            state = rememberScrollState(),
-            orientation = Orientation.Vertical
+    Column(modifier) {
+        val nestedScrollViewState = rememberNestedScrollViewState()
+        VerticalNestedScrollView(
+            state = nestedScrollViewState,
+            header = {
+                UserInfoSection(profileInfo)
+            },
+            content = {
+                PagerSection(profileInfo, userName, event)
+            }
         )
-    ) {
+    }
+
+}
+
+@Composable
+@OptIn(ExperimentalFoundationApi::class)
+private fun PagerSection(
+    profileInfo: ProfileInfo,
+    userName: userName,
+    event: (ProfileContract.Event) -> Unit
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState()
+    val tabs = profileInfo.visibleTabs
+
+    Column {
+        TabRow(selectedTabIndex = pagerState.currentPage) {
+            tabs.forEachIndexed { index, title ->
+                Tab(
+                    text = {
+                        Text(
+                            text = title,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.primaryText
+                        )
+                    },
+                    selected = pagerState.currentPage == index,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    })
+            }
+        }
+
+        HorizontalPager(
+            pageCount = tabs.size,
+            state = pagerState
+        ) { page ->
+            when (tabs[page]) {
+                PHOTOS -> ProfilePhotoScreen(userName,
+                    navigateToPhotoDetails = { photoId ->
+                        event(ProfileContract.Event.NavigateToPhotoDetails(photoId))
+                    }
+                )
+
+                LIKES -> ProfileLikesScreen(userName,
+                    navigateToPhotoDetails = { photoId ->
+                        event(ProfileContract.Event.NavigateToPhotoDetails(photoId))
+                    }
+                )
+
+                COLLECTIONS -> ProfileCollectionScreen(
+                    userName,
+                    navigateCollectionPhotos = { collectionId, name, desc, total, author ->
+                        event(
+                            ProfileContract.Event.NavigateToCollection(
+                                collectionId = collectionId,
+                                title = name,
+                                desc = desc,
+                                count = total,
+                                author = author
+                            )
+                        )
+                    },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun UserInfoSection(profileInfo: ProfileInfo) {
+    Column {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -198,68 +279,6 @@ private fun ProfileScreenContent(
                 modifier = Modifier.padding(vertical = 5.dp)
             )
         }
-
-
-        val coroutineScope = rememberCoroutineScope()
-        val pagerState = rememberPagerState()
-        val tabs = profileInfo.visibleTabs
-
-        Column {
-            TabRow(selectedTabIndex = pagerState.currentPage) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        text = {
-                            Text(
-                                text = title,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.primaryText
-                            )
-                        },
-                        selected = pagerState.currentPage == index,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
-                        })
-                }
-            }
-
-            HorizontalPager(
-                pageCount = tabs.size,
-                state = pagerState
-            ) { page ->
-                when (tabs[page]) {
-                    PHOTOS -> ProfilePhotoScreen(userName,
-                        navigateToPhotoDetails = { photoId ->
-                            event(ProfileContract.Event.NavigateToPhotoDetails(photoId))
-                        }
-                    )
-
-                    LIKES -> ProfileLikesScreen(userName,
-                        navigateToPhotoDetails = { photoId ->
-                            event(ProfileContract.Event.NavigateToPhotoDetails(photoId))
-                        }
-                    )
-
-                    COLLECTIONS -> ProfileCollectionScreen(
-                        userName,
-                        navigateCollectionPhotos = { collectionId, name, desc, total, author ->
-                            event(
-                                ProfileContract.Event.NavigateToCollection(
-                                    collectionId = collectionId,
-                                    title = name,
-                                    desc = desc,
-                                    count = total,
-                                    author = author
-                                )
-                            )
-                        },
-                    )
-                }
-            }
-        }
     }
 }
 
@@ -281,22 +300,23 @@ private fun UserInfoCell(title: String, info: String) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun ProfileScreenPreview() {
     ProfileScreenContent(
         modifier = Modifier,
         profileInfo = ProfileInfo(
-            profileImage = "",
-            profileName = "saiful",
-            location = "Dhaka, Bangladesh",
-            bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            profileName = "John Doe",
+            location = "New York",
+            bio = "Software Engineer",
+            profileImage = "https://example.com/profile.jpg",
             photos = "100",
-            likes = "100",
-            collection = "100",
-            visibleTabs = listOf("PHOTOS", "LIKES", "COLLECTIONS")
+            likes = "500",
+            collection = "Art",
+            visibleTabs = listOf("Photos", "Likes")
         ),
         userName = "saiful",
         event = {}
     )
 }
+
