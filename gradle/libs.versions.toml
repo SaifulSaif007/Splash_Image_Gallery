@@ -1,6 +1,6 @@
 [versions]
 
-agp = "8.1.4"
+agp = "8.4.1"
 hilt-navigation-compose = "1.2.0"
 kotlinx-coroutines = "1.7.3"
 ktx = "1.13.1"
