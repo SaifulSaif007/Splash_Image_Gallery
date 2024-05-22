@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.saiful.test.unit"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24

@@ -4,13 +4,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -42,9 +37,13 @@ fun HomeScreen(
         }.collect()
     }
 
-    val pagerState = rememberPagerState()
     val tabs = LocalContext.current.resources.getStringArray(R.array.dashboardTabTitle)
     val coroutineScope = rememberCoroutineScope()
+
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { tabs.size }
+    )
 
     Column {
         TabRow(
@@ -73,10 +72,7 @@ fun HomeScreen(
 
         }
 
-        HorizontalPager(
-            pageCount = tabs.size,
-            state = pagerState
-        ) { page ->
+        HorizontalPager(state = pagerState) { page ->
             when (page) {
                 0 -> PhotosScreen(
                     navigatePhotoDetails = {
