@@ -1,31 +1,14 @@
 package com.saiful.presentation.profile
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,11 +34,7 @@ import com.saiful.presentation.composables.nestedscroll.rememberNestedScrollView
 import com.saiful.presentation.profile.collection.ProfileCollectionScreen
 import com.saiful.presentation.profile.likes.ProfileLikesScreen
 import com.saiful.presentation.profile.photos.ProfilePhotoScreen
-import com.saiful.presentation.theme.collectionInfoSubTitle
-import com.saiful.presentation.theme.photoDetailsInfo
-import com.saiful.presentation.theme.primaryText
-import com.saiful.presentation.theme.titleText
-import com.saiful.presentation.theme.toolbarText
+import com.saiful.presentation.theme.*
 import com.saiful.presentation.utils.TestTags
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -91,7 +70,7 @@ internal fun ProfileScreen(
                         viewModel.setEvent(ProfileContract.Event.NavigateBack)
                     }) {
                         Icon(
-                            Icons.Filled.ArrowBack,
+                            Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "",
                         )
                     }
@@ -164,8 +143,11 @@ private fun PagerSection(
     event: (ProfileContract.Event) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState()
     val tabs = profileInfo.visibleTabs
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { tabs.size }
+    )
 
     Column {
         TabRow(selectedTabIndex = pagerState.currentPage) {
@@ -189,10 +171,7 @@ private fun PagerSection(
             }
         }
 
-        HorizontalPager(
-            pageCount = tabs.size,
-            state = pagerState
-        ) { page ->
+        HorizontalPager(state = pagerState) { page ->
             when (tabs[page]) {
                 PHOTOS -> ProfilePhotoScreen(userName,
                     navigateToPhotoDetails = { photoId ->
