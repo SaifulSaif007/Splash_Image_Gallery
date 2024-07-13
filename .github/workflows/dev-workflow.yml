@@ -1,0 +1,21 @@
+name: Development workflow CI
+
+on:
+  push:
+    branches:
+      - git-workflow
+      - master
+
+jobs:
+  setup_project:
+    uses: SaifulSaif007/Splash_Image_Gallery/.github/workflows/setup-workflow.yml@git-workflow
+
+  build_project:
+    needs: setup_project
+    runs-on: macos-latest
+
+    steps:
+      - name: Build with Gradle
+        run: ./gradlew buildDebug --console=plain
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}

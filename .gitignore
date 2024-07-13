@@ -18,6 +18,5 @@ local.properties
 # Gradle files
 .gradle/
 build/
-gradle.properties
 
 /app/release/output-metadata.json

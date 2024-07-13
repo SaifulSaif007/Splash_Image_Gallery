@@ -16,8 +16,9 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         val clientID: String by project
+        val apiKey = System.getenv("CLIENT_ID") ?: clientID
+        buildConfigField("String", "CLIENT_ID",  "\"${apiKey}\"" )
 
-        buildConfigField("String", "CLIENT_ID", clientID)
     }
 
     buildTypes {
