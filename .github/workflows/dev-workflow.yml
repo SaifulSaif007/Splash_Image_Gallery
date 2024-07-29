@@ -7,15 +7,27 @@ on:
       - master
 
 jobs:
-  setup_project:
+  setup_with_build:
     uses: SaifulSaif007/Splash_Image_Gallery/.github/workflows/setup-workflow.yml@git-workflow
 
   build_project:
-    needs: setup_project
+    needs: setup_with_build
     runs-on: macos-latest
 
     steps:
-      - name: Build with Gradle
-        run: ./gradlew buildDebug --console=plain
-        env:
-          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run Coverage
+        run:
+          ./gradlew clean testDebugUnitTestCoverage
+
+      - name: Add coverage to PR only
+        if: github.event_name == 'pull_request'
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.3
+        with:
+          paths: ${{ github.workspace }}/build/reports/jacoco/testDebugUnitTestCoverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 80
+          min-coverage-changed-files: 80
