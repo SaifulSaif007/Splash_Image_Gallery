@@ -1,0 +1,47 @@
+name: Development workflow CI
+
+on:
+  push:
+    branches:
+      - git-workflow
+      - master
+
+jobs:
+  build_app:
+    runs-on: macos-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup JDK 19
+        uses: actions/setup-java@v4
+        with:
+          java-version: '19'
+          distribution: 'corretto'
+          cache: 'gradle'
+      #            cache-dependency-path: | # optional
+      #              sub-project/*.gradle*
+      #              sub-project/**/gradle-wrapper.properties
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew buildDebug --console=plain
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+
+#      - name: Run Coverage
+#        run:
+#          ./gradlew clean testDebugUnitTestCoverage
+#
+#      - name: Add coverage to PR only
+#        if: github.event_name == 'pull_request'
+#        id: jacoco
+#        uses: madrapps/jacoco-report@v1.3
+#        with:
+#          paths: ${{ github.workspace }}/build/reports/jacoco/testDebugUnitTestCoverage.xml
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          min-coverage-overall: 80
+#          min-coverage-changed-files: 80
