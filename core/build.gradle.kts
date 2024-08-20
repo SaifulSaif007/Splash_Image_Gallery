@@ -54,6 +54,9 @@ dependencies {
     implementation(libs.bundles.retrofit)
     implementation(libs.timber)
 
+    debugImplementation(libs.mock.webserver)
+    implementation(libs.logging.interceptor)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
