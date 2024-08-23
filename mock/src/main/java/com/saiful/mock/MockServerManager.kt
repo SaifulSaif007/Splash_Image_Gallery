@@ -1,6 +1,6 @@
-package com.saiful.core.mock
+package com.saiful.mock
 
-import com.saiful.core.components.logger.logDebug
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.mockwebserver.MockWebServer
@@ -18,7 +18,7 @@ class MockServerManager(
                 dispatcher = mockDispatcher
             }?.start(8080)
         }.invokeOnCompletion {
-            logDebug(msg = "Mock server started")
+            Log.d("Mock", "Mock server started")
         }
     }
 

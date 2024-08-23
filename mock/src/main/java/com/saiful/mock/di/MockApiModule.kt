@@ -1,27 +1,17 @@
-package com.saiful.core.di
+package com.saiful.mock.di
 
-import com.saiful.core.mock.*
-import com.saiful.core.utils.DispatcherProvider
+import com.saiful.mock.*
+import com.saiful.mock.mappers.PhotoMockApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.*
-import timber.log.Timber
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object MockApiModule {
-
-    @Singleton
-    @Provides
-    fun provideCoroutineScope(dispatcherProvider: DispatcherProvider): CoroutineScope {
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            Timber.e("CoreModule -> CoroutineExceptionHandler -> ${throwable.localizedMessage}")
-        }
-        return CoroutineScope(SupervisorJob() + dispatcherProvider.io() + exceptionHandler)
-    }
 
     @Singleton
     @Provides

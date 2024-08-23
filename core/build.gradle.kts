@@ -17,7 +17,7 @@ android {
 
         val clientID: String by project
         val apiKey = System.getenv("CLIENT_ID") ?: clientID
-        buildConfigField("String", "CLIENT_ID",  "\"${apiKey}\"" )
+        buildConfigField("String", "CLIENT_ID", "\"${apiKey}\"")
 
     }
 
@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":mock"))
 
     implementation(libs.androidx.ktx)
     implementation(platform(libs.kotlin.bom))

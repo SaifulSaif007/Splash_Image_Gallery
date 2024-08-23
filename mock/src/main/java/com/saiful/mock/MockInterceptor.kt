@@ -1,6 +1,6 @@
-package com.saiful.core.mock
+package com.saiful.mock
 
-import com.saiful.core.components.logger.logDebug
+import android.util.Log
 import okhttp3.*
 
 class MockInterceptor(
@@ -18,7 +18,7 @@ class MockInterceptor(
                 .url(newEndPointUrl)
                 .build()
         }
-        logDebug("MOCK", "Mocker: request -> $request")
+        Log.d("MOCK", "Mocker: request -> $request")
         return chain.proceed(request)
     }
 

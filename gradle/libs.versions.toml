@@ -32,6 +32,8 @@ crashlytics = "3.0.1"
 firebase-bom = "33.0.0"
 mock-webserver = "4.12.0"
 logging-interceptor = "4.12.0"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 
@@ -90,6 +92,8 @@ paging-test = { group = "androidx.paging", name = "paging-testing", version.ref 
 coroutine-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine-test" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 mockito-kotlin = { group = "com.nhaarman", name = "mockito-kotlin-kt1.1", version.ref = "mockito-kotlin" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [bundles]
 retrofit = ["retrofit", "moshi", "moshi-adapter", "moshi-converter"]

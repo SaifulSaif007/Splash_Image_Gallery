@@ -1,5 +1,6 @@
-package com.saiful.core.mock
+package com.saiful.mock
 
+import com.saiful.mock.util.ResourceUtils
 import okhttp3.mockwebserver.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.saiful.core.mock
+package com.saiful.mock.mappers
 
 object PhotoMockApi {
 

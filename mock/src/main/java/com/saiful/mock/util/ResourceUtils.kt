@@ -1,4 +1,4 @@
-package com.saiful.core.mock
+package com.saiful.mock.util
 
 import okio.buffer
 import okio.source

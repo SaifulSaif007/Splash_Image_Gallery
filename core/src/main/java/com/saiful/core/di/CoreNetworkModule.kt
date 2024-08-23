@@ -5,7 +5,7 @@ import com.saiful.core.data.RequestInterceptor
 import com.saiful.core.data.ResponseInterceptor
 import com.saiful.core.di.qualifiers.BaseUrl
 import com.saiful.core.di.qualifiers.GenericErrorMessage
-import com.saiful.core.mock.*
+import com.saiful.mock.*
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

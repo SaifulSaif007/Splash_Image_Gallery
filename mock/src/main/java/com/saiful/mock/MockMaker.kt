@@ -1,4 +1,6 @@
-package com.saiful.core.mock
+package com.saiful.mock
+
+import com.saiful.mock.mappers.MockApi
 
 class MockMaker {
 
