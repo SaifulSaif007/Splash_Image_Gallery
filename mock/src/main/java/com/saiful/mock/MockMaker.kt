@@ -1,7 +1,5 @@
 package com.saiful.mock
 
-import com.saiful.mock.mappers.MockApi
-
 class MockMaker {
 
     private val mockApis = mutableMapOf<Regex, MockApi>()

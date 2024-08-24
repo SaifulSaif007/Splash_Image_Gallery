@@ -1,4 +1,4 @@
-package com.saiful.mock.mappers
+package com.saiful.mock
 
 import okhttp3.mockwebserver.RecordedRequest
 
