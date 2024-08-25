@@ -1,6 +1,7 @@
 package com.saiful.mock.di
 
 import com.saiful.mock.*
+import com.saiful.mock.mappers.CollectionMockApi
 import com.saiful.mock.mappers.PhotoMockApi
 import dagger.Module
 import dagger.Provides
@@ -18,6 +19,7 @@ object MockApiModule {
     fun provideMockMaker(): MockMaker {
         return MockMaker().apply {
             putMap(PhotoMockApi.getMap())
+            putMap(CollectionMockApi.getMap())
         }
     }
 

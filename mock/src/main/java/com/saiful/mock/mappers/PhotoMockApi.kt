@@ -9,7 +9,7 @@ object PhotoMockApi {
 
     fun getMap(): Map<Regex, MockApi> = mapOf(
         PHOTOS to MockApi(
-            path = "photos",
+            path = "photos/list",
             findPath = { recordedRequest ->
                 val regex = """page=(\d+)""".toRegex()
                 when (regex.find(recordedRequest.path.toString())?.groupValues?.get(1) ?: "") {
