@@ -17,7 +17,9 @@ android {
 
         val clientID: String by project
         val apiKey = System.getenv("CLIENT_ID") ?: clientID
-        buildConfigField("String", "CLIENT_ID",  "\"${apiKey}\"" )
+        buildConfigField("String", "CLIENT_ID", "\"${apiKey}\"")
+
+        buildConfigField("boolean", "enableMock", "false")
 
     }
 
@@ -43,6 +45,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":mock"))
 
     implementation(libs.androidx.ktx)
     implementation(platform(libs.kotlin.bom))
@@ -53,6 +56,9 @@ dependencies {
 
     implementation(libs.bundles.retrofit)
     implementation(libs.timber)
+
+    debugImplementation(libs.mock.webserver)
+    implementation(libs.logging.interceptor)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)

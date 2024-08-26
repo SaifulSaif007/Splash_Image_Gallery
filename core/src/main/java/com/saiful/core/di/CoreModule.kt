@@ -8,6 +8,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.*
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -30,5 +32,14 @@ object CoreModule {
     @Singleton
     fun provideDispatcher(): DispatcherProvider {
         return DefaultDispatcherProvider()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCoroutineScope(dispatcherProvider: DispatcherProvider): CoroutineScope {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            Timber.e("CoreModule -> CoroutineExceptionHandler -> ${throwable.localizedMessage}")
+        }
+        return CoroutineScope(SupervisorJob() + dispatcherProvider.io() + exceptionHandler)
     }
 }

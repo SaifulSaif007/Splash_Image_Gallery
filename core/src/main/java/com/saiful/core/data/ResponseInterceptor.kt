@@ -15,15 +15,15 @@ class ResponseInterceptor(
         return chain.proceed(chain.request()).apply {
             if (!this.isSuccessful) {
                 try {
-                    when (this.code()) {
+                    when (this.code) {
                         HttpURLConnection.HTTP_UNAUTHORIZED -> {
-                            this.body()?.source()?.let { source ->
+                            this.body?.source()?.let { source ->
                                 moshi.adapter(ApiErrorResponse::class.java).fromJson(source)
                                     ?.let { apiErrorResponse ->
                                         throw DomainException(
                                             error = if (apiErrorResponse.errors.isNotEmpty()) apiErrorResponse.errors[0] else genericErrorMsg,
                                             message = "unauthorized",
-                                            code = this.code()
+                                            code = this.code
                                         )
                                     }
                             }
@@ -33,7 +33,7 @@ class ResponseInterceptor(
                             throw DomainException(
                                 error = "unknown",
                                 message = genericErrorMsg,
-                                code = this.code()
+                                code = this.code
                             )
                         }
                     }
@@ -41,7 +41,7 @@ class ResponseInterceptor(
                     throw DomainException(
                         error = "unknown",
                         message = genericErrorMsg,
-                        code = this.code()
+                        code = this.code
                     )
                 }
             }
