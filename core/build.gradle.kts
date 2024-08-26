@@ -19,6 +19,8 @@ android {
         val apiKey = System.getenv("CLIENT_ID") ?: clientID
         buildConfigField("String", "CLIENT_ID", "\"${apiKey}\"")
 
+        buildConfigField("boolean", "enableMock", "false")
+
     }
 
     buildTypes {

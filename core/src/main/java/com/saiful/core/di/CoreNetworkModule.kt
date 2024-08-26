@@ -70,7 +70,11 @@ object CoreNetworkModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(requestInterceptor)
             .addInterceptor(responseInterceptor)
-            .addInterceptor(MockInterceptor(baseUrl, mockMaker))
+            .apply {
+                if (BuildConfig.enableMock) {
+                    addInterceptor(MockInterceptor(baseUrl, mockMaker))
+                }
+            }
             .addNetworkInterceptor(loggingInterceptor)
             .build()
     }
