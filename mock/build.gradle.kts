@@ -35,7 +35,7 @@ android {
 
 dependencies {
 
-    debugImplementation(libs.mock.webserver)
+    implementation(libs.mock.webserver)
     implementation(libs.logging.interceptor)
 
     implementation(libs.dagger.hilt)
