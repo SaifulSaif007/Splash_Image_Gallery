@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.org.jetbrains.kotlin.kapt)
+    id(libs.plugins.com.android.library.get().pluginId)
+    id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
+    id(libs.plugins.org.jetbrains.kotlin.kapt.get().pluginId)
 }
 
 android {

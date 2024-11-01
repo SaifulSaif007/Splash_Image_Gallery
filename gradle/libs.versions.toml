@@ -79,6 +79,10 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 mock-webserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mock-webserver" }
 logging-interceptor = {group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor"}
 
+build-gradle = {group = "com.android.tools.build", name ="gradle", version.ref = "agp"}
+build-gradle-api = {group = "com.android.tools.build", name = "gradle-api", version.ref = "agp"}
+kotlin-gradle = {group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin-bom"}
+
 #Test
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
