@@ -1,10 +1,10 @@
 plugins {
     `kotlin-dsl`
+    `kotlin-dsl-precompiled-script-plugins`
 }
 
 dependencies {
-    implementation(gradleApi())
-    implementation(libs.build.gradle)
-    implementation(libs.build.gradle.api)
-    implementation(libs.kotlin.gradle)
+    implementation(libs.android.gradlePlugin)
+    implementation(libs.kotlin.gradlePlugin)
+    implementation(libs.hilt.plugin)
 }

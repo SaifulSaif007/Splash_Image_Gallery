@@ -1,4 +1,3 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id(libs.plugins.com.android.app.get().pluginId)
     id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)

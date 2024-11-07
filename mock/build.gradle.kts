@@ -2,18 +2,11 @@ plugins {
     id(libs.plugins.com.android.library.get().pluginId)
     id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
     id(libs.plugins.org.jetbrains.kotlin.kapt.get().pluginId)
+    `build-logic`
 }
 
 android {
     namespace = "com.saiful.mock"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
 
     buildTypes {
         release {
@@ -23,13 +16,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 

@@ -1,21 +1,13 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id(libs.plugins.com.android.library.get().pluginId)
     id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
-    alias(libs.plugins.hilt.plugin)
+    id(libs.plugins.hilt.plugin.get().pluginId)
     id(libs.plugins.org.jetbrains.kotlin.kapt.get().pluginId)
+    `build-logic`
 }
 
 android {
     namespace = "com.saiful.domain"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
 
     buildTypes {
         release {
@@ -26,13 +18,7 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_19
-        targetCompatibility = JavaVersion.VERSION_19
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_19.toString()
-    }
+
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
