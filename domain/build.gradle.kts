@@ -1,9 +1,6 @@
 plugins {
-    id(libs.plugins.com.android.library.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
-    id(libs.plugins.hilt.plugin.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.kapt.get().pluginId)
     `build-logic`
+    `feature-common`
 }
 
 android {
@@ -29,8 +26,6 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":data"))
 
-    implementation(libs.dagger.hilt)
-    kapt(libs.hilt.compiler)
     implementation(libs.androidx.ktx)
     implementation(libs.paging.runtime)
 

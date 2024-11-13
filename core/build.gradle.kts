@@ -1,8 +1,6 @@
 plugins {
-    id(libs.plugins.com.android.library.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.kapt.get().pluginId)
     `build-logic`
+    `feature-common`
 }
 
 android {
@@ -40,8 +38,6 @@ dependencies {
     implementation(platform(libs.kotlin.bom))
 
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.dagger.hilt)
-    kapt(libs.hilt.compiler)
 
     implementation(libs.bundles.retrofit)
     implementation(libs.timber)

@@ -1,9 +1,6 @@
 plugins {
-    id(libs.plugins.com.android.library.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
-    id(libs.plugins.hilt.plugin.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.kapt.get().pluginId)
     `build-logic`
+    `feature-common`
 }
 
 android {
@@ -31,9 +28,6 @@ dependencies {
     implementation(libs.androidx.ktx)
     implementation(libs.bundles.retrofit)
     implementation(libs.paging.runtime)
-
-    implementation(libs.dagger.hilt)
-    kapt(libs.hilt.compiler)
 
     testImplementation(project(":base_unit_test"))
     testImplementation(libs.paging.test)

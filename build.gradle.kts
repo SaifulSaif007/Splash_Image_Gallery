@@ -7,8 +7,8 @@ plugins {
     id(libs.plugins.hilt.plugin.get().pluginId)  apply false
     id(libs.plugins.org.jetbrains.kotlin.kapt.get().pluginId) apply false
     id(libs.plugins.org.jetbrains.kotlin.jvm.get().pluginId) apply false
-    id(libs.plugins.gms.google.service.get().pluginId) version  "4.4.1" apply false
-    id(libs.plugins.firebase.crashlytics.get().pluginId) version  "3.0.1" apply false
+    alias(libs.plugins.gms.google.service) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
 }
 
 tasks.register("clean", Delete::class) {

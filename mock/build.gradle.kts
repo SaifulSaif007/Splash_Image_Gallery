@@ -1,8 +1,6 @@
 plugins {
-    id(libs.plugins.com.android.library.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.kapt.get().pluginId)
     `build-logic`
+    `feature-common`
 }
 
 android {
@@ -20,10 +18,7 @@ android {
 }
 
 dependencies {
-
     implementation(libs.mock.webserver)
     implementation(libs.logging.interceptor)
 
-    implementation(libs.dagger.hilt)
-    kapt(libs.hilt.compiler)
 }

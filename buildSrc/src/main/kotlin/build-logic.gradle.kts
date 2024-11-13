@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    `android-library`
+    `kotlin-android`
 }
 
 internal val Project.libs: VersionCatalog get() =

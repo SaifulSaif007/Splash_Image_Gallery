@@ -1,6 +1,4 @@
 plugins {
-    id(libs.plugins.com.android.library.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
     `build-logic`
 }
 
