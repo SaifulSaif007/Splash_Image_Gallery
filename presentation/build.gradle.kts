@@ -1,21 +1,10 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.hilt.plugin)
-    alias(libs.plugins.org.jetbrains.kotlin.kapt)
+    `build-logic`
+    `feature-common`
 }
 
 android {
     namespace = "com.saiful.presentation"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
 
     buildTypes {
         release {
@@ -27,13 +16,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_19
-        targetCompatibility = JavaVersion.VERSION_19
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_19.toString()
-    }
     buildFeatures {
         compose = true
     }
@@ -65,8 +47,6 @@ dependencies {
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
 
-    implementation(libs.dagger.hilt)
-    kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
     testImplementation(project(":base_unit_test"))

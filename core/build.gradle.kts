@@ -1,19 +1,12 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.org.jetbrains.kotlin.kapt)
+    `build-logic`
+    `feature-common`
 }
 
 android {
     namespace = "com.saiful.core"
-    compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
 
         val clientID: String by project
         val apiKey = System.getenv("CLIENT_ID") ?: clientID
@@ -32,13 +25,7 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_19
-        targetCompatibility = JavaVersion.VERSION_19
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_19.toString()
-    }
+
     buildFeatures {
         buildConfig = true
     }
@@ -51,8 +38,6 @@ dependencies {
     implementation(platform(libs.kotlin.bom))
 
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.dagger.hilt)
-    kapt(libs.hilt.compiler)
 
     implementation(libs.bundles.retrofit)
     implementation(libs.timber)
