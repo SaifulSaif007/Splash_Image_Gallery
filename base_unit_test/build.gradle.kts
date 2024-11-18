@@ -24,6 +24,5 @@ dependencies {
 
     implementation(libs.coroutine.test)
     implementation(libs.junit)
-    implementation(libs.junit.ext)
 
 }

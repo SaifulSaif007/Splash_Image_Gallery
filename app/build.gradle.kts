@@ -75,9 +75,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
 
-    androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
-    androidTestImplementation(platform(libs.compose.test.boom))
     debugImplementation(libs.compose.test.ui.tooling)
 
     testImplementation(libs.junit)

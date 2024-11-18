@@ -46,6 +46,5 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
 }

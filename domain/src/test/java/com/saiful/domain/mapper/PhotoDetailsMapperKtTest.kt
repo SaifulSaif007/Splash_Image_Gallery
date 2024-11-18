@@ -1,13 +1,8 @@
 package com.saiful.domain.mapper
 
-import com.saiful.data.model.Links
-import com.saiful.data.model.ProfileImage
-import com.saiful.data.model.Social
-import com.saiful.data.model.User
+import com.saiful.data.model.*
 import com.saiful.data.model.photo.Urls
-import com.saiful.data.model.photo.details.Exif
-import com.saiful.data.model.photo.details.PhotoDetails
-import com.saiful.data.model.photo.details.Tag
+import com.saiful.data.model.photo.details.*
 import com.saiful.data.utils.UNKNOWN
 import com.saiful.domain.model.PhotoDetailsItem
 import kotlinx.coroutines.test.runTest

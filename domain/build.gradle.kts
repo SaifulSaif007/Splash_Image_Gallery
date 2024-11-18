@@ -34,6 +34,5 @@ dependencies {
     testImplementation(libs.coroutine.test)
     testImplementation(libs.paging.test)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
 }
