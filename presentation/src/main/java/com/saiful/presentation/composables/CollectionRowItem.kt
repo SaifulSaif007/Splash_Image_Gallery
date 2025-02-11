@@ -3,17 +3,7 @@ package com.saiful.presentation.composables
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -37,10 +27,7 @@ import coil.request.ImageRequest
 import com.saiful.domain.model.CollectionItem
 import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
-import com.saiful.presentation.theme.AppColor
-import com.saiful.presentation.theme.collectionSubtitle
-import com.saiful.presentation.theme.collectionTitle
-import com.saiful.presentation.theme.titleText
+import com.saiful.presentation.theme.*
 import com.saiful.presentation.utils.TestTags
 import com.saiful.presentation.utils.TestTags.COLLECTION_TITLE
 import com.saiful.presentation.utils.TestTags.COLLECTION_TOTAL_PHOTOS
@@ -128,7 +115,7 @@ internal fun CollectionRowItem(
                             Brush.verticalGradient(
                                 colorStops = arrayOf(
                                     0.0f to Color.Transparent,
-                                    0.6f to AppColor.GradientBlack
+                                    0.6f to AppColor.Gray600
                                 )
                             )
                         )
@@ -160,7 +147,7 @@ internal fun CollectionRowItem(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CollectionRowItemWithProfilePreview() {
     CollectionRowItem(
@@ -183,7 +170,7 @@ private fun CollectionRowItemWithProfilePreview() {
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CollectionRowItemWithoutProfilePreview() {
     CollectionRowItem(

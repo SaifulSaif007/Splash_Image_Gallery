@@ -44,7 +44,7 @@ val Typography.collectionTitle: TextStyle
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
         fontSize = 18.sp,
-        color = AppColor.Background
+        color = AppColor.White
     )
 
 val Typography.collectionSubtitle: TextStyle
@@ -52,7 +52,7 @@ val Typography.collectionSubtitle: TextStyle
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        color = AppColor.Background
+        color = AppColor.White
     )
 
 val Typography.photoDetailsInfo: TextStyle
@@ -81,7 +81,7 @@ val Typography.collectionInfoTitle: TextStyle
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        color = AppColor.Primary
+        color = AppColor.Black
     )
 
 val Typography.collectionInfoSubTitle: TextStyle
@@ -89,7 +89,7 @@ val Typography.collectionInfoSubTitle: TextStyle
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
-        color = AppColor.GradientBlack
+        color = AppColor.Gray600
     )
 
 val Typography.emptyText: TextStyle
@@ -97,5 +97,5 @@ val Typography.emptyText: TextStyle
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        color = AppColor.Primary
+        color = AppColor.Black
     )

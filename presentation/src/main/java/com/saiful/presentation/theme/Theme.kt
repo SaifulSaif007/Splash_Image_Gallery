@@ -9,11 +9,12 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val LightColorScheme = lightColorScheme(
-    primary = AppColor.Primary,
-    secondary = AppColor.Secondary,
-    background = AppColor.Background,
-
-    )
+    primary = AppColor.Black,
+    secondary = AppColor.White,
+    background = AppColor.White,
+    outlineVariant = AppColor.Gray200,
+    tertiary = AppColor.Gray600
+)
 
 @Composable
 fun SplashGalleryTheme(
