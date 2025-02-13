@@ -1,11 +1,7 @@
 package com.saiful.presentation
 
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
+import androidx.navigation.*
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import com.saiful.core.domain.DomainException
 import com.saiful.presentation.collectionphotos.CollectionPhotosContract
 import com.saiful.presentation.collectionphotos.CollectionPhotosScreen
@@ -26,13 +22,13 @@ import kotlinx.coroutines.CoroutineScope
 private const val HOME = "home"
 
 sealed class HomeNavRoute(val route: String) {
-    object Root : HomeNavRoute("$HOME/")
-    object Home : HomeNavRoute("${HOME}/home")
-    object PhotoDetails : HomeNavRoute("${HOME}/photodetails?$PHOTO_ID={$PHOTO_ID}") {
+    data object Root : HomeNavRoute("$HOME/")
+    data object Home : HomeNavRoute("${HOME}/home")
+    data object PhotoDetails : HomeNavRoute("${HOME}/photodetails?$PHOTO_ID={$PHOTO_ID}") {
         fun createRoute(photoId: String) = "$HOME/photodetails?$PHOTO_ID=${photoId}"
     }
 
-    object CollectionPhotos :
+    data object CollectionPhotos :
         HomeNavRoute(
             "${HOME}/collectionphotos?$COLLECTION_ID={$COLLECTION_ID}" +
                     "?$COLLECTION_TITLE={$COLLECTION_TITLE}" +
@@ -54,7 +50,7 @@ sealed class HomeNavRoute(val route: String) {
                     "?$COLLECTION_AUTHOR=${collectionAuthor}"
     }
 
-    object Profile : HomeNavRoute(
+    data object Profile : HomeNavRoute(
         "${HOME}/profile?$USER_NAME={$USER_NAME}" + "?$USER_PROFILE_NAME={$USER_PROFILE_NAME}"
     ) {
         fun createRoute(userName: String, profileName: String) =

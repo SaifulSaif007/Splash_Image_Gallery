@@ -1,8 +1,6 @@
 package com.saiful.presentation.collections
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,12 +13,9 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.CollectionItem
-import com.saiful.presentation.composables.CollectionRowItem
-import com.saiful.presentation.composables.ErrorView
-import com.saiful.presentation.composables.LoadingView
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
+import com.saiful.presentation.composables.*
+import com.saiful.presentation.theme.SplashGalleryTheme
+import kotlinx.coroutines.flow.*
 
 @Composable
 internal fun CollectionsScreen(
@@ -129,43 +124,45 @@ private fun CollectionScreenContent(
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CollectionScreenContentPreview() {
-    CollectionScreenContent(
-        collections =
-        flowOf(
-            PagingData.from(
-                listOf(
-                    CollectionItem(
-                        collectionId = "1",
-                        mainImage = "",
-                        mainImageBlurHash = "",
-                        mainImageHeight = 3,
-                        mainImageWidth = 4,
-                        profileImage = "",
-                        profileName = "NEOM",
-                        title = "City",
-                        description = "desc",
-                        totalPhoto = 10,
-                        profileUserName = "saiful"
-                    ),
-                    CollectionItem(
-                        collectionId = "2",
-                        mainImage = "",
-                        mainImageBlurHash = "",
-                        mainImageHeight = 3,
-                        mainImageWidth = 4,
-                        profileImage = "",
-                        profileName = "ABC",
-                        title = "Adventure",
-                        description = "",
-                        totalPhoto = 101,
-                        profileUserName = "saiful"
+    SplashGalleryTheme {
+        CollectionScreenContent(
+            collections =
+            flowOf(
+                PagingData.from(
+                    listOf(
+                        CollectionItem(
+                            collectionId = "1",
+                            mainImage = "",
+                            mainImageBlurHash = "",
+                            mainImageHeight = 3,
+                            mainImageWidth = 4,
+                            profileImage = "",
+                            profileName = "NEOM",
+                            title = "City",
+                            description = "desc",
+                            totalPhoto = 10,
+                            profileUserName = "saiful"
+                        ),
+                        CollectionItem(
+                            collectionId = "2",
+                            mainImage = "",
+                            mainImageBlurHash = "",
+                            mainImageHeight = 3,
+                            mainImageWidth = 4,
+                            profileImage = "",
+                            profileName = "ABC",
+                            title = "Adventure",
+                            description = "",
+                            totalPhoto = 101,
+                            profileUserName = "saiful"
+                        )
                     )
                 )
-            )
-        ).collectAsLazyPagingItems(),
-        onEvent = {}
-    )
+            ).collectAsLazyPagingItems(),
+            onEvent = {}
+        )
+    }
 }

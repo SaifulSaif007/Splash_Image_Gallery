@@ -2,16 +2,7 @@ package com.saiful.presentation.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -33,8 +24,6 @@ import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.photoId
 import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
-import com.saiful.presentation.theme.primaryText
-import com.saiful.presentation.theme.titleText
 import com.saiful.presentation.utils.TestTags
 import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_NAME
@@ -84,7 +73,7 @@ internal fun PhotoRowItem(
 
                     Text(
                         text = photoItem.profileName,
-                        style = MaterialTheme.typography.titleText,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag(PROFILE_NAME)
@@ -93,7 +82,7 @@ internal fun PhotoRowItem(
                     if (photoItem.sponsored) {
                         Text(
                             text = "Sponsored",
-                            style = MaterialTheme.typography.primaryText,
+                            style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .testTag(SPONSOR_LABEL)

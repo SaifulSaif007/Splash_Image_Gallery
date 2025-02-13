@@ -26,7 +26,7 @@ import com.saiful.domain.model.PhotoDetailsItem
 import com.saiful.presentation.R
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
-import com.saiful.presentation.theme.*
+import com.saiful.presentation.theme.SplashGalleryTheme
 import com.saiful.presentation.utils.TestTags
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -161,7 +161,7 @@ private fun PhotoDetailsScreenContent(
                         Column {
                             Text(
                                 text = photoDetailsItem.profileName,
-                                style = MaterialTheme.typography.titleText,
+                                style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .testTag(TestTags.PROFILE_NAME)
@@ -254,7 +254,7 @@ private fun PhotoDetailsScreenContent(
                                 label = {
                                     Text(
                                         text = tags,
-                                        style = MaterialTheme.typography.photoDetailsChip
+                                        style = MaterialTheme.typography.titleMedium
                                     )
                                 }
                             )
@@ -274,10 +274,10 @@ private fun ImageInfoCell(title: String, info: String) {
             .padding(horizontal = 2.dp, vertical = 4.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = title, style = MaterialTheme.typography.photoDetailsInfo)
+        Text(text = title, style = MaterialTheme.typography.titleMedium)
         Text(
             text = info,
-            style = MaterialTheme.typography.photoDetailsInfo,
+            style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -292,10 +292,10 @@ private fun UserInteractionInfoCell(title: String, info: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = title, style = MaterialTheme.typography.photoDetailsInfo)
+        Text(text = title, style = MaterialTheme.typography.titleMedium)
         Text(
             text = info,
-            style = MaterialTheme.typography.photoDetailsInfo,
+            style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

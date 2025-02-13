@@ -11,7 +11,6 @@ import androidx.core.view.WindowCompat
 private val LightColorScheme = lightColorScheme(
     primary = AppColor.Black,
     onPrimary = AppColor.White,
-    surface = AppColor.White,
     outlineVariant = AppColor.Gray200,
     tertiary = AppColor.Gray600
 )

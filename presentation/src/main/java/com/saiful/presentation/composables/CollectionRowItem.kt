@@ -27,7 +27,7 @@ import coil.request.ImageRequest
 import com.saiful.domain.model.CollectionItem
 import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
-import com.saiful.presentation.theme.*
+import com.saiful.presentation.theme.AppColor
 import com.saiful.presentation.utils.TestTags
 import com.saiful.presentation.utils.TestTags.COLLECTION_TITLE
 import com.saiful.presentation.utils.TestTags.COLLECTION_TOTAL_PHOTOS
@@ -75,7 +75,7 @@ internal fun CollectionRowItem(
                 Column {
                     Text(
                         text = collectionItem.profileName,
-                        style = MaterialTheme.typography.titleText,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag(TestTags.PROFILE_NAME)
@@ -124,7 +124,8 @@ internal fun CollectionRowItem(
                 ) {
                     Text(
                         text = collectionItem.title,
-                        style = MaterialTheme.typography.collectionTitle,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag(COLLECTION_TITLE)
@@ -134,7 +135,8 @@ internal fun CollectionRowItem(
                             id = R.string.total_photos,
                             collectionItem.totalPhoto
                         ),
-                        style = MaterialTheme.typography.collectionSubtitle,
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag(COLLECTION_TOTAL_PHOTOS)
