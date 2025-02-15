@@ -175,7 +175,7 @@ private fun CollectionInfoView(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 6.dp, vertical = 1.dp),
+            .padding(horizontal = 6.dp, vertical = 2.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

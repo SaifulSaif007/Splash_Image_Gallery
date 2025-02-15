@@ -2,6 +2,7 @@ package com.saiful.presentation.photos
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -40,18 +41,23 @@ internal fun PhotosScreen(
     }
 
     val photos = viewModel.photoState.collectAsLazyPagingItems()
-    PhotoScreenContent(
-        photos = photos
-    ) { event -> viewModel.setEvent(event) }
+
+    Scaffold { contentPadding ->
+        PhotoScreenContent(
+            modifier = Modifier.padding(contentPadding),
+            photos = photos
+        ) { event -> viewModel.setEvent(event) }
+    }
 }
 
 @Composable
 private fun PhotoScreenContent(
+    modifier: Modifier = Modifier,
     photos: LazyPagingItems<PhotoItem>,
     onEvent: (event: PhotosContract.Event) -> Unit
 ) {
 
-    LazyColumn {
+    LazyColumn(modifier = modifier) {
         items(photos.itemCount) { index ->
             PhotoRowItem(
                 photoItem = PhotoItem(

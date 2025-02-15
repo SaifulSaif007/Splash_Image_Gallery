@@ -2,6 +2,7 @@ package com.saiful.presentation.collections
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -43,18 +44,23 @@ internal fun CollectionsScreen(
     }
 
     val collections = viewModel.collectionState.collectAsLazyPagingItems()
-    CollectionScreenContent(
-        collections = collections
-    ) { event -> viewModel.setEvent(event) }
+
+    Scaffold { contentPadding ->
+        CollectionScreenContent(
+            modifier = Modifier.padding(contentPadding),
+            collections = collections
+        ) { event -> viewModel.setEvent(event) }
+    }
 
 }
 
 @Composable
 private fun CollectionScreenContent(
+    modifier: Modifier = Modifier,
     collections: LazyPagingItems<CollectionItem>,
     onEvent: (CollectionsContract.Event) -> Unit
 ) {
-    LazyColumn {
+    LazyColumn(modifier = modifier) {
         items(collections.itemCount) { index ->
             CollectionRowItem(
                 collectionItem = CollectionItem(

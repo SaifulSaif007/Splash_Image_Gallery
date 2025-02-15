@@ -1,6 +1,5 @@
 package com.saiful.presentation.composables
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -13,8 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -27,7 +24,6 @@ import coil.request.ImageRequest
 import com.saiful.domain.model.CollectionItem
 import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
-import com.saiful.presentation.theme.AppColor
 import com.saiful.presentation.utils.TestTags
 import com.saiful.presentation.utils.TestTags.COLLECTION_TITLE
 import com.saiful.presentation.utils.TestTags.COLLECTION_TOTAL_PHOTOS
@@ -111,21 +107,13 @@ internal fun CollectionRowItem(
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
-                        .background(
-                            Brush.verticalGradient(
-                                colorStops = arrayOf(
-                                    0.0f to Color.Transparent,
-                                    0.6f to AppColor.Gray600
-                                )
-                            )
-                        )
                         .padding(12.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
                         text = collectionItem.title,
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.onTertiary,
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag(COLLECTION_TITLE)
@@ -136,7 +124,7 @@ internal fun CollectionRowItem(
                             collectionItem.totalPhoto
                         ),
                         style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.onTertiary,
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag(COLLECTION_TOTAL_PHOTOS)
