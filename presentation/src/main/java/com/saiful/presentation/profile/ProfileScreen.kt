@@ -34,7 +34,7 @@ import com.saiful.presentation.composables.nestedscroll.rememberNestedScrollView
 import com.saiful.presentation.profile.collection.ProfileCollectionScreen
 import com.saiful.presentation.profile.likes.ProfileLikesScreen
 import com.saiful.presentation.profile.photos.ProfilePhotoScreen
-import com.saiful.presentation.theme.*
+import com.saiful.presentation.theme.SplashGalleryTheme
 import com.saiful.presentation.utils.TestTags
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -62,7 +62,7 @@ internal fun ProfileScreen(
                 title = {
                     Text(
                         text = viewModel.profileName,
-                        style = MaterialTheme.typography.toolbarText
+                        style = MaterialTheme.typography.labelLarge
                     )
                 },
                 navigationIcon = {
@@ -159,7 +159,7 @@ private fun PagerSection(
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.primaryText
+                            style = MaterialTheme.typography.titleSmall
                         )
                     },
                     selected = pagerState.currentPage == index,
@@ -246,15 +246,16 @@ private fun UserInfoSection(profileInfo: ProfileInfo) {
         ) {
             Text(
                 text = profileInfo.profileName,
-                style = MaterialTheme.typography.titleText
+                style = MaterialTheme.typography.titleMedium
             )
             Text(
                 text = profileInfo.location,
-                style = MaterialTheme.typography.collectionInfoSubTitle
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.tertiary
             )
             Text(
                 text = profileInfo.bio,
-                style = MaterialTheme.typography.photoDetailsInfo,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(vertical = 5.dp)
             )
         }
@@ -269,10 +270,10 @@ private fun UserInfoCell(title: String, info: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = title, style = MaterialTheme.typography.photoDetailsInfo)
+        Text(text = title, style = MaterialTheme.typography.titleMedium)
         Text(
             text = info,
-            style = MaterialTheme.typography.photoDetailsInfo,
+            style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -282,20 +283,22 @@ private fun UserInfoCell(title: String, info: String) {
 @Preview(showBackground = true)
 @Composable
 private fun ProfileScreenPreview() {
-    ProfileScreenContent(
-        modifier = Modifier,
-        profileInfo = ProfileInfo(
-            profileName = "John Doe",
-            location = "New York",
-            bio = "Software Engineer",
-            profileImage = "https://example.com/profile.jpg",
-            photos = "100",
-            likes = "500",
-            collection = "Art",
-            visibleTabs = listOf("Photos", "Likes")
-        ),
-        userName = "saiful",
-        event = {}
-    )
+    SplashGalleryTheme {
+        ProfileScreenContent(
+            modifier = Modifier,
+            profileInfo = ProfileInfo(
+                profileName = "John Doe",
+                location = "New York",
+                bio = "Software Engineer",
+                profileImage = "https://example.com/profile.jpg",
+                photos = "100",
+                likes = "500",
+                collection = "Art",
+                visibleTabs = listOf("Photos", "Likes")
+            ),
+            userName = "saiful",
+            event = {}
+        )
+    }
 }
 

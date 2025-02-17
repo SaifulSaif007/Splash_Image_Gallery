@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.saiful.presentation.theme.errorText
 import com.saiful.presentation.utils.TestTags.ERROR_ACTION_BUTTON
 import com.saiful.presentation.utils.TestTags.ERROR_TEXT
 
@@ -29,7 +28,7 @@ internal fun ErrorView(
                 .padding(bottom = 8.dp)
                 .testTag(ERROR_TEXT),
             text = errorMsg,
-            style = MaterialTheme.typography.errorText
+            style = MaterialTheme.typography.bodyMedium
         )
 
         Button(
@@ -42,7 +41,7 @@ internal fun ErrorView(
 }
 
 
-@Preview(showBackground = false)
+@Preview(showBackground = true)
 @Composable
 private fun ErrorViewPreview() {
     ErrorView(

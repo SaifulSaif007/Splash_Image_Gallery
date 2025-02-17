@@ -15,13 +15,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.saiful.core.domain.DomainException
 import com.saiful.presentation.collections.CollectionsScreen
 import com.saiful.presentation.photos.PhotosScreen
-import com.saiful.presentation.theme.primaryText
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
@@ -37,6 +34,12 @@ fun HomeScreen(
         }.collect()
     }
 
+    HomeScreenContent(onSentEvent = viewModel::setEvent)
+}
+
+@Composable
+@OptIn(ExperimentalFoundationApi::class)
+private fun HomeScreenContent(onSentEvent: (HomeContract.Event) -> Unit) {
     val tabs = LocalContext.current.resources.getStringArray(R.array.dashboardTabTitle)
     val coroutineScope = rememberCoroutineScope()
 
@@ -58,7 +61,7 @@ fun HomeScreen(
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.primaryText
+                            style = MaterialTheme.typography.titleSmall
                         )
                     },
                     selected = pagerState.currentPage == index,
@@ -76,16 +79,16 @@ fun HomeScreen(
             when (page) {
                 0 -> PhotosScreen(
                     navigatePhotoDetails = {
-                        viewModel.setEvent(HomeContract.Event.SelectPhoto(it))
+                        onSentEvent(HomeContract.Event.SelectPhoto(it))
                     },
                     navigateProfile = { userName, profileName ->
-                        viewModel.setEvent(HomeContract.Event.SelectProfile(userName, profileName))
+                        onSentEvent(HomeContract.Event.SelectProfile(userName, profileName))
                     }
                 )
 
                 1 -> CollectionsScreen(
                     navigateCollectionPhotos = { collectionId, name, desc, total, author ->
-                        viewModel.setEvent(
+                        onSentEvent(
                             HomeContract.Event.SelectCollection(
                                 collectionId = collectionId,
                                 title = name,
@@ -96,7 +99,7 @@ fun HomeScreen(
                         )
                     },
                     navigateProfile = { userName, profileName ->
-                        viewModel.setEvent(HomeContract.Event.SelectProfile(userName, profileName))
+                        onSentEvent(HomeContract.Event.SelectProfile(userName, profileName))
                     }
                 )
             }
@@ -104,11 +107,8 @@ fun HomeScreen(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(
-        onError = {},
-        onNavigationRequest = {}
-    )
+    HomeScreenContent(onSentEvent = {})
 }

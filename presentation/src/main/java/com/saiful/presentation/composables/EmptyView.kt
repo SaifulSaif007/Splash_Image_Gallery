@@ -1,10 +1,7 @@
 package com.saiful.presentation.composables
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.saiful.presentation.R
-import com.saiful.presentation.theme.emptyText
+import com.saiful.presentation.theme.SplashGalleryTheme
 import com.saiful.presentation.utils.TestTags
 
 @Composable
@@ -42,19 +39,21 @@ internal fun EmptyView(
                 .padding(bottom = 8.dp, top = 8.dp)
                 .testTag(TestTags.EMPTY_TEXT),
             text = msg,
-            style = MaterialTheme.typography.emptyText
+            style = MaterialTheme.typography.bodyMedium,
         )
 
 
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun EmptyViewPreview() {
-    EmptyView(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 60.dp)
-    )
+    SplashGalleryTheme {
+        EmptyView(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 60.dp)
+        )
+    }
 }

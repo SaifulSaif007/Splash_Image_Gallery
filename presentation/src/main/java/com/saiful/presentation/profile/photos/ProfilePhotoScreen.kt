@@ -1,8 +1,6 @@
 package com.saiful.presentation.profile.photos
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,12 +15,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.photoId
 import com.saiful.domain.usecase.userName
-import com.saiful.presentation.composables.ErrorView
-import com.saiful.presentation.composables.LoadingView
-import com.saiful.presentation.composables.PhotoRowItem
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
+import com.saiful.presentation.composables.*
+import kotlinx.coroutines.flow.*
 
 @Composable
 fun ProfilePhotoScreen(
@@ -112,7 +106,7 @@ private fun ProfilePhotosContent(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun ProfilePhotosPreview() {
     ProfilePhotosContent(

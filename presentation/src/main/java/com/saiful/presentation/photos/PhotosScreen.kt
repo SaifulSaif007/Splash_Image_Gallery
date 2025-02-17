@@ -1,9 +1,8 @@
 package com.saiful.presentation.photos
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -17,12 +16,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.photoId
 import com.saiful.domain.usecase.userName
-import com.saiful.presentation.composables.ErrorView
-import com.saiful.presentation.composables.LoadingView
-import com.saiful.presentation.composables.PhotoRowItem
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
+import com.saiful.presentation.composables.*
+import com.saiful.presentation.theme.SplashGalleryTheme
+import kotlinx.coroutines.flow.*
 
 @Composable
 internal fun PhotosScreen(
@@ -45,18 +41,23 @@ internal fun PhotosScreen(
     }
 
     val photos = viewModel.photoState.collectAsLazyPagingItems()
-    PhotoScreenContent(
-        photos = photos
-    ) { event -> viewModel.setEvent(event) }
+
+    Scaffold { contentPadding ->
+        PhotoScreenContent(
+            modifier = Modifier.padding(contentPadding),
+            photos = photos
+        ) { event -> viewModel.setEvent(event) }
+    }
 }
 
 @Composable
 private fun PhotoScreenContent(
+    modifier: Modifier = Modifier,
     photos: LazyPagingItems<PhotoItem>,
     onEvent: (event: PhotosContract.Event) -> Unit
 ) {
 
-    LazyColumn {
+    LazyColumn(modifier = modifier) {
         items(photos.itemCount) { index ->
             PhotoRowItem(
                 photoItem = PhotoItem(
@@ -117,38 +118,40 @@ private fun PhotoScreenContent(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PhotoScreenContentPreview() {
-    PhotoScreenContent(
-        photos = flowOf(
-            PagingData.from(
-                data = listOf(
-                    PhotoItem(
-                        photoId = "1",
-                        profileImage = "",
-                        profileName = "NEOM",
-                        sponsored = true,
-                        mainImage = "",
-                        mainImageBlurHash = "",
-                        mainImageWidth = 4,
-                        mainImageHeight = 3,
-                        profileUserName = "saiful"
-                    ),
-                    PhotoItem(
-                        photoId = "2",
-                        profileImage = "",
-                        profileName = "NEOM",
-                        sponsored = false,
-                        mainImage = "",
-                        mainImageBlurHash = "",
-                        mainImageWidth = 4,
-                        mainImageHeight = 3,
-                        profileUserName = "saiful"
+    SplashGalleryTheme {
+        PhotoScreenContent(
+            photos = flowOf(
+                PagingData.from(
+                    data = listOf(
+                        PhotoItem(
+                            photoId = "1",
+                            profileImage = "",
+                            profileName = "NEOM",
+                            sponsored = true,
+                            mainImage = "",
+                            mainImageBlurHash = "",
+                            mainImageWidth = 4,
+                            mainImageHeight = 3,
+                            profileUserName = "saiful"
+                        ),
+                        PhotoItem(
+                            photoId = "2",
+                            profileImage = "",
+                            profileName = "NEOM",
+                            sponsored = false,
+                            mainImage = "",
+                            mainImageBlurHash = "",
+                            mainImageWidth = 4,
+                            mainImageHeight = 3,
+                            profileUserName = "saiful"
+                        )
                     )
-                )
-            ),
-        ).collectAsLazyPagingItems(),
-        onEvent = {}
-    )
+                ),
+            ).collectAsLazyPagingItems(),
+            onEvent = {}
+        )
+    }
 }

@@ -1,38 +1,14 @@
 package com.saiful.presentation.photodetails
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,10 +26,7 @@ import com.saiful.domain.model.PhotoDetailsItem
 import com.saiful.presentation.R
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
-import com.saiful.presentation.theme.AppColor
-import com.saiful.presentation.theme.photoDetailsChip
-import com.saiful.presentation.theme.photoDetailsInfo
-import com.saiful.presentation.theme.titleText
+import com.saiful.presentation.theme.SplashGalleryTheme
 import com.saiful.presentation.utils.TestTags
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -188,7 +161,7 @@ private fun PhotoDetailsScreenContent(
                         Column {
                             Text(
                                 text = photoDetailsItem.profileName,
-                                style = MaterialTheme.typography.titleText,
+                                style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .testTag(TestTags.PROFILE_NAME)
@@ -199,10 +172,7 @@ private fun PhotoDetailsScreenContent(
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    Divider(
-                        thickness = 1.dp,
-                        color = AppColor.DividerColor
-                    )
+                    HorizontalDivider()
 
                     Row(
                         modifier = Modifier
@@ -237,10 +207,7 @@ private fun PhotoDetailsScreenContent(
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    Divider(
-                        thickness = 1.dp,
-                        color = AppColor.DividerColor
-                    )
+                    HorizontalDivider()
 
                     Row(
                         modifier = Modifier
@@ -272,10 +239,7 @@ private fun PhotoDetailsScreenContent(
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    Divider(
-                        thickness = 1.dp,
-                        color = AppColor.DividerColor
-                    )
+                    HorizontalDivider()
 
                     Row(
                         modifier = Modifier
@@ -290,7 +254,7 @@ private fun PhotoDetailsScreenContent(
                                 label = {
                                     Text(
                                         text = tags,
-                                        style = MaterialTheme.typography.photoDetailsChip
+                                        style = MaterialTheme.typography.titleMedium
                                     )
                                 }
                             )
@@ -310,10 +274,10 @@ private fun ImageInfoCell(title: String, info: String) {
             .padding(horizontal = 2.dp, vertical = 4.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = title, style = MaterialTheme.typography.photoDetailsInfo)
+        Text(text = title, style = MaterialTheme.typography.titleMedium)
         Text(
             text = info,
-            style = MaterialTheme.typography.photoDetailsInfo,
+            style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -328,37 +292,39 @@ private fun UserInteractionInfoCell(title: String, info: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = title, style = MaterialTheme.typography.photoDetailsInfo)
+        Text(text = title, style = MaterialTheme.typography.titleMedium)
         Text(
             text = info,
-            style = MaterialTheme.typography.photoDetailsInfo,
+            style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PhotoDetailsScreenPreview() {
-    PhotoDetailsScreenContent(
-        PhotoDetailsItem(
-            profileImage = "https://i.imgur.com/00000000000000000000000000000000.jpg",
-            profileName = "John Doe",
-            mainImage = "https://i.imgur.com/00000000000000000000000000000001.jpg",
-            thumbnailImage = "",
-            camera = "Canon EOS 5D Mark IV",
-            focalLength = "50mm",
-            aperture = "f/2.8",
-            shutterSpeed = "1/100",
-            iso = "100",
-            dimensions = "1920x1080",
-            views = "1000",
-            downloads = "100",
-            likes = "10",
-            tags = listOf("nature", "landscape", "mountains"),
-            userName = "saiful"
-        ),
-        onEvent = {}
-    )
+    SplashGalleryTheme {
+        PhotoDetailsScreenContent(
+            PhotoDetailsItem(
+                profileImage = "https://i.imgur.com/00000000000000000000000000000000.jpg",
+                profileName = "John Doe",
+                mainImage = "https://i.imgur.com/00000000000000000000000000000001.jpg",
+                thumbnailImage = "",
+                camera = "Canon EOS 5D Mark IV",
+                focalLength = "50mm",
+                aperture = "f/2.8",
+                shutterSpeed = "1/100",
+                iso = "100",
+                dimensions = "1920x1080",
+                views = "1000",
+                downloads = "100",
+                likes = "10",
+                tags = listOf("nature", "landscape", "mountains"),
+                userName = "saiful"
+            ),
+            onEvent = {}
+        )
+    }
 }

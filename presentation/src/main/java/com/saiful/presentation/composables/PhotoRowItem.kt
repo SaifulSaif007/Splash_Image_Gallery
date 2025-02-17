@@ -2,16 +2,7 @@ package com.saiful.presentation.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -33,8 +24,7 @@ import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.photoId
 import com.saiful.domain.usecase.userName
 import com.saiful.presentation.R
-import com.saiful.presentation.theme.primaryText
-import com.saiful.presentation.theme.titleText
+import com.saiful.presentation.theme.SplashGalleryTheme
 import com.saiful.presentation.utils.TestTags
 import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
 import com.saiful.presentation.utils.TestTags.PROFILE_NAME
@@ -84,7 +74,7 @@ internal fun PhotoRowItem(
 
                     Text(
                         text = photoItem.profileName,
-                        style = MaterialTheme.typography.titleText,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag(PROFILE_NAME)
@@ -93,7 +83,7 @@ internal fun PhotoRowItem(
                     if (photoItem.sponsored) {
                         Text(
                             text = "Sponsored",
-                            style = MaterialTheme.typography.primaryText,
+                            style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .testTag(SPONSOR_LABEL)
@@ -128,40 +118,44 @@ internal fun PhotoRowItem(
 @Preview(showBackground = true)
 @Composable
 private fun PhotoRowItemWithProfilePreview() {
-    PhotoRowItem(
-        photoItem = PhotoItem(
-            photoId = "1",
-            profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
-            profileName = "NEOM",
-            sponsored = true,
-            mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
-            mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
-            mainImageWidth = 4,
-            mainImageHeight = 3,
-            profileUserName = "neom",
-        ),
-        onItemClick = {},
-        onProfileClick = { _, _ -> }
-    )
+    SplashGalleryTheme {
+        PhotoRowItem(
+            photoItem = PhotoItem(
+                photoId = "1",
+                profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
+                profileName = "NEOM",
+                sponsored = true,
+                mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
+                mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
+                mainImageWidth = 4,
+                mainImageHeight = 3,
+                profileUserName = "neom",
+            ),
+            onItemClick = {},
+            onProfileClick = { _, _ -> }
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun PhotoRowItemWithoutProfilePreview() {
-    PhotoRowItem(
-        photoItem = PhotoItem(
-            photoId = "1",
-            profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
-            profileName = "NEOM",
-            sponsored = true,
-            mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
-            mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
-            mainImageWidth = 4,
-            mainImageHeight = 3,
-            profileUserName = "neom",
-        ),
-        onItemClick = {},
-        onProfileClick = { _, _ -> },
-        profileSectionVisible = false
-    )
+    SplashGalleryTheme {
+        PhotoRowItem(
+            photoItem = PhotoItem(
+                photoId = "1",
+                profileImage = "https://images.unsplash.com/profile-1679489218992-ebe823c797dfimage?ixlib=rb-4.0.3&crop=faces&fit=crop&w=32&h=32",
+                profileName = "NEOM",
+                sponsored = true,
+                mainImage = "https://images.unsplash.com/photo-1682905926517-6be3768e29f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxNzQ1NDV8MXwxfGFsbHwxfHx8fHx8Mnx8MTY5NTU3Mzk2OXw&ixlib=rb-4.0.3&q=80&w=200",
+                mainImageBlurHash = "L:HLk^%0s:j[_Nfkj[j[%hWCWWWV",
+                mainImageWidth = 4,
+                mainImageHeight = 3,
+                profileUserName = "neom",
+            ),
+            onItemClick = {},
+            onProfileClick = { _, _ -> },
+            profileSectionVisible = false
+        )
+    }
 }
