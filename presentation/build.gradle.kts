@@ -1,6 +1,7 @@
 plugins {
     `build-logic`
     `feature-common`
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -48,6 +49,7 @@ dependencies {
     implementation(libs.paging.compose)
 
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.json.serialization)
 
     testImplementation(project(":base_unit_test"))
     testImplementation(libs.bundles.mockito)

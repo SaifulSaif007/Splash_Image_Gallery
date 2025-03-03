@@ -17,8 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.saiful.core.components.logger.logError
 import com.saiful.core.components.logger.logInfo
 import com.saiful.core.domain.DomainException
-import com.saiful.presentation.HomeNavRoute
-import com.saiful.presentation.homeNavGraph
+import com.saiful.presentation.*
 import com.saiful.presentation.theme.SplashGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,11 +38,11 @@ class MainActivity : ComponentActivity() {
                 NavHost(
                     modifier = Modifier.fillMaxSize(),
                     navController = navController,
-                    startDestination = HomeNavRoute.Root.route
+                    startDestination = Routes.Home
                 ) {
+
                     homeNavGraph(
                         navController = navController,
-                        coroutineScope = coroutineScope,
                         onError = { exception ->
                             handleException(exception)
                         }
