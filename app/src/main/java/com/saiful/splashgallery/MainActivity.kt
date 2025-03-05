@@ -12,12 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.saiful.core.components.logger.logError
 import com.saiful.core.components.logger.logInfo
 import com.saiful.core.domain.DomainException
-import com.saiful.presentation.*
+import com.saiful.presentation.Routes
+import com.saiful.presentation.homeNavGraph
 import com.saiful.presentation.theme.SplashGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,8 +56,8 @@ class MainActivity : ComponentActivity() {
                     currentDestination.value = destination
                 }
 
-                when (currentDestination.value?.route) {
-                    HomeNavRoute.PhotoDetails.route -> {
+                when (currentDestination.value?.hasRoute(Routes.PhotoDetails::class)) {
+                    true -> {
                         window.statusBarColor = Color.Transparent.copy(alpha = 0.3f).toArgb()
                         WindowCompat.setDecorFitsSystemWindows(window, false)
                         WindowCompat.getInsetsController(
