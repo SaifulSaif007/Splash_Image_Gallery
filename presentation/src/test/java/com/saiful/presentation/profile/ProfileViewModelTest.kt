@@ -1,19 +1,18 @@
 package com.saiful.presentation.profile
 
 import androidx.lifecycle.SavedStateHandle
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import androidx.navigation.toRoute
+import com.nhaarman.mockito_kotlin.*
 import com.saiful.core.domain.Result
 import com.saiful.domain.mapper.COLLECTIONS
 import com.saiful.domain.mapper.LIKES
 import com.saiful.domain.mapper.PHOTOS
 import com.saiful.domain.model.ProfileInfo
 import com.saiful.domain.usecase.GetProfileInfoUseCase
-import com.saiful.presentation.utils.Constants
+import com.saiful.presentation.Routes
 import com.saiful.test.unit.BaseViewModelTest
 import com.saiful.test.unit.rules.MainCoroutineRule
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -27,6 +26,7 @@ class ProfileViewModelTest : BaseViewModelTest() {
     val mainCoroutineRule = MainCoroutineRule()
 
     private val profileInfoUseCase: GetProfileInfoUseCase = mock()
+    private val savedStateHandle: SavedStateHandle = mock()
     private val userName = "saiful"
     private val profileName = "Saiful"
     private lateinit var viewModel: ProfileViewModel
@@ -43,19 +43,23 @@ class ProfileViewModelTest : BaseViewModelTest() {
             collection = "100",
             visibleTabs = listOf(PHOTOS, LIKES, COLLECTIONS)
         )
+
+        mockkStatic("androidx.navigation.SavedStateHandleKt")
+        every { savedStateHandle.toRoute<Routes.Profile>() } returns Routes.Profile(
+            userName,
+            profileName
+        )
     }
 
     override fun tearDown() {
         reset(profileInfoUseCase)
+        unmockkStatic("androidx.navigation.SavedStateHandleKt")
     }
 
     private fun initViewModel() {
         viewModel = ProfileViewModel(
             profileInfoUseCase,
-            savedStateHandle = SavedStateHandle().apply {
-                set(Constants.USER_NAME, userName)
-                set(Constants.USER_PROFILE_NAME, profileName)
-            }
+            savedStateHandle
         )
     }
 
