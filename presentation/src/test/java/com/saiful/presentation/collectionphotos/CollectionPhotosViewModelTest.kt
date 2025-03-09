@@ -1,27 +1,22 @@
 package com.saiful.presentation.collectionphotos
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
+import androidx.navigation.toRoute
+import androidx.paging.*
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.only
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.GetCollectionPhotoUseCase
-import com.saiful.presentation.utils.Constants
+import com.saiful.presentation.Routes
 import com.saiful.test.unit.BaseViewModelTest
 import com.saiful.test.unit.rules.MainCoroutineRule
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CollectionPhotosViewModelTest : BaseViewModelTest() {
@@ -29,6 +24,7 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
     val mainCoroutineRule = MainCoroutineRule()
 
     private val collectionPhotoUseCase: GetCollectionPhotoUseCase = mock()
+    private val savedStateHandle: SavedStateHandle = Mockito.mock()
     private lateinit var viewModel: CollectionPhotosViewModel
     private lateinit var flowPagingData: Flow<PagingData<PhotoItem>>
     private val collectionId = "1"
@@ -66,22 +62,26 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
                 )
             )
         )
+
+        mockkStatic("androidx.navigation.SavedStateHandleKt")
+        every { savedStateHandle.toRoute<Routes.CollectionPhotos>() } returns Routes.CollectionPhotos(
+            collectionId,
+            collectionTitle,
+            collectionDesc,
+            collectionTotalPhotos,
+            collectionAuthor
+        )
     }
 
     override fun tearDown() {
         reset(collectionPhotoUseCase)
+        unmockkStatic("androidx.navigation.SavedStateHandleKt")
     }
 
     private fun initViewModel() {
         viewModel = CollectionPhotosViewModel(
             collectionPhotoUseCase = collectionPhotoUseCase,
-            savedStateHandle = SavedStateHandle().apply {
-                this[Constants.COLLECTION_ID] = collectionId
-                this[Constants.COLLECTION_TITLE] = collectionTitle
-                this[Constants.COLLECTION_DESCRIPTION] = collectionDesc
-                this[Constants.COLLECTION_PHOTO_COUNT] = collectionTotalPhotos
-                this[Constants.COLLECTION_AUTHOR] = collectionAuthor
-            }
+            savedStateHandle = savedStateHandle
         )
     }
 

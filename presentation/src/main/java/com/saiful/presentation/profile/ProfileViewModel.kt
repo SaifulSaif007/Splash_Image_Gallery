@@ -21,7 +21,7 @@ internal class ProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<ProfileContract.Event, ProfileContract.Effect>() {
 
-    val profile: Routes.Profile = savedStateHandle.toRoute<Routes.Profile>()
+    private val profile: Routes.Profile = savedStateHandle.toRoute<Routes.Profile>()
 
     private val userName: String = profile.userName
     val profileName: String = profile.userProfileName

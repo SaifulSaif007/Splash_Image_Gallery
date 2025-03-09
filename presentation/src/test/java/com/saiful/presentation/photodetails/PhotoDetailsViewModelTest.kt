@@ -1,15 +1,15 @@
 package com.saiful.presentation.photodetails
 
 import androidx.lifecycle.SavedStateHandle
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.whenever
+import androidx.navigation.toRoute
+import com.nhaarman.mockito_kotlin.*
 import com.saiful.core.domain.Result
 import com.saiful.domain.model.PhotoDetailsItem
 import com.saiful.domain.usecase.GetPhotoDetailsUseCase
-import com.saiful.presentation.utils.Constants
+import com.saiful.presentation.Routes
 import com.saiful.test.unit.BaseViewModelTest
 import com.saiful.test.unit.rules.MainCoroutineRule
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -22,6 +22,7 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     val mainCoroutineRule = MainCoroutineRule()
 
     private val photoDetailsUseCase: GetPhotoDetailsUseCase = mock()
+    private val savedStateHandle: SavedStateHandle = mock()
     private lateinit var viewModel: PhotoDetailsViewModel
     private lateinit var photoDetailsItem: PhotoDetailsItem
     private val photoId = "1"
@@ -44,19 +45,22 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             tags = listOf("nature", "landscape", "mountains"),
             userName = "johndoe"
         )
+        mockkStatic("androidx.navigation.SavedStateHandleKt")
+        every { savedStateHandle.toRoute<Routes.PhotoDetails>() } returns Routes.PhotoDetails(
+            photoId
+        )
 
     }
 
     override fun tearDown() {
         reset(photoDetailsUseCase)
+        unmockkStatic("androidx.navigation.SavedStateHandleKt")
     }
 
     private fun initViewModel() {
         viewModel = PhotoDetailsViewModel(
             photoDetailsUseCase = photoDetailsUseCase,
-            savedStateHandle = SavedStateHandle().apply {
-                this[Constants.PHOTO_ID] = photoId
-            }
+            savedStateHandle = savedStateHandle
         )
     }
 
