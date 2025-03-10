@@ -2,6 +2,7 @@ package com.saiful.presentation.photodetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.saiful.core.domain.DomainException
 import com.saiful.core.domain.Result
 import com.saiful.core.ui.BaseViewModel
@@ -9,7 +10,7 @@ import com.saiful.core.ui.ViewEvent
 import com.saiful.domain.model.PhotoDetailsItem
 import com.saiful.domain.usecase.GetPhotoDetailsUseCase
 import com.saiful.domain.usecase.photoId
-import com.saiful.presentation.utils.Constants.PHOTO_ID
+import com.saiful.presentation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -21,12 +22,12 @@ internal class PhotoDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<PhotoDetailsContract.Event, PhotoDetailsContract.Effect>() {
 
-    private val userId: String = checkNotNull(savedStateHandle[PHOTO_ID])
+    private val photoDetails: Routes.PhotoDetails = savedStateHandle.toRoute()
 
     val uiState: MutableStateFlow<UIState> = MutableStateFlow(value = UIState.Loading)
 
     init {
-        getPhotoDetails(userId)
+        getPhotoDetails(photoDetails.photoId)
     }
 
     private fun getPhotoDetails(photoId: photoId) {

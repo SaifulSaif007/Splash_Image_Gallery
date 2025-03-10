@@ -2,14 +2,14 @@ package com.saiful.presentation.profile
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.saiful.core.domain.DomainException
 import com.saiful.core.domain.Result
 import com.saiful.core.ui.BaseViewModel
 import com.saiful.core.ui.ViewEvent
 import com.saiful.domain.model.ProfileInfo
 import com.saiful.domain.usecase.GetProfileInfoUseCase
-import com.saiful.presentation.utils.Constants.USER_NAME
-import com.saiful.presentation.utils.Constants.USER_PROFILE_NAME
+import com.saiful.presentation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -21,8 +21,10 @@ internal class ProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<ProfileContract.Event, ProfileContract.Effect>() {
 
-    private val userName: String = checkNotNull(savedStateHandle[USER_NAME])
-    val profileName: String = checkNotNull(savedStateHandle[USER_PROFILE_NAME])
+    private val profile: Routes.Profile = savedStateHandle.toRoute<Routes.Profile>()
+
+    private val userName: String = profile.userName
+    val profileName: String = profile.userProfileName
 
     val uiState: MutableStateFlow<UIState> = MutableStateFlow(UIState.Loading)
 
