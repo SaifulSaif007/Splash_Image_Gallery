@@ -65,8 +65,6 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
                     name = "name",
                     portfolioUrl = null,
                     links = Links(
-                        followers = "",
-                        following = "",
                         html = "",
                         likes = "",
                         photos = "",
@@ -125,8 +123,6 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
                 name = "name",
                 portfolioUrl = null,
                 links = Links(
-                    followers = "",
-                    following = "",
                     html = "",
                     likes = "",
                     photos = "",

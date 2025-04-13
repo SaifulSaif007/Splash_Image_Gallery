@@ -3,14 +3,9 @@ package com.saiful.domain.usecase
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.core.domain.Result
-import com.saiful.data.model.Links
-import com.saiful.data.model.ProfileImage
-import com.saiful.data.model.Social
-import com.saiful.data.model.User
+import com.saiful.data.model.*
 import com.saiful.data.model.photo.Urls
-import com.saiful.data.model.photo.details.Exif
-import com.saiful.data.model.photo.details.PhotoDetails
-import com.saiful.data.model.photo.details.Tag
+import com.saiful.data.model.photo.details.*
 import com.saiful.data.repository.photo.PhotoRepository
 import com.saiful.domain.mapper.toPhotoDetailsItem
 import com.saiful.test.unit.BaseUseCaseTest
@@ -63,8 +58,6 @@ class GetPhotoDetailsUseCaseTest : BaseUseCaseTest() {
                 name = "name",
                 portfolioUrl = null,
                 links = Links(
-                    followers = "",
-                    following = "",
                     html = "",
                     likes = "",
                     photos = "",

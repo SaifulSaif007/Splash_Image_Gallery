@@ -3,19 +3,12 @@ package com.saiful.domain.mapper
 import androidx.paging.PagingData
 import androidx.paging.map
 import androidx.paging.testing.asSnapshot
-import com.saiful.data.model.Links
-import com.saiful.data.model.ProfileImage
-import com.saiful.data.model.Social
-import com.saiful.data.model.User
+import com.saiful.data.model.*
 import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.collection.CollectionLinks
-import com.saiful.data.model.photo.ContentLink
-import com.saiful.data.model.photo.Photo
-import com.saiful.data.model.photo.Urls
+import com.saiful.data.model.photo.*
 import com.saiful.domain.model.CollectionItem
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -32,8 +25,6 @@ class CollectionMapperKtTest {
         name = "name",
         portfolioUrl = null,
         links = Links(
-            followers = "",
-            following = "",
             html = "",
             likes = "",
             photos = "",
@@ -99,7 +90,6 @@ class CollectionMapperKtTest {
                     private = false,
                     publishedAt = "",
                     shareKey = "",
-                    tags = emptyList(),
                     title = "title",
                     totalPhotos = 124,
                     updatedAt = "",

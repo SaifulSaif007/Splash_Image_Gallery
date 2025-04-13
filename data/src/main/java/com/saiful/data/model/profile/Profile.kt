@@ -1,8 +1,6 @@
 package com.saiful.data.model.profile
 
-import com.saiful.data.model.Links
-import com.saiful.data.model.ProfileImage
-import com.saiful.data.model.Social
+import com.saiful.data.model.*
 import com.saiful.data.model.collection.PreviewPhoto
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -53,10 +51,6 @@ data class Profile(
     val followedByUser: Boolean = false,
     @Json(name = "photos")
     val previewPhoto: List<PreviewPhoto>,
-    @Json(name = "followers_count")
-    val followersCount: Long,
-    @Json(name = "following_count")
-    val followingCount: Long,
     @Json(name = "downloads")
     val downloads: Long,
 )

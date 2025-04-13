@@ -9,16 +9,10 @@ import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.core.domain.Result
-import com.saiful.data.model.Links
-import com.saiful.data.model.ProfileImage
-import com.saiful.data.model.Social
-import com.saiful.data.model.User
+import com.saiful.data.model.*
+import com.saiful.data.model.collection.*
 import com.saiful.data.model.collection.Collection
-import com.saiful.data.model.collection.CollectionLinks
-import com.saiful.data.model.collection.PreviewPhoto
-import com.saiful.data.model.photo.ContentLink
-import com.saiful.data.model.photo.Photo
-import com.saiful.data.model.photo.Urls
+import com.saiful.data.model.photo.*
 import com.saiful.data.model.profile.Profile
 import com.saiful.data.remote.ApiService
 import com.saiful.test.unit.BaseRepositoryTest
@@ -53,8 +47,6 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
                 photos = "https://api.unsplash.com/users/john-doe/photos",
                 likes = "https://api.unsplash.com/users/john-doe/likes",
                 portfolio = "https://www.example.com/john-doe/portfolio",
-                following = "https://api.unsplash.com/users/john-doe/following",
-                followers = "https://api.unsplash.com/users/john-doe/followers",
                 self = "https://api.unsplash.com/users/john-doe"
             ),
             location = "New York City",
@@ -94,8 +86,6 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
                     slug = "some_slug"
                 )
             ),
-            followersCount = 1000,
-            followingCount = 500,
             downloads = 10000
         )
 
@@ -133,8 +123,6 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
                     name = "name",
                     portfolioUrl = null,
                     links = Links(
-                        followers = "",
-                        following = "",
                         html = "",
                         likes = "",
                         photos = "",
@@ -172,8 +160,6 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
             name = "name",
             portfolioUrl = null,
             links = Links(
-                followers = "",
-                following = "",
                 html = "",
                 likes = "",
                 photos = "",
@@ -236,7 +222,6 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
                 private = false,
                 publishedAt = "",
                 shareKey = "",
-                tags = emptyList(),
                 title = "title",
                 totalPhotos = 124,
                 updatedAt = "",

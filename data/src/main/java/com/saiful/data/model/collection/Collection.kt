@@ -25,8 +25,6 @@ data class Collection(
     val private: Boolean,
     @Json(name = "share_key")
     val shareKey: String?,
-    @Json(name = "tags")
-    val tags: List<Tag>,
     @Json(name = "user")
     val user: User,
     @Json(name = "cover_photo")
