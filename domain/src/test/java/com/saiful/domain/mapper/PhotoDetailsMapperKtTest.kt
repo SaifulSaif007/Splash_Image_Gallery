@@ -45,8 +45,6 @@ class PhotoDetailsMapperKtTest {
             name = "name",
             portfolioUrl = null,
             links = Links(
-                followers = "",
-                following = "",
                 html = "",
                 likes = "",
                 photos = "",

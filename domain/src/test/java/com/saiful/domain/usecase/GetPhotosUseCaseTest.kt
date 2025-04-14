@@ -1,8 +1,6 @@
 package com.saiful.domain.usecase
 
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
+import androidx.paging.*
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
 import com.nhaarman.mockito_kotlin.mock
@@ -10,13 +8,8 @@ import com.nhaarman.mockito_kotlin.only
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import com.saiful.data.model.Links
-import com.saiful.data.model.ProfileImage
-import com.saiful.data.model.Social
-import com.saiful.data.model.User
-import com.saiful.data.model.photo.ContentLink
-import com.saiful.data.model.photo.Photo
-import com.saiful.data.model.photo.Urls
+import com.saiful.data.model.*
+import com.saiful.data.model.photo.*
 import com.saiful.data.repository.photo.PhotoRepository
 import com.saiful.domain.mapper.toPhotoItem
 import com.saiful.test.unit.BaseUseCaseTest
@@ -70,8 +63,6 @@ class GetPhotosUseCaseTest : BaseUseCaseTest() {
                             name = "name",
                             portfolioUrl = null,
                             links = Links(
-                                followers = "",
-                                following = "",
                                 html = "",
                                 likes = "",
                                 photos = "",

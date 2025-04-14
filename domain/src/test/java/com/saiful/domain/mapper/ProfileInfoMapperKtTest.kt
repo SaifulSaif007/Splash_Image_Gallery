@@ -1,8 +1,6 @@
 package com.saiful.domain.mapper
 
-import com.saiful.data.model.Links
-import com.saiful.data.model.ProfileImage
-import com.saiful.data.model.Social
+import com.saiful.data.model.*
 import com.saiful.data.model.collection.PreviewPhoto
 import com.saiful.data.model.photo.Urls
 import com.saiful.data.model.profile.Profile
@@ -24,8 +22,6 @@ class ProfileInfoMapperKtTest {
             photos = "https://api.unsplash.com/users/john-doe/photos",
             likes = "https://api.unsplash.com/users/john-doe/likes",
             portfolio = "https://www.example.com/john-doe/portfolio",
-            following = "https://api.unsplash.com/users/john-doe/following",
-            followers = "https://api.unsplash.com/users/john-doe/followers",
             self = "https://api.unsplash.com/users/john-doe"
         ),
         location = "New York City",
@@ -65,8 +61,6 @@ class ProfileInfoMapperKtTest {
                 slug = "some_slug"
             )
         ),
-        followersCount = 1000,
-        followingCount = 500,
         downloads = 10000
     )
 

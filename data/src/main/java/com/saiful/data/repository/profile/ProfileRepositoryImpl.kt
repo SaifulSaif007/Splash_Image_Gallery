@@ -1,8 +1,7 @@
 package com.saiful.data.repository.profile
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
+import com.saiful.core.components.logger.logError
 import com.saiful.core.domain.Result
 import com.saiful.core.utils.ErrorMapper
 import com.saiful.data.model.collection.Collection
@@ -22,6 +21,7 @@ internal class ProfileRepositoryImpl @Inject constructor(
             Result.Success(apiService.profile(username))
 
         } catch (ex: Exception) {
+            logError(msg = ex.message.toString())
             Result.Error(errorMapper.toDomainException(ex))
         }
     }
