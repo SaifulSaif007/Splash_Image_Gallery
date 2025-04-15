@@ -3,11 +3,6 @@ package com.saiful.data.repository.profile
 import androidx.paging.LoadState
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.core.domain.Result
 import com.saiful.data.model.*
 import com.saiful.data.model.collection.*
@@ -16,12 +11,13 @@ import com.saiful.data.model.photo.*
 import com.saiful.data.model.profile.Profile
 import com.saiful.data.remote.ApiService
 import com.saiful.test.unit.BaseRepositoryTest
+import io.mockk.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class ProfileRepositoryImplTest : BaseRepositoryTest() {
 
-    private val apiService: ApiService = mock()
+    private val apiService: ApiService = mockk()
 
     private lateinit var profileRepository: ProfileRepository
     private lateinit var profileResponse: Profile
@@ -231,56 +227,56 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
     }
 
     override fun tearDown() {
-        reset(apiService)
+        unmockkAll()
     }
 
 
     @Test
     fun `verify get profile success`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.profile(userName)
-            ).thenReturn(profileResponse)
+            } returns profileResponse
 
             val result = profileRepository.profile(userName)
             assert(result is Result.Success)
-            verify(apiService, times(1)).profile(userName)
+            coVerify(exactly = 1) { apiService.profile(userName) }
         }
     }
 
     @Test
     fun `verify get profile failure`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.profile(userName)
-            ).thenThrow(RuntimeException())
+            } throws RuntimeException()
 
             val result = profileRepository.profile(userName)
             assert(result is Result.Error)
-            verify(apiService, times(1)).profile(userName)
+            coVerify(exactly = 1) { apiService.profile(userName) }
         }
     }
 
     @Test
     fun `verify get profile photos success`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.profilePhotos(userName, page, pageSize)
-            ).thenReturn(photoListResponse)
+            } returns photoListResponse
 
             val result = profileRepository.profilePhotos(userName).asSnapshot()
 
             assert(result == photoListResponse)
-            verify(apiService, times(1)).profilePhotos(userName, page, pageSize)
+            coVerify(exactly = 1) { apiService.profilePhotos(userName, page, pageSize) }
         }
     }
 
     @Test
     fun `verify get profile photos is not successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.profilePhotos(userName, page, pageSize)
-            ).thenThrow(RuntimeException())
+            } throws RuntimeException()
 
             val result = profileRepository.profilePhotos(userName).asSnapshot(
                 onError = { loadState ->
@@ -290,30 +286,30 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
             )
 
             assert(result.isEmpty())
-            verify(apiService, times(1)).profilePhotos(userName, page, pageSize)
+            coVerify(exactly = 1) { apiService.profilePhotos(userName, page, pageSize) }
         }
     }
 
     @Test
     fun `verify get profile liked photos success`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.profileLikedPhotos(userName, page, pageSize)
-            ).thenReturn(photoListResponse)
+            } returns photoListResponse
 
             val result = profileRepository.profileLikedPhotos(userName).asSnapshot()
 
             assert(result == photoListResponse)
-            verify(apiService, times(1)).profileLikedPhotos(userName, page, pageSize)
+            coVerify(exactly = 1) { apiService.profileLikedPhotos(userName, page, pageSize) }
         }
     }
 
     @Test
     fun `verify get profile liked photos is not successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.profileLikedPhotos(userName, page, pageSize)
-            ).thenThrow(RuntimeException())
+            } throws RuntimeException()
 
             val result = profileRepository.profileLikedPhotos(userName).asSnapshot(
                 onError = { loadState ->
@@ -323,30 +319,30 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
             )
 
             assert(result.isEmpty())
-            verify(apiService, times(1)).profileLikedPhotos(userName, page, pageSize)
+            coVerify(exactly = 1) { apiService.profileLikedPhotos(userName, page, pageSize) }
         }
     }
 
     @Test
     fun `verify get profile collections success`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.profileCollections(userName, page, pageSize)
-            ).thenReturn(collectionResponse)
+            } returns collectionResponse
 
             val result = profileRepository.profilePhotoCollections(userName).asSnapshot()
 
             assert(result == collectionResponse)
-            verify(apiService, times(1)).profileCollections(userName, page, pageSize)
+            coVerify(exactly = 1) { apiService.profileCollections(userName, page, pageSize) }
         }
     }
 
     @Test
     fun `verify get profile collections is not successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.profileCollections(userName, page, pageSize)
-            ).thenThrow(RuntimeException())
+            } throws RuntimeException()
 
             val result = profileRepository.profilePhotoCollections(userName).asSnapshot(
                 onError = { loadState ->
@@ -356,7 +352,7 @@ class ProfileRepositoryImplTest : BaseRepositoryTest() {
             )
 
             assert(result.isEmpty())
-            verify(apiService, times(1)).profileCollections(userName, page, pageSize)
+            coVerify(exactly = 1) { apiService.profileCollections(userName, page, pageSize) }
         }
     }
 }

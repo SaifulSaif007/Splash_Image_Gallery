@@ -3,19 +3,19 @@ package com.saiful.data.repository.photo
 import androidx.paging.LoadState
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.*
 import com.saiful.core.domain.Result
 import com.saiful.data.model.*
 import com.saiful.data.model.photo.*
 import com.saiful.data.model.photo.details.*
 import com.saiful.data.remote.ApiService
 import com.saiful.test.unit.BaseRepositoryTest
+import io.mockk.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class PhotoRepositoryImplTest : BaseRepositoryTest() {
 
-    private val apiService: ApiService = mock()
+    private val apiService: ApiService = mockk()
 
     private val page: Int = 1
     private val pageSize: Int = 10
@@ -156,36 +156,35 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
     }
 
     override fun tearDown() {
-        reset(apiService)
+        unmockkAll()
     }
 
     @Test
     fun `verify photos fetch is successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.photos(
                     page = page, pageSize = pageSize
                 )
-            ).thenReturn(photoListResponse)
+            } returns photoListResponse
 
             val res = photoRepository.photosList().asSnapshot()
             assert(res == photoListResponse)
 
-            verify(apiService, times(1)).photos(
-                page = page,
-                pageSize = pageSize
-            )
+            coVerify(exactly = 1) {
+                apiService.photos(page = page, pageSize = pageSize)
+            }
         }
     }
 
     @Test
     fun `verify photos fetch is not successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.photos(
                     page = page, pageSize = pageSize
                 )
-            ).thenThrow(RuntimeException("Something went wrong"))
+            } throws (RuntimeException("Something went wrong"))
 
             val res = photoRepository.photosList().asSnapshot(
                 onError = { loadState ->
@@ -196,10 +195,9 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
 
             assert(res.isEmpty())
 
-            verify(apiService, times(1)).photos(
-                page = page,
-                pageSize = pageSize
-            )
+            coVerify(exactly = 1) {
+                apiService.photos(page = page, pageSize = pageSize)
+            }
         }
 
     }
@@ -207,29 +205,29 @@ class PhotoRepositoryImplTest : BaseRepositoryTest() {
     @Test
     fun `verify photo details fetch is successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.photoDetails(pageId)
-            ).thenReturn(photoDetailResponse)
+            } returns photoDetailResponse
 
             val result = photoRepository.photoDetails(pageId)
             assert(result is Result.Success)
-            assert( (result as Result.Success).data == photoDetailResponse)
+            assert((result as Result.Success).data == photoDetailResponse)
 
-            verify(apiService, times(1)).photoDetails(pageId)
+            coVerify(exactly = 1) { apiService.photoDetails(pageId) }
         }
     }
 
     @Test
     fun `verify photo details fetch is not successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.photoDetails(pageId)
-            ).thenThrow(RuntimeException("Something went wrong"))
+            } throws RuntimeException("Something went wrong")
 
             val result = photoRepository.photoDetails(pageId)
             assert(result is Result.Error)
 
-            verify(apiService, times(1)).photoDetails(pageId)
+            coVerify(exactly = 1) { apiService.photoDetails(pageId) }
         }
     }
 }

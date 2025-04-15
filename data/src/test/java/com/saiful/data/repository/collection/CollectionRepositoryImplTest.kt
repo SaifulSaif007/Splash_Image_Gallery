@@ -3,23 +3,19 @@ package com.saiful.data.repository.collection
 import androidx.paging.LoadState
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.data.model.*
 import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.collection.CollectionLinks
 import com.saiful.data.model.photo.*
 import com.saiful.data.remote.ApiService
 import com.saiful.test.unit.BaseRepositoryTest
+import io.mockk.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class CollectionRepositoryImplTest : BaseRepositoryTest() {
 
-    private val apiService: ApiService = mock()
+    private val apiService: ApiService = mockk()
 
     private val page: Int = 1
     private val pageSize: Int = 10
@@ -121,35 +117,35 @@ class CollectionRepositoryImplTest : BaseRepositoryTest() {
     }
 
     override fun tearDown() {
-        reset(apiService)
+        clearAllMocks()
     }
 
     @Test
     fun `verify collection photos fetch is successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.collections(
                     page = page, pageSize = pageSize
                 )
-            ).thenReturn(collectionResponse)
+            } returns collectionResponse
 
             val res = collectionRepository.collectionList().asSnapshot()
             assert(res == collectionResponse)
 
-            verify(
-                apiService, times(1)
-            ).collections(page = page, pageSize = pageSize)
+            coVerify(exactly = 1) {
+                apiService.collections(page = page, pageSize = pageSize)
+            }
         }
     }
 
     @Test
     fun `verify collection photos fetch is not successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.collections(
                     page = page, pageSize = pageSize
                 )
-            ).thenThrow(RuntimeException("Something went wrong"))
+            } throws RuntimeException("Something went wrong")
 
             val res = collectionRepository.collectionList().asSnapshot(
                 onError = { loadState ->
@@ -160,42 +156,42 @@ class CollectionRepositoryImplTest : BaseRepositoryTest() {
 
             assert(res.isEmpty())
 
-            verify(
-                apiService, times(1)
-            ).collections(page = page, pageSize = pageSize)
+            coVerify(exactly = 1) {
+                apiService.collections(page = page, pageSize = pageSize)
+            }
         }
     }
 
     @Test
     fun `verify collection photo fetch is successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.collectionPhotos(
                     collectionId = "1",
                     page = page,
                     pageSize = pageSize
                 )
-            ).thenReturn(collectionPhotoResponse)
+            } returns collectionPhotoResponse
 
             val res = collectionRepository.collectionPhotos("1").asSnapshot()
             assert(res == collectionPhotoResponse)
 
-            verify(
-                apiService, times(1)
-            ).collectionPhotos(collectionId = "1", page = page, pageSize = pageSize)
+            coVerify(exactly = 1) {
+                apiService.collectionPhotos(collectionId = "1", page = page, pageSize = pageSize)
+            }
         }
     }
 
     @Test
     fun `verify collection photo fetch is not successful`() {
         runTest {
-            whenever(
+            coEvery {
                 apiService.collectionPhotos(
                     collectionId = "1",
                     page = page,
                     pageSize = pageSize
                 )
-            ).thenThrow(RuntimeException("Something went wrong"))
+            } throws RuntimeException("Something went wrong")
 
             val res = collectionRepository.collectionPhotos("1").asSnapshot(
                 onError = { loadState ->
@@ -206,9 +202,9 @@ class CollectionRepositoryImplTest : BaseRepositoryTest() {
 
             assert(res.isEmpty())
 
-            verify(
-                apiService, times(1)
-            ).collectionPhotos(collectionId = "1", page = page, pageSize = pageSize)
+            coVerify(exactly = 1){
+                apiService.collectionPhotos(collectionId = "1", page = page, pageSize = pageSize)
+            }
         }
     }
 }
