@@ -1,6 +1,6 @@
 package com.saiful.domain.usecase
 
-import com.nhaarman.mockito_kotlin.*
+
 import com.saiful.core.domain.Result
 import com.saiful.data.model.*
 import com.saiful.data.model.collection.PreviewPhoto
@@ -9,13 +9,14 @@ import com.saiful.data.model.profile.Profile
 import com.saiful.data.repository.profile.ProfileRepository
 import com.saiful.domain.mapper.toProfileInfo
 import com.saiful.test.unit.BaseUseCaseTest
+import io.mockk.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.mockito.Mockito.mock
+
 
 class GetProfileInfoUseCaseTest : BaseUseCaseTest() {
 
-    private val repository: ProfileRepository = mock()
+    private val repository: ProfileRepository = mockk()
     private val profileInfoUseCase = GetProfileInfoUseCase(repository)
     private lateinit var response: Profile
     private val userName = "john_doe"
@@ -78,37 +79,37 @@ class GetProfileInfoUseCaseTest : BaseUseCaseTest() {
     }
 
     override fun tearDown() {
-        reset(repository)
+        unmockkAll()
     }
 
     @Test
     fun `verify profile info use case should return profile info`() {
         runTest {
-            whenever(repository.profile(userName)).thenReturn(
-                Result.Success(response)
-            )
+            coEvery {
+                repository.profile(userName)
+            } returns Result.Success(response)
 
             val result = profileInfoUseCase(userName)
 
             assert(result is Result.Success)
             assert((result as Result.Success).data == response.toProfileInfo())
 
-            verify(repository).profile(userName)
+            coVerify(exactly = 1) { repository.profile(userName) }
         }
     }
 
     @Test
     fun `verify profile info use case should return error`() {
         runTest {
-            whenever(repository.profile(userName)).thenReturn(
-                Result.Error(domainException)
-            )
+            coEvery {
+                repository.profile(userName)
+            } returns Result.Error(domainException)
 
             val result = profileInfoUseCase(userName)
 
             assert(result is Result.Error)
             assert((result as Result.Error).error == domainException)
-            verify(repository).profile(userName)
+            coVerify(exactly = 1) { repository.profile(userName) }
         }
     }
 }

@@ -3,24 +3,20 @@ package com.saiful.domain.usecase
 import androidx.paging.*
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.only
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.data.model.*
 import com.saiful.data.model.photo.*
 import com.saiful.data.repository.profile.ProfileRepository
 import com.saiful.domain.mapper.toPhotoItem
 import com.saiful.test.unit.BaseUseCaseTest
+import io.mockk.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.mockito.Mockito
 
 class GetProfilePhotosUseCaseTest : BaseUseCaseTest() {
 
-    private val repository: ProfileRepository = Mockito.mock()
+    private val repository: ProfileRepository = mockk()
     private val useCase = GetProfilePhotosUseCase(repository)
     private val userName = "saiful"
 
@@ -91,36 +87,38 @@ class GetProfilePhotosUseCaseTest : BaseUseCaseTest() {
     }
 
     override fun tearDown() {
-        reset(repository)
+        unmockkAll()
     }
 
     @Test
     fun `verify get profile photos use case`() {
         runTest {
-            whenever(repository.profilePhotos(username = userName)).thenReturn(response)
+            coEvery { repository.profilePhotos(username = userName) } returns response
 
             val result = useCase.invoke(userName)
 
             assert(result.asSnapshot() == response.toPhotoItem().asSnapshot())
-            verify(repository, only()).profilePhotos(username = userName)
+            coVerify(exactly = 1) { repository.profilePhotos(username = userName) }
         }
     }
 
     @Test
     fun `verify get profile photos use case return empty paging data`() {
         runTest {
-            whenever(repository.profilePhotos(userName)).thenReturn(
-                flowOf(
-                    PagingData.from(
-                        data = emptyList(),
-                        sourceLoadStates = LoadStates(
-                            refresh = LoadState.Error(Exception("ex")),
-                            prepend = LoadState.NotLoading(true),
-                            append = LoadState.NotLoading(true)
+            coEvery {
+                repository.profilePhotos(userName)
+            } returns
+                    flowOf(
+                        PagingData.from(
+                            data = emptyList(),
+                            sourceLoadStates = LoadStates(
+                                refresh = LoadState.Error(Exception("ex")),
+                                prepend = LoadState.NotLoading(true),
+                                append = LoadState.NotLoading(true)
+                            )
                         )
                     )
-                )
-            )
+
 
             val result = useCase.invoke(userName).asSnapshot(
                 onError = { loadState ->
@@ -130,7 +128,7 @@ class GetProfilePhotosUseCaseTest : BaseUseCaseTest() {
             )
 
             assert(result.isEmpty())
-            verify(repository, only()).profilePhotos(username = userName)
+            coVerify(exactly = 1) { repository.profilePhotos(username = userName) }
         }
     }
 

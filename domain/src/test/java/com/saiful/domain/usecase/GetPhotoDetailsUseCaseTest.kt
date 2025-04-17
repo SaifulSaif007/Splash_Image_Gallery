@@ -1,7 +1,5 @@
 package com.saiful.domain.usecase
 
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.core.domain.Result
 import com.saiful.data.model.*
 import com.saiful.data.model.photo.Urls
@@ -9,13 +7,14 @@ import com.saiful.data.model.photo.details.*
 import com.saiful.data.repository.photo.PhotoRepository
 import com.saiful.domain.mapper.toPhotoDetailsItem
 import com.saiful.test.unit.BaseUseCaseTest
+import io.mockk.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.mockito.Mockito.mock
+
 
 class GetPhotoDetailsUseCaseTest : BaseUseCaseTest() {
 
-    private val photoRepository: PhotoRepository = mock()
+    private val photoRepository: PhotoRepository = mockk()
     private val getPhotoDetailsUseCase = GetPhotoDetailsUseCase(photoRepository)
     private lateinit var response: PhotoDetails
 
@@ -109,20 +108,21 @@ class GetPhotoDetailsUseCaseTest : BaseUseCaseTest() {
     }
 
     override fun tearDown() {
-        reset(photoRepository)
+        unmockkAll()
     }
 
     @Test
     fun `verify get photo details use case returns photo details`() {
         runTest {
-            whenever(photoRepository.photoDetails(photoId)).thenReturn(
-                Result.Success(response)
-            )
+            coEvery {
+                photoRepository.photoDetails(photoId)
+            } returns Result.Success(response)
 
             val result = getPhotoDetailsUseCase(photoId)
 
             assert(result is Result.Success)
             assert((result as Result.Success).data == response.toPhotoDetailsItem())
+            coVerify(exactly = 1) { photoRepository.photoDetails(photoId) }
         }
     }
 
@@ -130,14 +130,15 @@ class GetPhotoDetailsUseCaseTest : BaseUseCaseTest() {
     @Test
     fun `verify get photo details use case returns error`() {
         runTest {
-            whenever(photoRepository.photoDetails(photoId)).thenReturn(
-                Result.Error(domainException)
-            )
+            coEvery {
+                photoRepository.photoDetails(photoId)
+            } returns Result.Error(domainException)
 
             val result = getPhotoDetailsUseCase(photoId)
 
             assert(result is Result.Error)
             assert((result as Result.Error).error == domainException)
+            coVerify(exactly = 1) { photoRepository.photoDetails(photoId) }
         }
     }
 
