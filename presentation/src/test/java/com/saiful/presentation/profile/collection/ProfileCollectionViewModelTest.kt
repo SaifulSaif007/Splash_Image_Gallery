@@ -1,25 +1,18 @@
 package com.saiful.presentation.profile.collection
 
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
+import androidx.paging.*
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.only
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.domain.model.CollectionItem
 import com.saiful.domain.usecase.GetProfileCollectionUseCase
 import com.saiful.test.unit.BaseViewModelTest
 import com.saiful.test.unit.rules.MainCoroutineRule
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.mock
+
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProfileCollectionViewModelTest : BaseViewModelTest() {
@@ -27,7 +20,7 @@ class ProfileCollectionViewModelTest : BaseViewModelTest() {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val profileCollectionUseCase: GetProfileCollectionUseCase = mock()
+    private val profileCollectionUseCase: GetProfileCollectionUseCase = mockk()
     private lateinit var viewModel: ProfileCollectionViewModel
     private lateinit var flowPagingData: Flow<PagingData<CollectionItem>>
 
@@ -69,7 +62,7 @@ class ProfileCollectionViewModelTest : BaseViewModelTest() {
     }
 
     override fun tearDown() {
-        reset(profileCollectionUseCase)
+        unmockkAll()
     }
 
     private fun initViewModel() {
@@ -79,43 +72,45 @@ class ProfileCollectionViewModelTest : BaseViewModelTest() {
     @Test
     fun `verify loadData gets profile collections flow data`() {
         runTest {
-            whenever(profileCollectionUseCase(userName)).thenReturn(flowPagingData)
+            coEvery { profileCollectionUseCase(userName) } returns flowPagingData
 
             initViewModel()
             viewModel.setEvent(ProfileCollectionContract.Event.Initialize(userName))
 
             val result = flowOf(viewModel.collectionState.first()).asSnapshot()
 
-            verify(profileCollectionUseCase, only()).invoke(userName)
             assert(result.size == 2)
             assert(result[0].collectionId == "1")
             assert(result[1].collectionId == "2")
+            coVerify(exactly = 1) { profileCollectionUseCase.invoke(userName) }
         }
     }
 
     @Test
     fun `verify loadData gets empty profile collections flow data`() {
         runTest {
-            whenever(profileCollectionUseCase(userName)).thenReturn(
-                flowOf(
-                    PagingData.from(
-                        data = listOf(),
-                        sourceLoadStates = LoadStates(
-                            refresh = LoadState.Error(Exception("ex")),
-                            prepend = LoadState.NotLoading(true),
-                            append = LoadState.NotLoading(true)
+            coEvery {
+                profileCollectionUseCase(userName)
+            } returns
+                    flowOf(
+                        PagingData.from(
+                            data = listOf(),
+                            sourceLoadStates = LoadStates(
+                                refresh = LoadState.Error(Exception("ex")),
+                                prepend = LoadState.NotLoading(true),
+                                append = LoadState.NotLoading(true)
+                            )
                         )
                     )
-                )
-            )
+
 
             initViewModel()
             viewModel.setEvent(ProfileCollectionContract.Event.Initialize(userName))
 
             val result = flowOf(viewModel.collectionState.first()).asSnapshot()
 
-            verify(profileCollectionUseCase, only()).invoke(userName)
             assert(result.isEmpty())
+            coVerify(exactly = 1) { profileCollectionUseCase.invoke(userName) }
         }
     }
 

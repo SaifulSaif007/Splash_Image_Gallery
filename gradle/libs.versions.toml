@@ -19,8 +19,6 @@ splash-screen = "1.0.1"
 naviagtion = "2.8.8"
 coroutine-test = "1.7.3"
 coil = "2.4.0"
-mockito = "5.3.1"
-mockito-kotlin = "1.5.0"
 pagination = "3.3.0"
 paging-compose = "3.3.0"
 google-service = "4.4.1"
@@ -87,15 +85,12 @@ compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-mani
 paging-test = { group = "androidx.paging", name = "paging-testing", version.ref = "pagination" }
 
 coroutine-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine-test" }
-mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
-mockito-kotlin = { group = "com.nhaarman", name = "mockito-kotlin-kt1.1", version.ref = "mockito-kotlin" }
 mockK = { group = "io.mockk", name = "mockk", version.ref = "mockK" }
 
 
 [bundles]
 retrofit = ["retrofit", "moshi", "moshi-adapter", "moshi-converter"]
 compose = ["compose-material3", "compose-test-ui-tooling", "compose-ui-graphics", "compose-ui"]
-mockito = ["mockito", "mockito-kotlin", "mockK"]
 lifecycle = ["androidx-lifecycle-runtime", "viewModel-lifecycle-compose", "viewModel-lifecycle-ktx"]
 
 

@@ -31,7 +31,7 @@ dependencies {
 
     testImplementation(project(":base_unit_test"))
     testImplementation(libs.paging.test)
-    testImplementation(libs.bundles.mockito)
+    testImplementation(libs.mockK)
     testImplementation(libs.junit)
     testImplementation(libs.coroutine.test)
 }
