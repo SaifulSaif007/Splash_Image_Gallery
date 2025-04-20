@@ -3,10 +3,6 @@ package com.saiful.domain.usecase
 import androidx.paging.*
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.only
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.data.model.*
 import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.collection.CollectionLinks
@@ -14,15 +10,15 @@ import com.saiful.data.model.photo.*
 import com.saiful.data.repository.profile.ProfileRepository
 import com.saiful.domain.mapper.toCollectionItem
 import com.saiful.test.unit.BaseUseCaseTest
+import io.mockk.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.mockito.Mockito.mock
 
 class GetProfileCollectionUseCaseTest : BaseUseCaseTest() {
 
-    private val repository: ProfileRepository = mock()
+    private val repository: ProfileRepository = mockk()
     private val useCase = GetProfileCollectionUseCase(repository)
 
     private lateinit var response: Flow<PagingData<Collection>>
@@ -118,36 +114,38 @@ class GetProfileCollectionUseCaseTest : BaseUseCaseTest() {
     }
 
     override fun tearDown() {
-        reset(repository)
+        unmockkAll()
     }
 
     @Test
     fun `verify get profile collection use case returns paging data`() {
         runTest {
-            whenever(repository.profilePhotoCollections(userName)).thenReturn(response)
+            coEvery { repository.profilePhotoCollections(userName) } returns response
 
             val result = useCase.invoke(userName)
 
             assert(result.asSnapshot() == response.toCollectionItem().asSnapshot())
-            verify(repository, only()).profilePhotoCollections(userName)
+            coVerify(exactly = 1) { repository.profilePhotoCollections(userName) }
         }
     }
 
     @Test
     fun `verify get profile collection use case returns empty paging data`() {
         runTest {
-            whenever(repository.profilePhotoCollections(userName)).thenReturn(
-                flowOf(
-                    PagingData.from(
-                        data = emptyList(),
-                        sourceLoadStates = LoadStates(
-                            refresh = LoadState.Error(Exception("ex")),
-                            prepend = LoadState.NotLoading(true),
-                            append = LoadState.NotLoading(true)
+            coEvery {
+                repository.profilePhotoCollections(userName)
+            } returns
+                    flowOf(
+                        PagingData.from(
+                            data = emptyList(),
+                            sourceLoadStates = LoadStates(
+                                refresh = LoadState.Error(Exception("ex")),
+                                prepend = LoadState.NotLoading(true),
+                                append = LoadState.NotLoading(true)
+                            )
                         )
                     )
-                )
-            )
+
 
             val result = useCase.invoke(userName).asSnapshot(
                 onError = { loadState ->
@@ -157,7 +155,7 @@ class GetProfileCollectionUseCaseTest : BaseUseCaseTest() {
             )
 
             assert(result.isEmpty())
-            verify(repository, only()).profilePhotoCollections(userName)
+            coVerify(exactly = 1) { repository.profilePhotoCollections(userName) }
         }
     }
 }

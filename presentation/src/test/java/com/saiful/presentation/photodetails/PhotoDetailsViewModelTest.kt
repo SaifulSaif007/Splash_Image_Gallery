@@ -2,7 +2,6 @@ package com.saiful.presentation.photodetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.nhaarman.mockito_kotlin.*
 import com.saiful.core.domain.Result
 import com.saiful.domain.model.PhotoDetailsItem
 import com.saiful.domain.usecase.GetPhotoDetailsUseCase
@@ -21,8 +20,8 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val photoDetailsUseCase: GetPhotoDetailsUseCase = mock()
-    private val savedStateHandle: SavedStateHandle = mock()
+    private val photoDetailsUseCase: GetPhotoDetailsUseCase = mockk()
+    private val savedStateHandle: SavedStateHandle = mockk()
     private lateinit var viewModel: PhotoDetailsViewModel
     private lateinit var photoDetailsItem: PhotoDetailsItem
     private val photoId = "1"
@@ -46,18 +45,18 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
             userName = "johndoe"
         )
         mockkStatic("androidx.navigation.SavedStateHandleKt")
-        every { savedStateHandle.toRoute<Routes.PhotoDetails>() } returns Routes.PhotoDetails(
-            photoId
-        )
 
     }
 
     override fun tearDown() {
-        reset(photoDetailsUseCase)
-        unmockkStatic("androidx.navigation.SavedStateHandleKt")
+        unmockkAll()
     }
 
     private fun initViewModel() {
+        every {
+            savedStateHandle.toRoute<Routes.PhotoDetails>()
+        } returns Routes.PhotoDetails(photoId)
+
         viewModel = PhotoDetailsViewModel(
             photoDetailsUseCase = photoDetailsUseCase,
             savedStateHandle = savedStateHandle
@@ -67,9 +66,10 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     @Test
     fun `verify get photo load photo details`() {
         runTest {
-            whenever(photoDetailsUseCase(photoId)).thenReturn(
-                Result.Success(photoDetailsItem)
-            )
+            coEvery {
+                photoDetailsUseCase(photoId)
+            } returns Result.Success(photoDetailsItem)
+
 
             initViewModel()
 
@@ -82,9 +82,10 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     @Test
     fun `verify get photo load error`() {
         runTest {
-            whenever(photoDetailsUseCase(photoId)).thenReturn(
-                Result.Error(domainException)
-            )
+            coEvery {
+                photoDetailsUseCase(photoId)
+            } returns Result.Error(domainException)
+
             initViewModel()
             val result = viewModel.uiState.value
             assert(result is PhotoDetailsViewModel.UIState.Error)
@@ -95,7 +96,8 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     @Test
     fun `verify navigate up event`() {
         runTest {
-            initViewModel()
+            `verify get photo load photo details`()
+
             viewModel.setEvent(PhotoDetailsContract.Event.NavigateUp)
 
             assert(viewModel.effect.first() is PhotoDetailsContract.Effect.Navigation.NavigateUp)
@@ -105,7 +107,8 @@ class PhotoDetailsViewModelTest : BaseViewModelTest() {
     @Test
     fun `verify navigate to profile event`() {
         runTest {
-            initViewModel()
+            `verify get photo load photo details`()
+
             viewModel.setEvent(PhotoDetailsContract.Event.SelectProfile("saiful", "Saiful"))
 
             assert(viewModel.effect.first() is PhotoDetailsContract.Effect.Navigation.ToProfile)

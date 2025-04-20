@@ -3,24 +3,20 @@ package com.saiful.domain.usecase
 import androidx.paging.*
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.only
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.data.model.*
 import com.saiful.data.model.photo.*
 import com.saiful.data.repository.collection.CollectionRepository
 import com.saiful.domain.mapper.toPhotoItem
 import com.saiful.test.unit.BaseUseCaseTest
+import io.mockk.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.mockito.Mockito.mock
 
 class GetCollectionPhotoUseCaseTest : BaseUseCaseTest() {
 
-    private val collectionRepository: CollectionRepository = mock()
+    private val collectionRepository: CollectionRepository = mockk()
 
     private val getCollectionPhotoUseCase = GetCollectionPhotoUseCase(collectionRepository)
 
@@ -93,20 +89,20 @@ class GetCollectionPhotoUseCaseTest : BaseUseCaseTest() {
     }
 
     override fun tearDown() {
-        reset(collectionRepository)
+        unmockkAll()
     }
 
     @Test
     fun `get collection photo use case should return photo paging data`() {
         runTest {
-            whenever(
+            coEvery {
                 collectionRepository.collectionPhotos(collectionId)
-            ).thenReturn(response)
+            } returns response
 
             val result = getCollectionPhotoUseCase(collectionId)
 
             assert(result.asSnapshot() == response.toPhotoItem().asSnapshot())
-            verify(collectionRepository, only()).collectionPhotos(collectionId)
+            coVerify(exactly = 1) { collectionRepository.collectionPhotos(collectionId) }
 
         }
     }
@@ -114,20 +110,19 @@ class GetCollectionPhotoUseCaseTest : BaseUseCaseTest() {
     @Test
     fun `get collection photo use case should return empty paging data`() {
         runTest {
-            whenever(
+            coEvery {
                 collectionRepository.collectionPhotos(collectionId)
-            ).thenReturn(
-                flowOf(
-                    PagingData.from(
-                        data = emptyList(),
-                        sourceLoadStates = LoadStates(
-                            refresh = LoadState.Error(Exception("ex")),
-                            prepend = LoadState.NotLoading(true),
-                            append = LoadState.NotLoading(true)
+            } returns
+                    flowOf(
+                        PagingData.from(
+                            data = emptyList(),
+                            sourceLoadStates = LoadStates(
+                                refresh = LoadState.Error(Exception("ex")),
+                                prepend = LoadState.NotLoading(true),
+                                append = LoadState.NotLoading(true)
+                            )
                         )
                     )
-                )
-            )
 
             val result = getCollectionPhotoUseCase(collectionId).asSnapshot(
                 onError = { loadState ->
@@ -137,7 +132,7 @@ class GetCollectionPhotoUseCaseTest : BaseUseCaseTest() {
             )
 
             assert(result.isEmpty())
-            verify(collectionRepository, only()).collectionPhotos(collectionId)
+            coVerify(exactly = 1) { collectionRepository.collectionPhotos(collectionId) }
         }
     }
 

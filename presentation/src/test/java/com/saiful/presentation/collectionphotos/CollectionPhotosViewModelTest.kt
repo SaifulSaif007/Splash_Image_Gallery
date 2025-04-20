@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import androidx.paging.*
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.*
 import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.GetCollectionPhotoUseCase
 import com.saiful.presentation.Routes
@@ -16,15 +15,14 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CollectionPhotosViewModelTest : BaseViewModelTest() {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val collectionPhotoUseCase: GetCollectionPhotoUseCase = mock()
-    private val savedStateHandle: SavedStateHandle = Mockito.mock()
+    private val collectionPhotoUseCase: GetCollectionPhotoUseCase = mockk()
+    private val savedStateHandle: SavedStateHandle = mockk()
     private lateinit var viewModel: CollectionPhotosViewModel
     private lateinit var flowPagingData: Flow<PagingData<PhotoItem>>
     private val collectionId = "1"
@@ -62,23 +60,25 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
                 )
             )
         )
-
         mockkStatic("androidx.navigation.SavedStateHandleKt")
-        every { savedStateHandle.toRoute<Routes.CollectionPhotos>() } returns Routes.CollectionPhotos(
+
+    }
+
+    override fun tearDown() {
+        unmockkAll()
+    }
+
+    private fun initViewModel() {
+        every {
+            savedStateHandle.toRoute<Routes.CollectionPhotos>()
+        } returns Routes.CollectionPhotos(
             collectionId,
             collectionTitle,
             collectionDesc,
             collectionTotalPhotos,
             collectionAuthor
         )
-    }
 
-    override fun tearDown() {
-        reset(collectionPhotoUseCase)
-        unmockkStatic("androidx.navigation.SavedStateHandleKt")
-    }
-
-    private fun initViewModel() {
         viewModel = CollectionPhotosViewModel(
             collectionPhotoUseCase = collectionPhotoUseCase,
             savedStateHandle = savedStateHandle
@@ -88,43 +88,42 @@ class CollectionPhotosViewModelTest : BaseViewModelTest() {
     @Test
     fun `get collection photos returns paging data`() {
         runTest {
-            whenever(
+            coEvery {
                 collectionPhotoUseCase(collectionId)
-            ).thenReturn(flowPagingData)
+            } returns flowPagingData
 
             initViewModel()
 
             val result = flowOf(viewModel.photoState.first()).asSnapshot()
-            verify(collectionPhotoUseCase, only()).invoke(collectionId)
             assert(result.isNotEmpty())
             assert(result.size == 2)
+            coVerify(exactly = 1) { collectionPhotoUseCase.invoke(collectionId) }
         }
     }
 
     @Test
     fun `get collection photos returns empty paging data`() {
         runTest {
-            whenever(
+            coEvery {
                 collectionPhotoUseCase(collectionId)
-            ).thenReturn(
-                flowOf(
-                    PagingData.from(
-                        data = emptyList(),
-                        sourceLoadStates = LoadStates(
-                            refresh = LoadState.Error(Exception("ex")),
-                            prepend = LoadState.NotLoading(true),
-                            append = LoadState.NotLoading(true)
+            } returns
+                    flowOf(
+                        PagingData.from(
+                            data = emptyList(),
+                            sourceLoadStates = LoadStates(
+                                refresh = LoadState.Error(Exception("ex")),
+                                prepend = LoadState.NotLoading(true),
+                                append = LoadState.NotLoading(true)
+                            )
                         )
                     )
-                )
-            )
 
             initViewModel()
 
             val result = flowOf(viewModel.photoState.first()).asSnapshot()
 
-            verify(collectionPhotoUseCase, only()).invoke(collectionId)
             assert(result.isEmpty())
+            coVerify(exactly = 1) { collectionPhotoUseCase.invoke(collectionId) }
         }
     }
 

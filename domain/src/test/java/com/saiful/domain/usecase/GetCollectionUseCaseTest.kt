@@ -3,11 +3,6 @@ package com.saiful.domain.usecase
 import androidx.paging.*
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.only
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.data.model.*
 import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.collection.CollectionLinks
@@ -15,6 +10,7 @@ import com.saiful.data.model.photo.*
 import com.saiful.data.repository.collection.CollectionRepository
 import com.saiful.domain.mapper.toCollectionItem
 import com.saiful.test.unit.BaseUseCaseTest
+import io.mockk.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -23,7 +19,7 @@ import org.junit.Test
 
 class GetCollectionUseCaseTest : BaseUseCaseTest() {
 
-    private val collectionRepository: CollectionRepository = mock()
+    private val collectionRepository: CollectionRepository = mockk()
 
     private val getCollectionUseCase = GetCollectionUseCase(collectionRepository)
 
@@ -119,20 +115,19 @@ class GetCollectionUseCaseTest : BaseUseCaseTest() {
     }
 
     override fun tearDown() {
-        reset(collectionRepository)
+        unmockkAll()
     }
 
 
     @Test
     fun `verify collection useCase returns collectionItem paging data`() {
         runTest {
-            whenever(collectionRepository.collectionList())
-                .thenReturn(response)
+            coEvery { collectionRepository.collectionList() } returns response
 
             val result = getCollectionUseCase(Unit)
 
             assert(result.asSnapshot() == response.toCollectionItem().asSnapshot())
-            verify(collectionRepository, only()).collectionList()
+            coVerify(exactly = 1) { collectionRepository.collectionList() }
 
         }
     }
@@ -140,8 +135,9 @@ class GetCollectionUseCaseTest : BaseUseCaseTest() {
     @Test
     fun `verify collection useCase return empty paging data when loadState error occurs`() {
         runTest {
-            whenever(collectionRepository.collectionList())
-                .thenReturn(
+            coEvery {
+                collectionRepository.collectionList()
+            } returns
                     flowOf(
                         PagingData.from(
                             data = emptyList(),
@@ -152,7 +148,6 @@ class GetCollectionUseCaseTest : BaseUseCaseTest() {
                             )
                         )
                     )
-                )
 
 
             val result = getCollectionUseCase(Unit).asSnapshot(
@@ -163,7 +158,7 @@ class GetCollectionUseCaseTest : BaseUseCaseTest() {
             )
 
             assert(result.isEmpty())
-            verify(collectionRepository, only()).collectionList()
+            coVerify(exactly = 1) { collectionRepository.collectionList() }
         }
     }
 }

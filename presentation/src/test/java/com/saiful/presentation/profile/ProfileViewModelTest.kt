@@ -2,7 +2,6 @@ package com.saiful.presentation.profile
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.nhaarman.mockito_kotlin.*
 import com.saiful.core.domain.Result
 import com.saiful.domain.mapper.COLLECTIONS
 import com.saiful.domain.mapper.LIKES
@@ -18,15 +17,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.mock
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProfileViewModelTest : BaseViewModelTest() {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val profileInfoUseCase: GetProfileInfoUseCase = mock()
-    private val savedStateHandle: SavedStateHandle = mock()
+    private val profileInfoUseCase: GetProfileInfoUseCase = mockk()
+    private val savedStateHandle: SavedStateHandle = mockk()
     private val userName = "saiful"
     private val profileName = "Saiful"
     private lateinit var viewModel: ProfileViewModel
@@ -45,18 +43,18 @@ class ProfileViewModelTest : BaseViewModelTest() {
         )
 
         mockkStatic("androidx.navigation.SavedStateHandleKt")
+    }
+
+    override fun tearDown() {
+        unmockkAll()
+    }
+
+    private fun initViewModel() {
         every { savedStateHandle.toRoute<Routes.Profile>() } returns Routes.Profile(
             userName,
             profileName
         )
-    }
 
-    override fun tearDown() {
-        reset(profileInfoUseCase)
-        unmockkStatic("androidx.navigation.SavedStateHandleKt")
-    }
-
-    private fun initViewModel() {
         viewModel = ProfileViewModel(
             profileInfoUseCase,
             savedStateHandle
@@ -66,39 +64,40 @@ class ProfileViewModelTest : BaseViewModelTest() {
     @Test
     fun `get profile info returns success result`() {
         runTest {
-            whenever(profileInfoUseCase.invoke(userName)).thenReturn(
-                Result.Success(profileInfo)
-            )
+            coEvery {
+                profileInfoUseCase.invoke(userName)
+            } returns Result.Success(profileInfo)
 
             initViewModel()
-            verify(profileInfoUseCase, times(1)).invoke(userName)
 
             val result = viewModel.uiState.value
             assert(result is ProfileViewModel.UIState.Success)
             assert((result as ProfileViewModel.UIState.Success).data == profileInfo)
+            coVerify(exactly = 1) { profileInfoUseCase.invoke(userName) }
         }
     }
 
     @Test
     fun `get profile info returns error result`() {
         runTest {
-            whenever(profileInfoUseCase.invoke(userName)).thenReturn(
-                Result.Error(domainException)
-            )
+            coEvery {
+                profileInfoUseCase.invoke(userName)
+            } returns Result.Error(domainException)
+
 
             initViewModel()
-            verify(profileInfoUseCase, times(1)).invoke(userName)
 
             val result = viewModel.uiState.value
             assert(result is ProfileViewModel.UIState.Error)
             assert((result as ProfileViewModel.UIState.Error).exception == domainException)
+            coVerify(exactly = 1) { profileInfoUseCase.invoke(userName) }
         }
     }
 
     @Test
     fun `verify navigate back event`() {
         runTest {
-            initViewModel()
+            `get profile info returns success result`()
 
             viewModel.setEvent(ProfileContract.Event.NavigateBack)
             assert(viewModel.effect.first() is ProfileContract.Effect.Navigation.NavigateUp)
@@ -108,7 +107,7 @@ class ProfileViewModelTest : BaseViewModelTest() {
     @Test
     fun `verify navigate to photoDetails event`() {
         runTest {
-            initViewModel()
+            `get profile info returns success result`()
 
             viewModel.setEvent(ProfileContract.Event.NavigateToPhotoDetails("1"))
             assert(viewModel.effect.first() is ProfileContract.Effect.Navigation.ToPhotoDetails)

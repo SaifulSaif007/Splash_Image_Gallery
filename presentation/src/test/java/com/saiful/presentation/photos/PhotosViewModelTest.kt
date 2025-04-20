@@ -1,22 +1,14 @@
 package com.saiful.presentation.photos
 
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
+import androidx.paging.*
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.only
-import com.nhaarman.mockito_kotlin.reset
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.domain.model.PhotoItem
 import com.saiful.domain.usecase.GetPhotosUseCase
 import com.saiful.test.unit.BaseViewModelTest
 import com.saiful.test.unit.rules.MainCoroutineRule
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +19,7 @@ class PhotosViewModelTest : BaseViewModelTest() {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val photosUseCase: GetPhotosUseCase = mock()
+    private val photosUseCase: GetPhotosUseCase = mockk()
     private lateinit var viewModel: PhotosViewModel
 
     private lateinit var flowPagingData: Flow<PagingData<PhotoItem>>
@@ -64,7 +56,7 @@ class PhotosViewModelTest : BaseViewModelTest() {
     }
 
     override fun tearDown() {
-        reset(photosUseCase)
+        unmockkAll()
     }
 
     private fun initViewModel() {
@@ -74,40 +66,41 @@ class PhotosViewModelTest : BaseViewModelTest() {
     @Test
     fun `load data gets flow pager data`() {
         runTest {
-            whenever(photosUseCase(Unit)).thenReturn(flowPagingData)
+            coEvery { photosUseCase(Unit) } returns flowPagingData
 
             initViewModel()
 
             val result = flowOf(viewModel.photoState.first()).asSnapshot()
 
-            verify(photosUseCase, only()).invoke(Unit)
             assert(result.isNotEmpty())
             assert(result.size == 2)
+            coVerify(exactly = 1) { photosUseCase.invoke(Unit) }
         }
     }
 
     @Test
     fun `load data gets exception flow pager data`() {
         runTest {
-            whenever(photosUseCase(Unit)).thenReturn(
-                flowOf(
-                    PagingData.from(
-                        data = emptyList(),
-                        sourceLoadStates = LoadStates(
-                            refresh = LoadState.Error(Exception("ex")),
-                            prepend = LoadState.NotLoading(true),
-                            append = LoadState.NotLoading(true)
+            coEvery {
+                photosUseCase(Unit)
+            } returns
+                    flowOf(
+                        PagingData.from(
+                            data = emptyList(),
+                            sourceLoadStates = LoadStates(
+                                refresh = LoadState.Error(Exception("ex")),
+                                prepend = LoadState.NotLoading(true),
+                                append = LoadState.NotLoading(true)
+                            )
                         )
                     )
-                )
-            )
 
             initViewModel()
 
             val result = flowOf(viewModel.photoState.first()).asSnapshot()
 
-            verify(photosUseCase, only()).invoke(Unit)
             assert(result.isEmpty())
+            coVerify(exactly = 1) { photosUseCase.invoke(Unit) }
         }
     }
 

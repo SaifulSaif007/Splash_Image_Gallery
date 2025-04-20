@@ -3,23 +3,19 @@ package com.saiful.domain.usecase
 import androidx.paging.*
 import androidx.paging.testing.ErrorRecovery
 import androidx.paging.testing.asSnapshot
-import com.nhaarman.mockito_kotlin.only
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
 import com.saiful.data.model.*
 import com.saiful.data.model.photo.*
 import com.saiful.data.repository.profile.ProfileRepository
 import com.saiful.domain.mapper.toPhotoItem
 import com.saiful.test.unit.BaseUseCaseTest
+import io.mockk.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.mockito.Mockito
-import org.mockito.Mockito.reset
 
 class GetProfileLikedPhotosUseCaseTest : BaseUseCaseTest() {
-    private val repository: ProfileRepository = Mockito.mock()
+    private val repository: ProfileRepository = mockk()
     private val useCase = GetProfileLikedPhotosUseCase(repository)
     private val username = "saiful"
 
@@ -91,37 +87,38 @@ class GetProfileLikedPhotosUseCaseTest : BaseUseCaseTest() {
     }
 
     override fun tearDown() {
-        reset(repository)
+        unmockkAll()
     }
 
 
     @Test
     fun `verify get profile liked photos use case`() {
         runTest {
-            whenever(repository.profileLikedPhotos(username)).thenReturn(response)
+            coEvery { repository.profileLikedPhotos(username) } returns response
 
             val result = useCase(username)
 
             assert(result.asSnapshot() == response.toPhotoItem().asSnapshot())
-            verify(repository, only()).profileLikedPhotos(username)
+            coVerify(exactly = 1) { repository.profileLikedPhotos(username) }
         }
     }
 
     @Test
     fun `verify get profile liked photos use case returns empty paging data`() {
         runTest {
-            whenever(repository.profileLikedPhotos(username)).thenReturn(
-                flowOf(
-                    PagingData.from(
-                        data = emptyList(),
-                        sourceLoadStates = LoadStates(
-                            refresh = LoadState.Error(Exception("ex")),
-                            prepend = LoadState.NotLoading(true),
-                            append = LoadState.NotLoading(true)
+            coEvery {
+                repository.profileLikedPhotos(username)
+            } returns
+                    flowOf(
+                        PagingData.from(
+                            data = emptyList(),
+                            sourceLoadStates = LoadStates(
+                                refresh = LoadState.Error(Exception("ex")),
+                                prepend = LoadState.NotLoading(true),
+                                append = LoadState.NotLoading(true)
+                            )
                         )
                     )
-                )
-            )
 
             val result = useCase(username).asSnapshot(
                 onError = { loadState ->
@@ -131,7 +128,7 @@ class GetProfileLikedPhotosUseCaseTest : BaseUseCaseTest() {
             )
 
             assert(result.isEmpty())
-            verify(repository, only()).profileLikedPhotos(username)
+            coVerify(exactly = 1) { repository.profileLikedPhotos(username) }
         }
     }
 }
