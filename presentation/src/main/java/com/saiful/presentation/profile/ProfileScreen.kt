@@ -1,6 +1,5 @@
 package com.saiful.presentation.profile
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -136,7 +135,6 @@ private fun ProfileScreenContent(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 private fun PagerSection(
     profileInfo: ProfileInfo,
     userName: userName,

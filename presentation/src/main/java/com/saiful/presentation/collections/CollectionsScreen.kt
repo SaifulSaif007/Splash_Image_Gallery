@@ -100,7 +100,8 @@ private fun CollectionScreenContent(
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
                     modifier = Modifier.fillParentMaxSize(),
-                    onAction = { collections.retry() }
+                    onAction = { collections.retry() },
+                    errorMsg = (collections.loadState.refresh as LoadState.Error).error.message.toString()
                 )
             }
 
@@ -116,7 +117,8 @@ private fun CollectionScreenContent(
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
                     modifier = Modifier.fillMaxSize(),
-                    onAction = { collections.retry() }
+                    onAction = { collections.retry() },
+                    errorMsg = (collections.loadState.refresh as LoadState.Error).error.message.toString()
                 )
             }
 

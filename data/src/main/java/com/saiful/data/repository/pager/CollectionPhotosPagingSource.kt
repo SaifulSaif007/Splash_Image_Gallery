@@ -3,6 +3,7 @@ package com.saiful.data.repository.pager
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.saiful.core.components.logger.logError
+import com.saiful.core.domain.DomainException
 import com.saiful.data.model.photo.Photo
 import com.saiful.data.remote.ApiService
 
@@ -30,8 +31,8 @@ internal class CollectionPhotosPagingSource(
                 nextKey = if (response.size < PAGE_SIZE) null else pageCount + 1
             )
 
-        } catch (ex: Exception) {
-            logError(msg = ex.message.toString())
+        } catch (ex: DomainException) {
+            logError(msg = ex.message)
             LoadResult.Error(ex)
         }
     }

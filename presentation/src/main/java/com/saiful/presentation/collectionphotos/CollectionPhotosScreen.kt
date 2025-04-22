@@ -3,7 +3,7 @@ package com.saiful.presentation.collectionphotos
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -56,7 +56,7 @@ internal fun CollectionPhotosScreen(
                         viewModel.setEvent(CollectionPhotosContract.Event.NavigateBack)
                     }) {
                         Icon(
-                            Icons.Filled.ArrowBack,
+                            Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "",
                         )
                     }
@@ -125,7 +125,8 @@ private fun CollectionPhotosScreenContent(
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
                     modifier = Modifier.fillParentMaxSize(),
-                    onAction = { photos.retry() }
+                    onAction = { photos.retry() },
+                    errorMsg = (photos.loadState.refresh as LoadState.Error).error.message.toString()
                 )
             }
 
@@ -151,7 +152,8 @@ private fun CollectionPhotosScreenContent(
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
                     modifier = Modifier.fillMaxSize(),
-                    onAction = { photos.retry() }
+                    onAction = { photos.retry() },
+                    errorMsg = (photos.loadState.refresh as LoadState.Error).error.message.toString()
                 )
             }
 
