@@ -2,8 +2,8 @@ package com.saiful.core.domain
 
 import okio.IOException
 
-data class DomainException(
-    val error: String,
+open class DomainException(
+    open val error: String,
     override val message: String,
-    val code: Int
+    open val code: Int
 ) : IOException(message)

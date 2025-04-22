@@ -1,8 +1,7 @@
 package com.saiful.core.di
 
 import com.saiful.core.BuildConfig
-import com.saiful.core.data.RequestInterceptor
-import com.saiful.core.data.ResponseInterceptor
+import com.saiful.core.data.*
 import com.saiful.core.di.qualifiers.BaseUrl
 import com.saiful.core.di.qualifiers.GenericErrorMessage
 import com.saiful.mock.*
@@ -54,9 +53,17 @@ object CoreNetworkModule {
     }
 
     @Provides
+    fun noInternetInterceptor(
+        internetAvailabilityRepository: InternetAvailabilityRepository
+    ): NoInternetInterceptor {
+        return NoInternetInterceptor(internetAvailabilityRepository)
+    }
+
+    @Provides
     fun provideOKHttpClient(
         requestInterceptor: RequestInterceptor,
         responseInterceptor: ResponseInterceptor,
+        noInternetInterceptor: NoInternetInterceptor,
         @BaseUrl baseUrl: String,
         mockMaker: MockMaker,
         mockServerManager: MockServerManager
@@ -68,6 +75,7 @@ object CoreNetworkModule {
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(noInternetInterceptor)
             .addInterceptor(requestInterceptor)
             .addInterceptor(responseInterceptor)
             .apply {
