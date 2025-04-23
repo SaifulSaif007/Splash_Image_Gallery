@@ -77,7 +77,8 @@ private fun ProfilePhotosContent(
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
                     modifier = Modifier.fillParentMaxSize(),
-                    onAction = { photos.retry() }
+                    onAction = { photos.retry() },
+                    errorMsg = (photos.loadState.refresh as LoadState.Error).error.message.toString()
                 )
             }
 
@@ -93,7 +94,8 @@ private fun ProfilePhotosContent(
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
                     modifier = Modifier.fillMaxSize(),
-                    onAction = { photos.retry() }
+                    onAction = { photos.retry() },
+                    errorMsg = (photos.loadState.refresh as LoadState.Error).error.message.toString()
                 )
             }
 

@@ -1,8 +1,6 @@
 package com.saiful.presentation.profile.collection
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,12 +14,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saiful.domain.model.CollectionItem
 import com.saiful.domain.usecase.userName
-import com.saiful.presentation.composables.CollectionRowItem
-import com.saiful.presentation.composables.ErrorView
-import com.saiful.presentation.composables.LoadingView
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
+import com.saiful.presentation.composables.*
+import kotlinx.coroutines.flow.*
 
 @Composable
 internal fun ProfileCollectionScreen(
@@ -100,7 +94,8 @@ private fun ProfileCollectionScreenContent(
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
                     modifier = Modifier.fillParentMaxSize(),
-                    onAction = { collections.retry() }
+                    onAction = { collections.retry() },
+                    errorMsg = (collections.loadState.refresh as LoadState.Error).error.message.toString()
                 )
             }
 
@@ -116,7 +111,8 @@ private fun ProfileCollectionScreenContent(
             is LoadState.Error -> this@LazyColumn.item {
                 ErrorView(
                     modifier = Modifier.fillMaxSize(),
-                    onAction = { collections.retry() }
+                    onAction = { collections.retry() },
+                    errorMsg = (collections.loadState.refresh as LoadState.Error).error.message.toString()
                 )
             }
 
@@ -129,43 +125,43 @@ private fun ProfileCollectionScreenContent(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CollectionScreenContentPreview() {
     ProfileCollectionScreenContent(
         collections =
-        flowOf(
-            PagingData.from(
-                listOf(
-                    CollectionItem(
-                        collectionId = "1",
-                        mainImage = "",
-                        mainImageBlurHash = "",
-                        mainImageHeight = 3,
-                        mainImageWidth = 4,
-                        profileImage = "",
-                        profileName = "NEOM",
-                        title = "City",
-                        description = "desc",
-                        totalPhoto = 10,
-                        profileUserName = "saiful"
-                    ),
-                    CollectionItem(
-                        collectionId = "2",
-                        mainImage = "",
-                        mainImageBlurHash = "",
-                        mainImageHeight = 3,
-                        mainImageWidth = 4,
-                        profileImage = "",
-                        profileName = "ABC",
-                        title = "Adventure",
-                        description = "",
-                        totalPhoto = 101,
-                        profileUserName = "saiful"
+            flowOf(
+                PagingData.from(
+                    listOf(
+                        CollectionItem(
+                            collectionId = "1",
+                            mainImage = "",
+                            mainImageBlurHash = "",
+                            mainImageHeight = 3,
+                            mainImageWidth = 4,
+                            profileImage = "",
+                            profileName = "NEOM",
+                            title = "City",
+                            description = "desc",
+                            totalPhoto = 10,
+                            profileUserName = "saiful"
+                        ),
+                        CollectionItem(
+                            collectionId = "2",
+                            mainImage = "",
+                            mainImageBlurHash = "",
+                            mainImageHeight = 3,
+                            mainImageWidth = 4,
+                            profileImage = "",
+                            profileName = "ABC",
+                            title = "Adventure",
+                            description = "",
+                            totalPhoto = 101,
+                            profileUserName = "saiful"
+                        )
                     )
                 )
-            )
-        ).collectAsLazyPagingItems(),
+            ).collectAsLazyPagingItems(),
         onEvent = {}
     )
 }

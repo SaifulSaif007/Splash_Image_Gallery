@@ -1,6 +1,5 @@
 package com.saiful.presentation
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -38,7 +37,6 @@ fun HomeScreen(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 private fun HomeScreenContent(onSentEvent: (HomeContract.Event) -> Unit) {
     val tabs = LocalContext.current.resources.getStringArray(R.array.dashboardTabTitle)
     val coroutineScope = rememberCoroutineScope()

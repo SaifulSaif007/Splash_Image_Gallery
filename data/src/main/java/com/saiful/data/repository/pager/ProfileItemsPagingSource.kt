@@ -3,6 +3,7 @@ package com.saiful.data.repository.pager
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.saiful.core.components.logger.logError
+import com.saiful.core.domain.DomainException
 
 internal class ProfileItemsPagingSource<T : Any>(
     private val apiCall: suspend (userName: String, page: Int, pageSize: Int) -> List<T>,
@@ -24,8 +25,8 @@ internal class ProfileItemsPagingSource<T : Any>(
                 nextKey = if (response.size < PAGE_SIZE) null else pageCount + 1
             )
 
-        } catch (ex: Exception) {
-            logError(msg = ex.message.toString())
+        } catch (ex: DomainException) {
+            logError(msg = ex.message)
             LoadResult.Error(ex)
         }
     }
