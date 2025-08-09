@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.saiful.splashgallery"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.saiful.splashgallery"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

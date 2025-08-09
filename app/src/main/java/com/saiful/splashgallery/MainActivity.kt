@@ -3,10 +3,13 @@ package com.saiful.splashgallery
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -29,6 +32,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         installSplashScreen()
+
+        enableEdgeToEdge()
 
         setContent {
             SplashGalleryTheme {
@@ -56,6 +61,7 @@ class MainActivity : ComponentActivity() {
                     currentDestination.value = destination
                 }
 
+
                 when (currentDestination.value?.hasRoute(Routes.PhotoDetails::class)) {
                     true -> {
                         window.statusBarColor = Color.Transparent.copy(alpha = 0.3f).toArgb()
@@ -64,6 +70,8 @@ class MainActivity : ComponentActivity() {
                             window,
                             window.decorView
                         ).isAppearanceLightStatusBars = false
+
+                        window.navigationBarColor = android.graphics.Color.TRANSPARENT
                     }
 
                     else -> {
@@ -74,6 +82,8 @@ class MainActivity : ComponentActivity() {
                             window,
                             window.decorView
                         ).isAppearanceLightStatusBars = !darkTheme
+
+                        window.navigationBarColor = android.graphics.Color.TRANSPARENT
                     }
                 }
             }

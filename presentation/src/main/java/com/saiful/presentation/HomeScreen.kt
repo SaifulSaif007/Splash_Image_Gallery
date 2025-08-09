@@ -1,6 +1,7 @@
 package com.saiful.presentation
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
@@ -46,60 +47,62 @@ private fun HomeScreenContent(onSentEvent: (HomeContract.Event) -> Unit) {
         pageCount = { tabs.size }
     )
 
-    Column {
-        TabRow(
-            modifier = Modifier,
-            selectedTabIndex = pagerState.currentPage
-        ) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    text = {
-                        Text(
-                            text = title,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(index)
+    Scaffold { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
+            TabRow(
+                modifier = Modifier,
+                selectedTabIndex = pagerState.currentPage
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        text = {
+                            Text(
+                                text = title,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.titleSmall
+                            )
+                        },
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
                         }
-                    }
-                )
+                    )
+                }
+
             }
 
-        }
+            HorizontalPager(state = pagerState) { page ->
+                when (page) {
+                    0 -> PhotosScreen(
+                        navigatePhotoDetails = {
+                            onSentEvent(HomeContract.Event.SelectPhoto(it))
+                        },
+                        navigateProfile = { userName, profileName ->
+                            onSentEvent(HomeContract.Event.SelectProfile(userName, profileName))
+                        }
+                    )
 
-        HorizontalPager(state = pagerState) { page ->
-            when (page) {
-                0 -> PhotosScreen(
-                    navigatePhotoDetails = {
-                        onSentEvent(HomeContract.Event.SelectPhoto(it))
-                    },
-                    navigateProfile = { userName, profileName ->
-                        onSentEvent(HomeContract.Event.SelectProfile(userName, profileName))
-                    }
-                )
-
-                1 -> CollectionsScreen(
-                    navigateCollectionPhotos = { collectionId, name, desc, total, author ->
-                        onSentEvent(
-                            HomeContract.Event.SelectCollection(
-                                collectionId = collectionId,
-                                title = name,
-                                desc = desc,
-                                count = total,
-                                author = author
+                    1 -> CollectionsScreen(
+                        navigateCollectionPhotos = { collectionId, name, desc, total, author ->
+                            onSentEvent(
+                                HomeContract.Event.SelectCollection(
+                                    collectionId = collectionId,
+                                    title = name,
+                                    desc = desc,
+                                    count = total,
+                                    author = author
+                                )
                             )
-                        )
-                    },
-                    navigateProfile = { userName, profileName ->
-                        onSentEvent(HomeContract.Event.SelectProfile(userName, profileName))
-                    }
-                )
+                        },
+                        navigateProfile = { userName, profileName ->
+                            onSentEvent(HomeContract.Event.SelectProfile(userName, profileName))
+                        }
+                    )
+                }
             }
         }
     }
