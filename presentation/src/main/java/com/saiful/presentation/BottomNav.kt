@@ -21,6 +21,7 @@ fun BottomNav(navController: NavHostController) {
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             AnimatedBottomBar(
+                navController = navController,
                 bottomNavItem = listOf(
                     BottomNavItem(
                         name = "Home",

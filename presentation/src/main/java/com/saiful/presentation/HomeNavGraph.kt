@@ -10,6 +10,7 @@ import com.saiful.presentation.photodetails.PhotoDetailsContract
 import com.saiful.presentation.photodetails.PhotoDetailsScreen
 import com.saiful.presentation.profile.ProfileContract
 import com.saiful.presentation.profile.ProfileScreen
+import com.saiful.presentation.search.SearchHomeScreen
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavController,
@@ -127,7 +128,7 @@ fun NavGraphBuilder.homeNavGraph(
     }
 
     composable<Routes.Search>{
-        Text("Search")
+       SearchHomeScreen()
     }
 
     composable<Routes.OwnProfile>{

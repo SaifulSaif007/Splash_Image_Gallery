@@ -1,6 +1,6 @@
 [versions]
 agp = "8.4.1"
-custombottomnavbar = "1.0.3"
+custombottomnavbar = "1.0.4"
 hilt-navigation-compose = "1.2.0"
 ktx = "1.13.1"
 lifecycle = "2.8.0"
