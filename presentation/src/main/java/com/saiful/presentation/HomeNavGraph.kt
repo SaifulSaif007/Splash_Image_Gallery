@@ -1,5 +1,6 @@
 package com.saiful.presentation
 
+import androidx.compose.material3.Text
 import androidx.navigation.*
 import androidx.navigation.compose.composable
 import com.saiful.core.domain.DomainException
@@ -51,7 +52,6 @@ fun NavGraphBuilder.homeNavGraph(
         )
     }
 
-
     composable<Routes.PhotoDetails> {
         PhotoDetailsScreen { navigationRequest ->
             when (navigationRequest) {
@@ -70,7 +70,6 @@ fun NavGraphBuilder.homeNavGraph(
             }
         }
     }
-
 
     composable<Routes.CollectionPhotos> {
         CollectionPhotosScreen { navigationRequest ->
@@ -125,5 +124,13 @@ fun NavGraphBuilder.homeNavGraph(
                 }
             }
         }
+    }
+
+    composable<Routes.Search>{
+        Text("Search")
+    }
+
+    composable<Routes.OwnProfile>{
+        Text("Profile")
     }
 }
