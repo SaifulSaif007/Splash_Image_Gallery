@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.json.serialization)
 
+    implementation(libs.custombottomnavbar)
+
     testImplementation(project(":base_unit_test"))
     testImplementation(libs.mockK)
     testImplementation(libs.coroutine.test)

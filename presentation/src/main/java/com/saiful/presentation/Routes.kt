@@ -22,4 +22,9 @@ sealed class Routes {
     @Serializable
     data class Profile(val userName: String, val userProfileName: String) : Routes()
 
+    @Serializable
+    data object Search : Routes()
+
+    @Serializable
+    data object OwnProfile : Routes()
 }
