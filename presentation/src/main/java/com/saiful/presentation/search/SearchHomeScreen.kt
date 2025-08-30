@@ -3,23 +3,35 @@ package com.saiful.presentation.search
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.saiful.presentation.composables.SearchBar
+import com.saiful.presentation.photos.PhotosScreen
+import kotlinx.coroutines.launch
 
 @Composable
 fun SearchHomeScreen() {
     var searchQuery by remember { mutableStateOf("") }
-    
+
+    val tabs = listOf("Photos", "Collections", "Users")
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+    val coroutineScope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             SearchBar(
@@ -38,18 +50,55 @@ fun SearchHomeScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.TopCenter
         ) {
-            if (searchQuery.isEmpty()) {
-                Text(
-                    text = "Search for photos, collections, or users",
-                    modifier = Modifier.padding(16.dp)
-                )
-            } else {
-                Text(
-                    text = "Search results for: $searchQuery",
-                    modifier = Modifier.padding(16.dp)
-                )
+            // Material3 TabRow
+            TabRow(
+                selectedTabIndex = pagerState.currentPage,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                        text = { Text(text = title) }
+                    )
+                }
+            }
+
+            // Horizontal pager content
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 80.dp)
+            ) { page ->
+                when (page) {
+                    0 -> {
+                        PhotosScreen(
+                            navigatePhotoDetails = {},
+                            navigateProfile = { _, _ -> }
+                        )
+                    }
+
+                    else -> {
+                        //will be updated
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "${tabs[page]} Screen",
+                                fontSize = 18.sp
+                            )
+                        }
+                    }
+                }
+
             }
         }
     }
