@@ -2,7 +2,7 @@ plugins {
     id(libs.plugins.com.android.app.get().pluginId)
     id(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
     id(libs.plugins.hilt.plugin.get().pluginId)
-    id(libs.plugins.org.jetbrains.kotlin.kapt.get().pluginId)
+    id(libs.plugins.com.google.devtools.ksp.get().pluginId)
     id(libs.plugins.gms.google.service.get().pluginId)
     id(libs.plugins.firebase.crashlytics.get().pluginId)
 }
@@ -68,7 +68,7 @@ dependencies {
     implementation(libs.compose.navigation)
 
     implementation(libs.dagger.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.android.splash.screen)
     implementation(platform(libs.firebase.bom))
