@@ -13,20 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.saiful.presentation.composables.SearchBar
-import com.saiful.presentation.photos.PhotosScreen
+import com.saiful.presentation.search.photos.SearchPhotoScreen
 import kotlinx.coroutines.launch
 
 @Composable
 fun SearchHomeScreen() {
     var searchQuery by remember { mutableStateOf("") }
+    var searchInput by remember { mutableStateOf("") }
 
     val tabs = listOf("Photos", "Collections", "Users")
     val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -35,13 +36,12 @@ fun SearchHomeScreen() {
     Scaffold(
         topBar = {
             SearchBar(
-                query = searchQuery,
+                query = searchInput,
                 onQueryChange = { query ->
-                    searchQuery = query
+                    searchInput = query
                 },
                 onSearch = { query ->
-                    // Handle search action here
-                    // You can implement search logic or navigation
+                    searchQuery = query
                 }
             )
         }
@@ -52,7 +52,6 @@ fun SearchHomeScreen() {
                 .padding(paddingValues),
             contentAlignment = Alignment.TopCenter
         ) {
-            // Material3 TabRow
             TabRow(
                 selectedTabIndex = pagerState.currentPage,
                 modifier = Modifier.padding(16.dp)
@@ -78,12 +77,9 @@ fun SearchHomeScreen() {
                     .padding(top = 80.dp)
             ) { page ->
                 when (page) {
-                    0 -> {
-                        PhotosScreen(
-                            navigatePhotoDetails = {},
-                            navigateProfile = { _, _ -> }
-                        )
-                    }
+                    0 -> SearchPhotoScreen(
+                        query = searchQuery,
+                    )
 
                     else -> {
                         //will be updated
@@ -92,7 +88,7 @@ fun SearchHomeScreen() {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "${tabs[page]} Screen",
+                                text = "${tabs[page]} Screen -> $searchQuery",
                                 fontSize = 18.sp
                             )
                         }
