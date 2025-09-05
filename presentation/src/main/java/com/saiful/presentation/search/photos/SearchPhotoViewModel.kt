@@ -6,7 +6,7 @@ import androidx.paging.cachedIn
 import com.saiful.core.ui.BaseViewModel
 import com.saiful.core.ui.ViewEvent
 import com.saiful.domain.model.PhotoItem
-import com.saiful.domain.usecase.GetSearchedPhotoUseCase
+import com.saiful.domain.usecase.GetSearchPhotoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class SearchPhotoViewModel @Inject constructor(
-    private val getSearchedPhotoUseCase: GetSearchedPhotoUseCase
+    private val getSearchPhotoUseCase: GetSearchPhotoUseCase
 ) : BaseViewModel<SearchPhotoContract.Event, SearchPhotoContract.Effect>() {
 
     private val _photoState: MutableStateFlow<PagingData<PhotoItem>> =
@@ -26,7 +26,7 @@ internal class SearchPhotoViewModel @Inject constructor(
 
     private fun searchPhoto(query: String) {
         viewModelScope.launch {
-            getSearchedPhotoUseCase(query)
+            getSearchPhotoUseCase(query)
                 .distinctUntilChanged()
                 .cachedIn(viewModelScope)
                 .collect {

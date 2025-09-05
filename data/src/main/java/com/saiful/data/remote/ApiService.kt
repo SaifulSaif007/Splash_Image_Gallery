@@ -4,7 +4,8 @@ import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.photo.Photo
 import com.saiful.data.model.photo.details.PhotoDetails
 import com.saiful.data.model.profile.Profile
-import com.saiful.data.model.search.SearchedPhoto
+import com.saiful.data.model.search.SearchCollection
+import com.saiful.data.model.search.SearchPhoto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -66,5 +67,12 @@ internal interface ApiService {
         @Query("query") query: String,
         @Query("page") page: Int,
         @Query("per_page") pageSize: Int,
-    ): SearchedPhoto
+    ): SearchPhoto
+
+    @GET("search/collections")
+    suspend fun searchCollection(
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int,
+    ): SearchCollection
 }

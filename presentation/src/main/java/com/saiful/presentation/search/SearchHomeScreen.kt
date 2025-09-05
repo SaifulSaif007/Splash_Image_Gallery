@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.saiful.presentation.composables.SearchBar
+import com.saiful.presentation.search.collections.SearchCollectionScreen
 import com.saiful.presentation.search.photos.SearchPhotoScreen
 import kotlinx.coroutines.launch
 
@@ -79,6 +80,10 @@ fun SearchHomeScreen() {
                 when (page) {
                     0 -> SearchPhotoScreen(
                         query = searchQuery,
+                    )
+
+                    1 -> SearchCollectionScreen(
+                        query = searchQuery
                     )
 
                     else -> {

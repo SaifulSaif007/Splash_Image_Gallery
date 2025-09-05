@@ -3,7 +3,7 @@ package com.saiful.domain.mapper
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.saiful.data.model.photo.Photo
-import com.saiful.data.model.search.SearchedPhoto
+import com.saiful.data.model.search.SearchPhoto
 import com.saiful.domain.model.PhotoItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -26,7 +26,7 @@ internal fun Flow<PagingData<Photo>>.toPhotoItem() =
     }
 
 
-internal fun Flow<PagingData<SearchedPhoto.Photo>>.toPhotoItems() =
+internal fun Flow<PagingData<SearchPhoto.Photo>>.toSearchPhotoItem() =
     this.map { pagingData ->
         pagingData.map {
             PhotoItem(

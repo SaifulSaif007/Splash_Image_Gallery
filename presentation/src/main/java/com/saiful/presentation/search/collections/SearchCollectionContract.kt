@@ -1,0 +1,34 @@
+package com.saiful.presentation.search.collections
+
+import com.saiful.core.ui.ViewEvent
+import com.saiful.core.ui.ViewSideEffect
+
+class SearchCollectionContract {
+    sealed class Event : ViewEvent {
+
+        data class SearchCollection(val query: String) : Event()
+        data class SelectCollection(
+            val collectionId: String,
+            val collectionName: String,
+            val collectionDesc: String,
+            val totalPhotos: String,
+            val collectionAuthor: String
+        ) : Event()
+
+        data class SelectProfile(val userName: String, val profileName: String) : Event()
+    }
+
+    sealed class Effect : ViewSideEffect {
+        sealed class Navigation : Effect() {
+            data class ToCollectionDetails(
+                val collectionId: String,
+                val collectionName: String,
+                val collectionDesc: String,
+                val totalPhotos: String,
+                val collectionAuthor: String
+            ) : Navigation()
+
+            data class ToProfile(val userName: String, val profileName: String) : Navigation()
+        }
+    }
+}

@@ -22,6 +22,7 @@ import com.saiful.domain.model.PhotoItem
 import com.saiful.presentation.composables.ErrorView
 import com.saiful.presentation.composables.LoadingView
 import com.saiful.presentation.composables.PhotoRowItem
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
 
@@ -33,15 +34,16 @@ internal fun SearchPhotoScreen(
 
     LaunchedEffect(key1 = query) {
         viewModel.setEvent(SearchPhotoContract.Event.SearchPhoto(query = query))
+    }
 
-        //TODO Navigation
+    LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach {
             when (it) {
                 is SearchPhotoContract.Effect.Navigation.ToPhotoDetails -> {}
                 is SearchPhotoContract.Effect.Navigation.ToProfile -> {}
             }
 
-        }
+        }.collect()
     }
 
     val photos = viewModel.photoState.collectAsLazyPagingItems()
