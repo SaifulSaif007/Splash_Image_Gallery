@@ -1,6 +1,7 @@
 package com.saiful.data.model.search
 
 import com.saiful.data.model.ProfileImage
+import com.saiful.data.model.photo.Photo
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -41,7 +42,9 @@ data class SearchUser(
         @Json(name = "profile_image")
         val profileImage: ProfileImage,
         @Json(name = "links")
-        val links: Links
+        val links: Links,
+        @Json(name = "Photo")
+        var photo: List<Photo> = emptyList()
     )
 
     @JsonClass(generateAdapter = true)

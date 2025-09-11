@@ -3,7 +3,6 @@ package com.saiful.data.repository.search
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.saiful.data.model.User
 import com.saiful.data.model.search.SearchCollection
 import com.saiful.data.model.search.SearchPhoto
 import com.saiful.data.model.search.SearchUser
@@ -44,6 +43,20 @@ internal class SearchRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchUser(query: String): Flow<PagingData<SearchUser.User>> {
-        TODO("Not yet implemented")
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                maxSize = 100
+            ),
+            pagingSourceFactory = {
+                GenericPagingSource { page, pageSize ->
+                    apiService.searchUser(query, page, pageSize).result.map {
+                        it.apply {
+                            it.photo = apiService.profilePhotos(it.username, 1, 3)
+                        }
+                    }
+                }
+            }
+        ).flow
     }
 }
