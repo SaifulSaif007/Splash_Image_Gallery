@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.saiful.data.model.User
 import com.saiful.data.model.search.SearchCollection
 import com.saiful.data.model.search.SearchPhoto
+import com.saiful.data.model.search.SearchUser
 import com.saiful.data.remote.ApiService
 import com.saiful.data.repository.pager.GenericPagingSource
 import kotlinx.coroutines.flow.Flow
@@ -42,7 +43,7 @@ internal class SearchRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override suspend fun searchUser(query: String): Flow<PagingData<User>> {
+    override suspend fun searchUser(query: String): Flow<PagingData<SearchUser.User>> {
         TODO("Not yet implemented")
     }
 }

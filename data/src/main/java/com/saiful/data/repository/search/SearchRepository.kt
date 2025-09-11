@@ -5,6 +5,7 @@ import com.saiful.data.model.User
 import com.saiful.data.model.collection.Collection
 import com.saiful.data.model.search.SearchCollection
 import com.saiful.data.model.search.SearchPhoto
+import com.saiful.data.model.search.SearchUser
 import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
@@ -13,5 +14,5 @@ interface SearchRepository {
 
     suspend fun searchCollection(query: String): Flow<PagingData<SearchCollection.Collection>>
 
-    suspend fun searchUser(query: String): Flow<PagingData<User>>
+    suspend fun searchUser(query: String): Flow<PagingData<SearchUser.User>>
 }
