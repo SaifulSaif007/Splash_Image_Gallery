@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.saiful.presentation.composables.SearchBar
 import com.saiful.presentation.search.collections.SearchCollectionScreen
 import com.saiful.presentation.search.photos.SearchPhotoScreen
+import com.saiful.presentation.search.user.SearchUserScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -73,6 +74,7 @@ fun SearchHomeScreen() {
             // Horizontal pager content
             HorizontalPager(
                 state = pagerState,
+                beyondViewportPageCount = 2,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = 80.dp)
@@ -87,16 +89,9 @@ fun SearchHomeScreen() {
                     )
 
                     else -> {
-                        //will be updated
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "${tabs[page]} Screen -> $searchQuery",
-                                fontSize = 18.sp
-                            )
-                        }
+                        SearchUserScreen(
+                            query = searchQuery
+                        )
                     }
                 }
 
