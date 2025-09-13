@@ -74,7 +74,6 @@ fun SearchHomeScreen() {
             // Horizontal pager content
             HorizontalPager(
                 state = pagerState,
-                beyondViewportPageCount = 2,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = 80.dp)

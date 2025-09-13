@@ -19,12 +19,12 @@ internal class SearchCollectionViewModel @Inject constructor(
     private val getSearchCollectionUseCase: GetSearchCollectionUseCase
 ) : BaseViewModel<SearchCollectionContract.Event, SearchCollectionContract.Effect>() {
 
-
     private val _collectionState: MutableStateFlow<PagingData<CollectionItem>> =
         MutableStateFlow(value = PagingData.empty())
 
     val collectionState: StateFlow<PagingData<CollectionItem>> get() = _collectionState
 
+    private var currentQuery: String? = null
     private fun searchCollection(query: String) {
         viewModelScope.launch {
             getSearchCollectionUseCase(query)
@@ -39,7 +39,10 @@ internal class SearchCollectionViewModel @Inject constructor(
     override fun handleEvents(event: ViewEvent) {
         when (event) {
             is SearchCollectionContract.Event.SearchCollection -> {
-                if (event.query.isNotEmpty()) searchCollection(event.query)
+                if (event.query.isNotEmpty() && event.query != currentQuery) {
+                    searchCollection(event.query)
+                    currentQuery = event.query
+                }
             }
 
         }

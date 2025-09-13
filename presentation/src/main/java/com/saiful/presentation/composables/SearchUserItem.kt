@@ -35,7 +35,7 @@ fun SearchUserRowItem(
     modifier: Modifier = Modifier,
     user: SearchUserItem
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(vertical = 6.dp)) {
         Row(
             verticalAlignment = Alignment.Top,
             modifier = Modifier
@@ -57,7 +57,7 @@ fun SearchUserRowItem(
                 contentDescription = "icon",
                 modifier = Modifier
                     .padding(4.dp)
-                    .size(height = 40.dp, width = 40.dp)
+                    .size(height = 45.dp, width = 45.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
@@ -74,7 +74,7 @@ fun SearchUserRowItem(
 
                 Text(
                     text = user.userName,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
                 )
@@ -82,7 +82,7 @@ fun SearchUserRowItem(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 6.dp, bottom = 6.dp),
+                        .padding(top = 12.dp, bottom = 6.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -95,7 +95,7 @@ fun SearchUserRowItem(
                             placeholder = painterResource(id = R.drawable.ic_launcher_background),
                             contentDescription = "icon",
                             modifier = Modifier
-                                .size(height = 85.dp, width = 75.dp)
+                                .size(height = 100.dp, width = 90.dp)
                                 .clip(RoundedCornerShape(8.dp))
                                 .testTag(PROFILE_IMAGE),
                             contentScale = ContentScale.Crop

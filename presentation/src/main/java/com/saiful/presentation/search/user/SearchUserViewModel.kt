@@ -23,6 +23,7 @@ class SearchUserViewModel @Inject constructor(
         MutableStateFlow(value = PagingData.empty())
     val userState: StateFlow<PagingData<SearchUserItem>> get() = _userListState
 
+    private var currentQuery: String? = null
     private fun searchUser(query: String) {
         viewModelScope.launch {
             getSearchUserUseCase.execute(query)
@@ -37,7 +38,10 @@ class SearchUserViewModel @Inject constructor(
     override fun handleEvents(event: ViewEvent) {
         when (event) {
             is SearchUserContract.Event.SearchUser -> {
-                if (event.query.isNotEmpty()) searchUser(event.query)
+                if (event.query.isNotEmpty() && event.query != currentQuery) {
+                    searchUser(event.query)
+                    currentQuery = event.query
+                }
             }
         }
     }
