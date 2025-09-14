@@ -5,5 +5,10 @@ data class SearchUserItem(
     val userName: String,
     val name: String,
     val profileImage: String,
-    val photos: List<String>
-)
+    val photos: List<Photo>
+) {
+    data class Photo(
+        val photoId: String,
+        val imageUrl: String,
+    )
+}

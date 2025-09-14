@@ -52,7 +52,8 @@ internal class SearchRepositoryImpl @Inject constructor(
                 GenericPagingSource { page, pageSize ->
                     apiService.searchUser(query, page, pageSize).result.map {
                         it.apply {
-                            it.photo = apiService.profilePhotos(it.username, 1, 3)
+                            if (page == 1) it.photo = apiService.profilePhotos(it.username, 1, 3)
+                            else it.photo = emptyList()
                         }
                     }
                 }

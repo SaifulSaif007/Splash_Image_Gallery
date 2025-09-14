@@ -16,7 +16,10 @@ internal fun Flow<PagingData<SearchUser.User>>.toSearchUserItem() =
                 name = it.name,
                 profileImage = it.profileImage.small,
                 photos = it.photo.map { photo ->
-                    photo.urls.small
+                    SearchUserItem.Photo(
+                        photoId = photo.id,
+                        imageUrl = photo.urls.regular,
+                    )
                 }
             )
         }

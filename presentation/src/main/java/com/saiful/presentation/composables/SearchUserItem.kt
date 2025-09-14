@@ -3,8 +3,10 @@ package com.saiful.presentation.composables
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -27,6 +30,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.saiful.domain.model.SearchUserItem
 import com.saiful.presentation.R
+import com.saiful.presentation.theme.SplashGalleryTheme
 import com.saiful.presentation.utils.TestTags
 import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
 
@@ -86,14 +90,14 @@ fun SearchUserRowItem(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    user.photos.forEach { url ->
+                    user.photos.forEach { photo ->
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(url)
+                                .data(photo.imageUrl)
                                 .crossfade(true)
                                 .build(),
-                            placeholder = painterResource(id = R.drawable.ic_launcher_background),
                             contentDescription = "icon",
+                            placeholder = ColorPainter(MaterialTheme.colorScheme.tertiary),
                             modifier = Modifier
                                 .size(height = 100.dp, width = 90.dp)
                                 .clip(RoundedCornerShape(8.dp))
@@ -112,17 +116,28 @@ fun SearchUserRowItem(
 @Preview(showBackground = true)
 @Composable
 private fun SearchUserRowItemPreview() {
-    SearchUserRowItem(
-        user = SearchUserItem(
-            userId = "1",
-            userName = "saif@saif",
-            name = "Saif",
-            profileImage = "",
-            photos = listOf(
-                "url1",
-                "url2",
-                "url3"
+    SplashGalleryTheme {
+        SearchUserRowItem(
+            user = SearchUserItem(
+                userId = "1",
+                userName = "saif@saif",
+                name = "Saif",
+                profileImage = "",
+                photos = listOf(
+                    SearchUserItem.Photo(
+                        photoId = "1",
+                        imageUrl = ""
+                    ),
+                    SearchUserItem.Photo(
+                        photoId = "2",
+                        imageUrl = ""
+                    ),
+                    SearchUserItem.Photo(
+                        photoId = "3",
+                        imageUrl = ""
+                    ),
+                )
             )
         )
-    )
+    }
 }
