@@ -24,8 +24,9 @@ internal class SearchCollectionViewModel @Inject constructor(
 
     val collectionState: StateFlow<PagingData<CollectionItem>> get() = _collectionState
 
-    private var currentQuery: String? = null
+    var currentQuery = MutableStateFlow<String?>(null)
     private fun searchCollection(query: String) {
+        _collectionState.value = PagingData.empty()
         viewModelScope.launch {
             getSearchCollectionUseCase(query)
                 .distinctUntilChanged()
@@ -39,9 +40,9 @@ internal class SearchCollectionViewModel @Inject constructor(
     override fun handleEvents(event: ViewEvent) {
         when (event) {
             is SearchCollectionContract.Event.SearchCollection -> {
-                if (event.query.isNotEmpty() && event.query != currentQuery) {
+                if (event.query.isNotEmpty() && event.query != currentQuery.value) {
+                    currentQuery.value = event.query
                     searchCollection(event.query)
-                    currentQuery = event.query
                 }
             }
 

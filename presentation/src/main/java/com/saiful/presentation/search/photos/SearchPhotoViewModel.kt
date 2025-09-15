@@ -23,9 +23,10 @@ internal class SearchPhotoViewModel @Inject constructor(
         MutableStateFlow(value = PagingData.empty())
     val photoState: StateFlow<PagingData<PhotoItem>> get() = _photoState
 
-    private var currentQuery: String? = null
+    var currentQuery = MutableStateFlow<String?>(null)
 
     private fun searchPhoto(query: String) {
+        _photoState.value = PagingData.empty()
         viewModelScope.launch {
             getSearchPhotoUseCase(query)
                 .distinctUntilChanged()
@@ -39,9 +40,9 @@ internal class SearchPhotoViewModel @Inject constructor(
     override fun handleEvents(event: ViewEvent) {
         when (event) {
             is SearchPhotoContract.Event.SearchPhoto -> {
-                if (event.query.isNotEmpty() && event.query != currentQuery) {
+                if (event.query.isNotEmpty() && event.query != currentQuery.value) {
+                    currentQuery.value = event.query
                     searchPhoto(event.query)
-                    currentQuery = event.query
                 }
             }
 
