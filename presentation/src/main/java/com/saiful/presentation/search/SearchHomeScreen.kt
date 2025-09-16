@@ -10,6 +10,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,20 +21,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.saiful.presentation.composables.SearchBar
 import com.saiful.presentation.search.collections.SearchCollectionScreen
 import com.saiful.presentation.search.photos.SearchPhotoScreen
 import com.saiful.presentation.search.user.SearchUserScreen
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @Composable
-fun SearchHomeScreen() {
+fun SearchHomeScreen(
+    viewModel: SearchHomeViewModel = hiltViewModel(),
+    onNavigationRequest: (SearchHomeContract.Effect.Navigation) -> Unit
+) {
     var searchQuery by remember { mutableStateOf("") }
     var searchInput by remember { mutableStateOf("") }
 
     val tabs = listOf("Photos", "Collections", "Users")
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.effect.onEach {
+            when (it) {
+                is SearchHomeContract.Effect.Navigation -> onNavigationRequest(it)
+            }
+        }.collect()
+    }
 
     Scaffold(
         topBar = {
@@ -81,6 +96,16 @@ fun SearchHomeScreen() {
                 when (page) {
                     0 -> SearchPhotoScreen(
                         query = searchQuery,
+                        onNavigateProfile = { userName, profileName ->
+                            onNavigationRequest(
+                                SearchHomeContract.Effect.Navigation.ToProfile(userName, profileName)
+                            )
+                        },
+                        onNavigatePhotoDetails = { photoId ->
+                            onNavigationRequest(
+                                SearchHomeContract.Effect.Navigation.ToPhotoDetail(photoId)
+                            )
+                        }
                     )
 
                     1 -> SearchCollectionScreen(
@@ -102,5 +127,7 @@ fun SearchHomeScreen() {
 @Preview(showBackground = true)
 @Composable
 fun SearchHomeScreenPreview() {
-    SearchHomeScreen()
+    SearchHomeScreen{
+
+    }
 }

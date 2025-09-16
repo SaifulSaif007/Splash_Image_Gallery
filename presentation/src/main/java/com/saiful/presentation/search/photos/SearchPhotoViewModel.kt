@@ -46,6 +46,19 @@ internal class SearchPhotoViewModel @Inject constructor(
                 }
             }
 
+            is SearchPhotoContract.Event.SelectPhoto -> {
+                setEffect { SearchPhotoContract.Effect.Navigation.ToPhotoDetails(event.photoId) }
+            }
+
+            is SearchPhotoContract.Event.SelectProfile -> {
+                setEffect {
+                    SearchPhotoContract.Effect.Navigation.ToProfile(
+                        event.userName,
+                        event.profileName
+                    )
+                }
+            }
+
         }
     }
 
