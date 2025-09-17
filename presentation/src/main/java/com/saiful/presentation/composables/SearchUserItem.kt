@@ -37,7 +37,9 @@ import com.saiful.presentation.utils.TestTags.PROFILE_IMAGE
 @Composable
 fun SearchUserRowItem(
     modifier: Modifier = Modifier,
-    user: SearchUserItem
+    user: SearchUserItem,
+    onNavigateProfile: (String, String) -> Unit,
+    onNavigatePhotoDetails: (String) -> Unit
 ) {
     Column(modifier = modifier.padding(vertical = 6.dp)) {
         Row(
@@ -47,7 +49,7 @@ fun SearchUserRowItem(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 ) {
-                    //TODO
+                    onNavigateProfile(user.userName, user.name)
                 }
                 .testTag(TestTags.PROFILE_ROW)
 
@@ -99,6 +101,9 @@ fun SearchUserRowItem(
                             contentDescription = "icon",
                             placeholder = ColorPainter(MaterialTheme.colorScheme.tertiary),
                             modifier = Modifier
+                                .clickable {
+                                    onNavigatePhotoDetails(photo.photoId)
+                                }
                                 .size(height = 100.dp, width = 90.dp)
                                 .clip(RoundedCornerShape(8.dp))
                                 .testTag(PROFILE_IMAGE),
@@ -137,7 +142,9 @@ private fun SearchUserRowItemPreview() {
                         imageUrl = ""
                     ),
                 )
-            )
+            ),
+            onNavigateProfile = { _, _ -> },
+            onNavigatePhotoDetails = {}
         )
     }
 }

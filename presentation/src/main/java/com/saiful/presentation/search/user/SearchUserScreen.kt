@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 internal fun SearchUserScreen(
     query: String,
+    onNavigateProfile: (String, String) -> Unit,
+    onNavigatePhotoDetails: (String) -> Unit,
     viewModel: SearchUserViewModel = hiltViewModel()
 ) {
 
@@ -34,7 +36,15 @@ internal fun SearchUserScreen(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach {
+            when (it) {
+                is SearchUserContract.Effect.Navigation.ToProfile -> {
+                    onNavigateProfile(it.userName, it.profileName)
+                }
 
+                is SearchUserContract.Effect.Navigation.ToPhotoDetails -> {
+                    onNavigatePhotoDetails(it.photoId)
+                }
+            }
         }.collect()
     }
 
@@ -52,18 +62,34 @@ internal fun SearchUserScreen(
             )
         }
     } else {
-        SearchUsersContent(users = users)
+        SearchUsersContent(users = users) {
+            viewModel.setEvent(it)
+        }
 
     }
 }
 
 @Composable
-private fun SearchUsersContent(users: LazyPagingItems<SearchUserItem>) {
+private fun SearchUsersContent(
+    users: LazyPagingItems<SearchUserItem>,
+    onEvent: (SearchUserContract.Event) -> Unit
+) {
     LazyColumn {
         items(users.itemCount) { index ->
             users[index]?.let { user ->
                 SearchUserRowItem(
                     user = user,
+                    onNavigateProfile = { userName, profileName ->
+                        onEvent(
+                            SearchUserContract.Event.SelectProfile(
+                                userName,
+                                profileName
+                            )
+                        )
+                    },
+                    onNavigatePhotoDetails = { photoId ->
+                        onEvent(SearchUserContract.Event.SelectPhoto(photoId))
+                    }
                 )
             }
         }

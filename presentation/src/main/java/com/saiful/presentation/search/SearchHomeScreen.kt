@@ -98,7 +98,10 @@ fun SearchHomeScreen(
                         query = searchQuery,
                         onNavigateProfile = { userName, profileName ->
                             onNavigationRequest(
-                                SearchHomeContract.Effect.Navigation.ToProfile(userName, profileName)
+                                SearchHomeContract.Effect.Navigation.ToProfile(
+                                    userName,
+                                    profileName
+                                )
                             )
                         },
                         onNavigatePhotoDetails = { photoId ->
@@ -109,12 +112,44 @@ fun SearchHomeScreen(
                     )
 
                     1 -> SearchCollectionScreen(
-                        query = searchQuery
+                        query = searchQuery,
+                        onNavigateProfile = { userName, profileName ->
+                            onNavigationRequest(
+                                SearchHomeContract.Effect.Navigation.ToProfile(
+                                    userName,
+                                    profileName
+                                )
+                            )
+                        },
+                        onNavigateCollectionDetails = { collectionId, title, desc, total, author ->
+                            onNavigationRequest(
+                                SearchHomeContract.Effect.Navigation.ToCollectionDetail(
+                                    collectionId,
+                                    title,
+                                    desc,
+                                    total,
+                                    author
+                                )
+                            )
+                        }
                     )
 
                     else -> {
                         SearchUserScreen(
-                            query = searchQuery
+                            query = searchQuery,
+                            onNavigateProfile = { userName, profileName ->
+                                onNavigationRequest(
+                                    SearchHomeContract.Effect.Navigation.ToProfile(
+                                        userName,
+                                        profileName
+                                    )
+                                )
+                            },
+                            onNavigatePhotoDetails = { photoId ->
+                                onNavigationRequest(
+                                    SearchHomeContract.Effect.Navigation.ToPhotoDetail(photoId)
+                                )
+                            }
                         )
                     }
                 }
@@ -127,7 +162,5 @@ fun SearchHomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun SearchHomeScreenPreview() {
-    SearchHomeScreen{
-
-    }
+    SearchHomeScreen {}
 }

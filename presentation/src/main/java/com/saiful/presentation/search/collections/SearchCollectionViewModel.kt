@@ -46,6 +46,27 @@ internal class SearchCollectionViewModel @Inject constructor(
                 }
             }
 
+            is SearchCollectionContract.Event.SelectCollection -> {
+                setEffect {
+                    SearchCollectionContract.Effect.Navigation.ToCollectionDetails(
+                        collectionId = event.collectionId,
+                        collectionName = event.collectionName,
+                        collectionDesc = event.collectionDesc,
+                        totalPhotos = event.totalPhotos,
+                        collectionAuthor = event.collectionAuthor
+                    )
+                }
+            }
+
+            is SearchCollectionContract.Event.SelectProfile -> {
+                setEffect {
+                    SearchCollectionContract.Effect.Navigation.ToProfile(
+                        userName = event.userName,
+                        profileName = event.profileName
+                    )
+                }
+            }
+
         }
     }
 

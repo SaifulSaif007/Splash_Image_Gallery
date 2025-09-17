@@ -31,6 +31,8 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 internal fun SearchCollectionScreen(
     query: String,
+    onNavigateProfile: (String, String) -> Unit,
+    onNavigateCollectionDetails: (String, String, String, String, String) -> Unit,
     viewModel: SearchCollectionViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = query) {
@@ -40,8 +42,19 @@ internal fun SearchCollectionScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.onEach {
             when (it) {
-                is SearchCollectionContract.Effect.Navigation.ToCollectionDetails -> {}
-                is SearchCollectionContract.Effect.Navigation.ToProfile -> {}
+                is SearchCollectionContract.Effect.Navigation.ToCollectionDetails -> {
+                    onNavigateCollectionDetails(
+                        it.collectionId,
+                        it.collectionName,
+                        it.collectionDesc,
+                        it.totalPhotos,
+                        it.collectionAuthor
+                    )
+                }
+
+                is SearchCollectionContract.Effect.Navigation.ToProfile -> {
+                    onNavigateProfile(it.userName, it.profileName)
+                }
             }
         }.collect()
     }

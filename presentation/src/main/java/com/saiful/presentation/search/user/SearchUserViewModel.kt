@@ -44,6 +44,19 @@ class SearchUserViewModel @Inject constructor(
                     searchUser(event.query)
                 }
             }
+
+            is SearchUserContract.Event.SelectProfile -> {
+                setEffect {
+                    SearchUserContract.Effect.Navigation.ToProfile(
+                        event.userName,
+                        event.profileName
+                    )
+                }
+            }
+
+            is SearchUserContract.Event.SelectPhoto -> {
+                setEffect { SearchUserContract.Effect.Navigation.ToPhotoDetails(event.photoId) }
+            }
         }
     }
 }
