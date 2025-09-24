@@ -10,6 +10,8 @@ import com.saiful.presentation.photodetails.PhotoDetailsContract
 import com.saiful.presentation.photodetails.PhotoDetailsScreen
 import com.saiful.presentation.profile.ProfileContract
 import com.saiful.presentation.profile.ProfileScreen
+import com.saiful.presentation.search.SearchHomeContract
+import com.saiful.presentation.search.SearchHomeScreen
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavController,
@@ -126,11 +128,40 @@ fun NavGraphBuilder.homeNavGraph(
         }
     }
 
-    composable<Routes.Search>{
-        Text("Search")
+    composable<Routes.Search> {
+        SearchHomeScreen { navigationRequest ->
+            when (navigationRequest) {
+                is SearchHomeContract.Effect.Navigation.ToProfile -> {
+                    navController.navigate(
+                        Routes.Profile(
+                            navigationRequest.userName,
+                            navigationRequest.profileName
+                        )
+                    )
+                }
+
+                is SearchHomeContract.Effect.Navigation.ToPhotoDetail -> {
+                    navController.navigate(
+                        Routes.PhotoDetails(photoId = navigationRequest.photoId)
+                    )
+                }
+
+                is SearchHomeContract.Effect.Navigation.ToCollectionDetail -> {
+                    navController.navigate(
+                        Routes.CollectionPhotos(
+                            collectionId = navigationRequest.collectionId,
+                            collectionTitle = navigationRequest.collectionName,
+                            collectionDescription = navigationRequest.collectionDesc,
+                            collectionPhotoCount = navigationRequest.totalPhotos,
+                            collectionAuthor = navigationRequest.collectionAuthor
+                        )
+                    )
+                }
+            }
+        }
     }
 
-    composable<Routes.OwnProfile>{
+    composable<Routes.OwnProfile> {
         Text("Profile")
     }
 }

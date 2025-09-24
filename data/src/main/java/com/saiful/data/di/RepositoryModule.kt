@@ -6,6 +6,8 @@ import com.saiful.data.repository.photo.PhotoRepository
 import com.saiful.data.repository.photo.PhotoRepositoryImpl
 import com.saiful.data.repository.profile.ProfileRepository
 import com.saiful.data.repository.profile.ProfileRepositoryImpl
+import com.saiful.data.repository.search.SearchRepository
+import com.saiful.data.repository.search.SearchRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -23,5 +25,8 @@ internal interface RepositoryModule {
 
     @Binds
     fun bindProfileRepository(profileRepositoryImpl: ProfileRepositoryImpl): ProfileRepository
+
+    @Binds
+    fun bindSearchRepository(searchRepositoryImpl: SearchRepositoryImpl): SearchRepository
 
 }

@@ -7,4 +7,5 @@ dependencies {
     implementation(libs.android.gradlePlugin)
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.hilt.plugin)
+    implementation(libs.com.google.devtools.ksp.gradle.plugin)
 }

@@ -1,7 +1,7 @@
 plugins {
     `android-library`
     `kotlin-android`
-    `kotlin-kapt`
+    id("com.google.devtools.ksp")
 }
 
 internal val Project.libs: VersionCatalog
@@ -10,5 +10,5 @@ internal val Project.libs: VersionCatalog
 
 dependencies {
     implementation(libs.findLibrary("dagger-hilt").get())
-    kapt(libs.findLibrary("hilt-compiler").get())
+    ksp(libs.findLibrary("hilt-compiler").get())
 }
