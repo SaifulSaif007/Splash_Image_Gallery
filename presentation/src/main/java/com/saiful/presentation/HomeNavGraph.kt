@@ -1,6 +1,5 @@
 package com.saiful.presentation
 
-import androidx.compose.material3.Text
 import androidx.navigation.*
 import androidx.navigation.compose.composable
 import com.saiful.core.domain.DomainException
@@ -161,7 +160,4 @@ fun NavGraphBuilder.homeNavGraph(
         }
     }
 
-    composable<Routes.OwnProfile> {
-        Text("Profile")
-    }
 }
