@@ -55,6 +55,8 @@ data class SearchUser(
         val likes: String,
         @Json(name = "photos")
         val photos: String,
+        @Json(name = "portfolio")
+        val portfolio: String?,
         @Json(name = "self")
         val self: String
     )
